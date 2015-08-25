@@ -1,0 +1,10 @@
+Gemfile.lock
+*.bundle
+*.gem
+tmp/
+pkg/
+ext/symengine/mkmf.log
+ext/symengine/extconf.h
+notebooks/.ipynb_checkpoints/
+notebooks/Gemfile.lock
+callgrind.out.*
