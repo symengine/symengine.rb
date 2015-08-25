@@ -1,16 +1,34 @@
-Steps to compile the extensions
-===============================
-* Install bundler by `gem install bundler`
-* Change directory to src/ruby, `cd symengine/ruby`
-* Execute `bundle install` this will install the gems required
-* Change to root directory, `cd ../..`
-* Build symengine with Ruby by adding the flag, `cmake -DWITH_RUBY=yes .`
-* Then cd to symengine/ruby again, `cd symengine/ruby`
-* Build the gem, `gem build symengine.gemspec`
-* Install the gem, `gem install symengine-0.0.0.pre.gem`
+## SymEngine Ruby Wrappers
 
-Using the extensions
-====================
+Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written in C++. https://github.com/sympy/symengine
+
+### Installation
+
+#### Prerequisites
+
+- C++ compiler        - See supported [compilers](https://github.com/sympy/symengine/wiki/Compiler-Support)
+
+- CMake               - with executable folder in the `PATH` variable
+
+- libsymengine        - See build [instructions](https://github.com/sympy/symengine/wiki/Building-SymEngine)
+
+#### Installing
+
+- Simply do,
+
+        gem install symengine
+
+- If `libsymengine` is not found, you can give the installation directory or build directory by doing,
+
+        gem install symengine -- -DSymEngine_DIR=/path/to/symengine/root
+
+### Development
+* Install bundler by `gem install bundler`
+* Execute `bundle install` this will install the gems required
+* Build the gem, `gem build symengine.gemspec`
+* Install the gem, `gem install symengine-0.0.0.gem`
+
+### Using the extensions
 SymEngine is a module in the extensions, and the classes are a part of it. So
 first you fire up the interpreter and load the file
 ``` ruby
@@ -32,6 +50,6 @@ Go ahead and try a function
 ```
 or create a variable
 ``` ruby
-2.2.0 :003 > basic = SymEngine::Basic.new
- => #<SymEngine::Basic:0x000000027075b8>
+2.2.0 :003 > basic = SymEngine::Symbol.new("x")
+=> #<SymEngine::Symbol:0x0000000274d608>
 ```
