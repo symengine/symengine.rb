@@ -6,8 +6,9 @@ Gem::Specification.new do |gem|
     gem.authors = ['Abinash Meher']
     gem.email = ["abinashdakshana999@gmail.com"]
     gem.homepage = 'https://github.com/sympy/symengine'
-    gem.files = Dir["lib/**/*", "bin/*", "LICENSE", "*.md"]
+    gem.files = Dir["lib/**/*", "bin/*", "LICENSE", "*.md", "ext/**/*", "CMakeLists.txt"]
     gem.require_paths = ["lib"]
+    gem.extensions = ["ext/symengine/extconf.rb"]
     gem.license = 'MIT'
 
     gem.add_development_dependency 'bundler', '~> 1.7'

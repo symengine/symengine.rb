@@ -12,7 +12,4 @@ include_directories(${SYMENGINE_INCLUDE_DIRS})
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 find_package(Ruby REQUIRED)
 
-message("Copying source of ruby wrappers into: ${CMAKE_CURRENT_BINARY_DIR}")
-file(COPY ${ruby_wrapper_SOURCE_DIR}/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
 add_subdirectory(ext/symengine)
