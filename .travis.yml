@@ -1,0 +1,43 @@
+language: ruby
+sudo: false
+addons:
+  apt:
+    packages:
+    - libgmp-dev
+    - libmpfr-dev
+    - libmpc-dev
+    - binutils-dev
+rvm:
+ - 1.9.3
+ - 2.0
+ - 2.1
+
+install:
+  - export RUBY_SOURCE_DIR=`pwd`
+  - export TEST_CPP="no"
+
+  - git clone https://github.com/symengine/symengine symengine-cpp
+  - cd symengine-cpp
+  - git checkout 8537c67507fae9b1d8d575d322c6ade4f1a59297
+
+  # Setup travis for C++ library
+  - source bin/install_travis.sh
+
+  # Build C++ library
+  - source bin/test_travis.sh
+
+  # Setup travis for Ruby wrappers
+  - cd $RUBY_SOURCE_DIR
+  - bundle install
+
+script:
+  # Build ruby gem
+  - gem build symengine.gemspec
+  # Install ruby gem
+  - gem install symengine-0.1.0.gem --user --verbose -- -DSymEngine_DIR=$our_install_dir
+  # Test ruby gem
+  - cd `gem path symengine`
+  - bundle exec rspec
+
+notifications:
+  email: false
