@@ -35,7 +35,7 @@ script:
   # Build ruby gem
   - gem build symengine.gemspec
   # Install ruby gem
-  - gem install symengine-0.1.0.gem --user --verbose
+  - gem install symengine-0.1.0.gem --user --verbose -- -DSymEngine_DIR=$our_install_dir
   # Test ruby gem
   - cd `gem path symengine`
   - bundle exec rspec
