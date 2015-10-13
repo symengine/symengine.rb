@@ -11,7 +11,6 @@ rvm:
  - 1.9.3
  - 2.0
  - 2.1
- - 2.2
 
 install:
   - export RUBY_SOURCE_DIR=`pwd`
