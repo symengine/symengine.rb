@@ -40,3 +40,5 @@ script:
   - cd `gem path symengine`
   - bundle exec rspec
 
+notifications:
+  email: false
