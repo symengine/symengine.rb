@@ -1,0 +1,60 @@
+version: '{build}'
+
+environment:
+
+  matrix:
+    - RUBY_VERSION: "200-x64"
+      DEVKIT: C:\Ruby21-x64\DevKit
+      PLATFORM: "x64"
+    - RUBY_VERSION: "200"
+      DEVKIT: C:\Ruby21\DevKit
+      PLATFORM: "Win32"
+    - RUBY_VERSION: "21"
+      DEVKIT: C:\Ruby21\DevKit
+      PLATFORM: "Win32"
+    - RUBY_VERSION: "21-x64"
+      DEVKIT: C:\Ruby21-x64\DevKit
+      PLATFORM: "x64"
+    - RUBY_VERSION: "22"
+      DEVKIT: C:\Ruby21\DevKit
+      PLATFORM: "Win32"
+    - RUBY_VERSION: "22-x64"
+      DEVKIT: C:\Ruby21-x64\DevKit
+      PLATFORM: "x64"
+
+install:
+
+  - SET PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+  - "%DEVKIT%\\devkitvars.bat"
+  - gem install bundler --no-rdoc --no-ri
+  - bundler env
+  - bundle install
+
+  - appveyor DownloadFile "https://raw.githubusercontent.com/symengine/dependencies/5cff7d1736877336cf9fb58267111beea4fa152f/gmp-6.0.0-x86_64-w64-mingw32.7z" -FileName gmp.7z
+  - 7z x -oC:\gmp gmp.7z > NUL
+
+  - git clone https://github.com/symengine/symengine symengine-cpp
+  - cd symengine-cpp
+  - git checkout 8537c67507fae9b1d8d575d322c6ade4f1a59297
+  - cmake -G "MSYS Makefiles" -DGMP_DIR=C:\gmp -DBUILD_TESTS=no -DBUILD_BENCHMARKS=no .
+  - make
+  - make install
+  - cd ..
+
+build_script:
+  # Build ruby gem
+  - gem build symengine.gemspec
+  # Install ruby gem
+  - gem install symengine-0.1.0.gem --verbose
+  
+test_script:
+  # Test ruby gem
+  # cd `gem path symengine`
+  # bundle exec rspec
+  
+
+# Enable this to be able to login to the build worker. You can use the
+# `remmina` program in Ubuntu, use the login information that the line below
+# prints into the log.
+on_finish:
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
