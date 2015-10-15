@@ -3,28 +3,24 @@ version: '{build}'
 environment:
 
   matrix:
-    - RUBY_VERSION: "22-x64"
-      DEVKIT: C:\Ruby21-x64\DevKit
-      PLATFORM: "x64"
     - RUBY_VERSION: "21-x64"
-      DEVKIT: C:\Ruby21-x64\DevKit
       PLATFORM: "x64"
-    - RUBY_VERSION: "200-x64"
-      DEVKIT: C:\Ruby21-x64\DevKit
+    - RUBY_VERSION: "21"
+      PLATFORM: "Win32"
+    - RUBY_VERSION: "22-x64"
       PLATFORM: "x64"
     - RUBY_VERSION: "22"
-      DEVKIT: C:\Ruby21\DevKit
       PLATFORM: "Win32"
-    - RUBY_VERSION: "21"
-      DEVKIT: C:\Ruby21\DevKit
-      PLATFORM: "Win32"
+    - RUBY_VERSION: "200-x64"
+      PLATFORM: "x64"
     - RUBY_VERSION: "200"
-      DEVKIT: C:\Ruby21\DevKit
       PLATFORM: "Win32"
 
 install:
 
   - SET PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+  - if [%PLATFORM%] == [x64] set DEVKIT=C:\Ruby21-x64\DevKit
+  - if [%PLATFORM%] == [Win32] set DEVKIT=C:\Ruby21\DevKit
   - "%DEVKIT%\\devkitvars.bat"
   - gem install bundler --no-rdoc --no-ri
   - bundler env
