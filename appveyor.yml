@@ -32,6 +32,7 @@ install:
 
   - appveyor DownloadFile "https://raw.githubusercontent.com/symengine/dependencies/5cff7d1736877336cf9fb58267111beea4fa152f/gmp-6.0.0-x86_64-w64-mingw32.7z" -FileName gmp.7z
   - 7z x -oC:\gmp gmp.7z > NUL
+  - set PATH=C:\gmp\bin\;%PATH%
 
   - git clone https://github.com/symengine/symengine symengine-cpp
   - cd symengine-cpp
@@ -48,9 +49,12 @@ build_script:
   - gem install symengine-0.1.0.gem --verbose
   
 test_script:
+  - gem install gem-path
+  - gem path symengine > temp.txt
+  - set /p RUBY_GEM_DIR=<temp.txt
   # Test ruby gem
-  # cd `gem path symengine`
-  # bundle exec rspec
+  - cd %RUBY_GEM_DIR%
+  - bundle exec rspec
   
 
 # Enable this to be able to login to the build worker. You can use the
