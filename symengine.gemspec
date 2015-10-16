@@ -6,7 +6,8 @@ Gem::Specification.new do |gem|
     gem.authors = ['Abinash Meher']
     gem.email = ["abinashdakshana999@gmail.com"]
     gem.homepage = 'https://github.com/sympy/symengine'
-    gem.files = Dir["lib/**/*", "bin/*", "LICENSE", "*.md", "ext/**/*", "spec/**/*", "CMakeLists.txt", "Gemfile", "symengine.gemspec"]
+    gem.files = Dir["lib/**/*", "bin/*", "LICENSE", "*.md", "ext/**/*", "spec/**/*", "CMakeLists.txt", "Gemfile",
+                    "cmake/FindRuby.cmake", "symengine.gemspec"]
     gem.require_paths = ["lib"]
     gem.extensions = ["ext/symengine/extconf.rb"]
     gem.license = 'MIT'
@@ -15,5 +16,5 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency 'rspec', '~> 3.0'
     gem.add_development_dependency 'test-unit', '~> 3.1'
     gem.add_development_dependency 'rdoc', '~> 4.0'
-    gem.add_development_dependency 'path', '~> 1.3.3'
+    gem.add_development_dependency 'path', '~> 1.3'
 end
