@@ -11,6 +11,7 @@ rvm:
  - 1.9.3
  - 2.0
  - 2.1
+ - 2.2
 
 install:
   - export RUBY_SOURCE_DIR=`pwd`
@@ -36,6 +37,7 @@ script:
   # Install ruby gem
   - gem install symengine-0.1.0.gem --user --verbose -- -DSymEngine_DIR=$our_install_dir
   # Test ruby gem
+  - gem install gem-path
   - cd `gem path symengine`
   - bundle exec rspec
 
