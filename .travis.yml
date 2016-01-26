@@ -1,5 +1,8 @@
 language: ruby
 sudo: false
+os:
+  - linux
+  - osx
 addons:
   apt:
     sources:
@@ -15,6 +18,13 @@ rvm:
  - 2.0
  - 2.1
  - 2.2
+
+matrix:
+  exclude:
+    - os: osx
+  include:
+    - os: osx
+      rvm: 1.9.3
 
 install:
   - export RUBY_SOURCE_DIR=`pwd`
