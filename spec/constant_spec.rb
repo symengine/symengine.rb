@@ -4,11 +4,11 @@ describe SymEngine do
   before :each do
   end
 
-  describe 'Constants' do
+  describe 'Constant' do
     before :each do
       @a = SymEngine::PI
       @b = SymEngine::E
-      @c = SymEngine::EulerGamma
+      @c = SymEngine::EULER_GAMMA
       @d = SymEngine::Integer.new(1);
       @e = SymEngine::Integer.new(0);
       @x = SymEngine::Symbol.new("x");

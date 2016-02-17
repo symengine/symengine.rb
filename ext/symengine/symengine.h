@@ -11,6 +11,6 @@ VALUE c_basic;
 VALUE c_symbol;
 VALUE c_integer;
 VALUE c_rational;
-VALUE c_constants;
+VALUE c_constant;
 
 #endif //SYMENGINE_H_

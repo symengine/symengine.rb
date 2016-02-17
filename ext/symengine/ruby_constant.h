@@ -8,12 +8,12 @@
 #include "symengine.h"
 #include "symengine_macros.h"
 
-VALUE cconstants_const(void (*cwfunc_ptr)(basic_struct*));
+VALUE cconstant_const(void (*cwfunc_ptr)(basic_struct*));
 
-VALUE cconstants_pi();
+VALUE cconstant_pi();
 
-VALUE cconstants_e();
+VALUE cconstant_e();
 
-VALUE cconstants_euler_gamma();
+VALUE cconstant_euler_gamma();
 
 #endif //RUBY_CONSTANTS_H_

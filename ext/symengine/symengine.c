@@ -2,7 +2,7 @@
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
 #include "ruby_rational.h"
-#include "ruby_constants.h"
+#include "ruby_constant.h"
 #include "symengine.h"
 
 ///////////////////
@@ -48,9 +48,11 @@ void Init_symengine() {
     rb_define_alloc_func(c_rational, cbasic_alloc);
     rb_define_method(c_rational, "initialize", crational_init, 1);
 
-    //Constants
-    c_constants = rb_define_class_under(m_symengine, "Constants", c_basic);
-    rb_define_const(m_symengine, "PI", cconstants_pi());
-    rb_define_const(m_symengine, "E", cconstants_e());
-    rb_define_const(m_symengine, "EulerGamma", cconstants_euler_gamma());
+    //Constant class
+    c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);
+
+    //Constants as Module Level Constants
+    rb_define_const(m_symengine, "PI", cconstant_pi());
+    rb_define_const(m_symengine, "E", cconstant_e());
+    rb_define_const(m_symengine, "EULER_GAMMA", cconstant_euler_gamma());
 }

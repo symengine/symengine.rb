@@ -3,7 +3,7 @@ set(RUBY_WRAPPER_SRC
     ruby_symbol.c
     ruby_integer.c
     ruby_rational.c
-	ruby_constants.c
+    ruby_constant.c
     symengine_macros.c
     symengine.c
     )
