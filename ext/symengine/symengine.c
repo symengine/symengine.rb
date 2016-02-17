@@ -49,6 +49,7 @@ void Init_symengine() {
     rb_define_method(c_rational, "initialize", crational_init, 1);
 
     //Constants
+    c_constants = rb_define_class_under(m_symengine, "Constants", c_basic);
     rb_define_const(m_symengine, "PI", cconstants_pi());
     rb_define_const(m_symengine, "E", cconstants_e());
     rb_define_const(m_symengine, "EulerGamma", cconstants_euler_gamma());

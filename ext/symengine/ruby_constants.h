@@ -1,12 +1,12 @@
 #ifndef RUBY_CONSTANTS_H_
-#define RUBY_CONSTATNS_H_
+#define RUBY_CONSTANTS_H_
 
 #include <ruby.h>
 #include <symengine/cwrapper.h>
 
+#include "ruby_basic.h"
+#include "symengine.h"
 #include "symengine_macros.h"
-
-void cbasic_free_ptr(void *ptr);
 
 VALUE cconstants_const(void (*cwfunc_ptr)(basic_struct*));
 
