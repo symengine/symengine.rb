@@ -38,7 +38,7 @@ install:
   - source bin/install_travis.sh
 
   # Build C++ library
-  - source bin/test_travis.sh
+  - bin/test_travis.sh
 
   # Setup travis for Ruby wrappers
   - cd $RUBY_SOURCE_DIR
@@ -48,10 +48,11 @@ script:
   # Build ruby gem
   - gem build symengine.gemspec
   # Install ruby gem
-  - gem install symengine-0.1.0.gem --user --verbose -- -DSymEngine_DIR=$our_install_dir
+  - gem install symengine-0.1.0.gem --install-dir $HOME --verbose -- -DSymEngine_DIR=$our_install_dir
+
   # Test ruby gem
   - gem install gem-path --no-ri --no-rdoc
-  - cd `gem path symengine`
+  - cd $HOME/gems/symengine-0.1.0/
   - bundle exec rspec
 
 notifications:
