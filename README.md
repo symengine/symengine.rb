@@ -26,7 +26,7 @@ Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written i
 * Install bundler by `gem install bundler`
 * Execute `bundle install` this will install the gems required
 * Build the gem, `gem build symengine.gemspec`
-* Install the gem, `gem install symengine-0.0.0.gem`
+* Install the gem, `gem install symengine-0.1.0.gem`
 
 ### Using the extensions
 SymEngine is a module in the extensions, and the classes are a part of it. So
