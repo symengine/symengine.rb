@@ -142,7 +142,7 @@ describe SymEngine do
           z = SymEngine::Symbol.new('z')
           e = (x**y + z)
           f = e.args
-          expect(f).to be_an Array
+          expect(f).to be_an_instance_of Array
           expect(f.length).to be 2
           expect(f.to_set).to eql([x**y, z].to_set)
         end
@@ -157,7 +157,7 @@ describe SymEngine do
           z = SymEngine::Symbol.new('z')
           e = (x**y / z)
           f = e.free_symbols
-          expect(f).to be_a Set
+          expect(f).to be_an_instance_of Set
           expect(f.length).to be 3
           expect(f).to eql([x, y, z].to_set)
         end

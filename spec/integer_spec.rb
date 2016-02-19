@@ -7,8 +7,8 @@ describe SymEngine do
         it 'gives a new SymEngine::Integer instance' do
           a = SymEngine::Integer.new(123)
           b = SymEngine::Integer.new(-123)
-          expect(a).to be_a SymEngine::Integer
-          expect(b).to be_a SymEngine::Integer
+          expect(a).to be_an_instance_of SymEngine::Integer
+          expect(b).to be_an_instance_of SymEngine::Integer
           expect(a.to_s).to eq('123')
           expect(b.to_s).to eq('-123')
           c = SymEngine::Integer.new(12_345_678_912_345_678_912)
