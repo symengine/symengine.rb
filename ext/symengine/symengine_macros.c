@@ -45,6 +45,12 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_rational;
         case SYMENGINE_CONSTANT:
             return c_constant;
+        case SYMENGINE_ADD:
+            return c_add;
+        case SYMENGINE_MUL:
+            return c_mul;
+        case SYMENGINE_POW:
+            return c_pow;
         default:
             return c_basic;
     }

@@ -55,4 +55,14 @@ void Init_symengine() {
     rb_define_const(m_symengine, "PI", cconstant_pi());
     rb_define_const(m_symengine, "E", cconstant_e());
     rb_define_const(m_symengine, "EULER_GAMMA", cconstant_euler_gamma());
+
+    //Add class
+    c_add = rb_define_class_under(m_symengine, "Add", c_basic);
+
+    //Mul class
+    c_mul = rb_define_class_under(m_symengine, "Mul", c_basic);
+
+    //Pow class
+    c_pow = rb_define_class_under(m_symengine, "Pow", c_basic);
+
 }

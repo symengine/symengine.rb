@@ -7,7 +7,7 @@ describe SymEngine do
         it 'returns an instance of SymEngine::Rational class' do
           a = Rational('2/3')
           a = SymEngine::Rational.new(a)
-          expect(a).to be_an_instance_of SymEngine::Rational
+          expect(a).to be_a SymEngine::Rational
           expect(a.to_s).to eq('2/3')
         end
       end
@@ -22,13 +22,13 @@ describe SymEngine do
       context 'using a ruby Rational as the second operand' do
         it 'succeeds with commutative operations' do
           c = @a * @b
-          expect(c).to be_an_instance_of SymEngine::Basic
+          expect(c).to be_a SymEngine::Basic
           expect(c).to eq(SymEngine::Rational.new(@b) * @a)
         end
 
         it 'succeeds with non commutative operations' do
           c = @a / @b
-          expect(c).to be_an_instance_of SymEngine::Basic
+          expect(c).to be_a SymEngine::Basic
           expect(c).to eq(@a / SymEngine::Rational.new(@b))
         end
       end
@@ -36,13 +36,13 @@ describe SymEngine do
       context 'using a ruby Rational as the first operand' do
         it 'succeeds with commutative operations' do
           c = @b * @a
-          expect(c).to be_an_instance_of SymEngine::Basic
+          expect(c).to be_a SymEngine::Basic
           expect(c).to eq(@a * SymEngine::Rational.new(@b))
         end
 
         it 'succeeds with non commutative operations' do
           c = @b / @a
-          expect(c).to be_an_instance_of SymEngine::Basic
+          expect(c).to be_a SymEngine::Basic
           expect(c).to eq(SymEngine::Rational.new(@b) / @a)
         end
       end

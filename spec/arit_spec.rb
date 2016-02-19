@@ -54,9 +54,9 @@ describe 'Arithmetic test cases' do
     f = e.expand
     assert e == (x + y)**2
     assert e != x**2 + 2 * x * y + y**2
-    expect(e).to be_an_instance_of SymEngine::Basic
+    expect(e).to be_a SymEngine::Basic
     assert f == x**2 + 2 * x * y + y**2
-    expect(f).to be_an_instance_of SymEngine::Basic
+    expect(f).to be_a SymEngine::Basic
   end
 
   it 'test_arit6' do
