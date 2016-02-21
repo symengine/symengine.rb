@@ -9,3 +9,10 @@ notebooks/.ipynb_checkpoints/
 notebooks/Gemfile.lock
 callgrind.out.*
 *~
+
+*.so
+*.cmake
+CMakeFiles/
+CMakeCache.txt
+Makefile
+install_manifest.txt

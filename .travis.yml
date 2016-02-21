@@ -25,6 +25,9 @@ matrix:
   include:
     - os: osx
       rvm: 1.9.3
+  allow_failures:
+    - os: osx
+      rvm: 1.9.3
 
 install:
   - export RUBY_SOURCE_DIR=`pwd`
@@ -48,10 +51,11 @@ script:
   # Build ruby gem
   - gem build symengine.gemspec
   # Install ruby gem
-  - gem install symengine-0.1.0.gem --user --verbose -- -DSymEngine_DIR=$our_install_dir
+  - gem install symengine-0.1.0.gem --install-dir $HOME --verbose -- -DSymEngine_DIR=$our_install_dir
+
   # Test ruby gem
   - gem install gem-path --no-ri --no-rdoc
-  - cd `gem path symengine`
+  - cd $HOME/gems/symengine-0.1.0/
   - bundle exec rspec
 
 notifications:
