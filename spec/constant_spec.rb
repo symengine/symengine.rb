@@ -19,7 +19,7 @@ describe SymEngine do
         it 'returns an initialised Basic object that is equalent to 1 + pi' do
           f = @a + @d
           expect(@a).to be_an_instance_of SymEngine::Constant
-          expect(f).to be_an_instance_of SymEngine::Basic
+          expect(f).to be_a SymEngine::Basic
           expect(f.to_s).to eql('1 + pi')
         end
       end
@@ -55,7 +55,7 @@ describe SymEngine do
         it 'returns an initialised Basic object that is equalent to x + E' do
           f = @b + @x
           expect(@b).to be_an_instance_of SymEngine::Constant
-          expect(f).to be_an_instance_of SymEngine::Basic
+          expect(f).to be_a SymEngine::Basic
           expect(f.to_s).to eql('x + E')
         end
       end

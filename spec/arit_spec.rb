@@ -54,22 +54,32 @@ describe 'Arithmetic test cases' do
     f = e.expand
     assert e == (x + y)**2
     assert e != x**2 + 2 * x * y + y**2
-    expect(e).to be_an_instance_of SymEngine::Basic
+    expect(e).to be_a SymEngine::Basic
+    expect(e).to be_an_instance_of SymEngine::Pow
     assert f == x**2 + 2 * x * y + y**2
-    expect(f).to be_an_instance_of SymEngine::Basic
+    expect(f).to be_a SymEngine::Basic
+    expect(f).to be_an_instance_of SymEngine::Add
   end
 
   it 'test_arit6' do
     x = SymEngine::Symbol.new('x')
     y = SymEngine::Symbol.new('y')
+
     e = x + y
     assert(e.to_s == 'x + y') || 'y + x'
+    expect(e).to be_an_instance_of SymEngine::Add
+
     e = x * y
     assert(e.to_s == 'x*y') || 'y*x'
+    expect(e).to be_an_instance_of SymEngine::Mul
+
     e = Integer(2) * x
     assert e.to_s == '2*x'
+    expect(e).to be_an_instance_of SymEngine::Mul
+
     e = 2 * x
     assert e.to_s == '2*x'
+    expect(e).to be_an_instance_of SymEngine::Mul
   end
 
   it 'test_arit7' do
