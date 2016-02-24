@@ -4,6 +4,7 @@ set(RUBY_WRAPPER_SRC
     ruby_integer.c
     ruby_rational.c
     ruby_constant.c
+    ruby_function.c
     symengine_macros.c
     symengine.c
     )

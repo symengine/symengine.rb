@@ -15,5 +15,6 @@ VALUE c_constant;
 VALUE c_add;
 VALUE c_mul;
 VALUE c_pow;
+VALUE c_function;
 
 #endif //SYMENGINE_H_

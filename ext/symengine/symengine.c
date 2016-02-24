@@ -3,6 +3,7 @@
 #include "ruby_integer.h"
 #include "ruby_rational.h"
 #include "ruby_constant.h"
+#include "ruby_function.h"
 #include "symengine.h"
 
 ///////////////////
@@ -64,5 +65,10 @@ void Init_symengine() {
 
     //Pow class
     c_pow = rb_define_class_under(m_symengine, "Pow", c_basic);
+
+    //Functions Class
+    c_function = rb_define_class_under(m_symengine, "Function", c_basic);
+    rb_define_module_function(m_symengine, "abs", cfunction_abs, 1);
+    
 
 }
