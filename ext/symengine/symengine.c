@@ -68,7 +68,12 @@ void Init_symengine() {
 
     //Functions Class
     c_function = rb_define_class_under(m_symengine, "Function", c_basic);
+
+    //SymEngine Functions as Module Level Funcions
     rb_define_module_function(m_symengine, "abs", cfunction_abs, 1);
+    rb_define_module_function(m_symengine, "sin", cfunction_sin, 1);
+    rb_define_module_function(m_symengine, "cos", cfunction_cos, 1);
+    rb_define_module_function(m_symengine, "tan", cfunction_tan, 1);
     
 
 }
