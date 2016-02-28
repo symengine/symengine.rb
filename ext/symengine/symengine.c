@@ -1,3 +1,4 @@
+#include <symengine/cwrapper.h>
 #include "ruby_basic.h"
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
@@ -9,8 +10,16 @@
 // Ruby Bindings //
 ///////////////////
 
+VALUE msymengine_ascii_art(VALUE self) {
+    char* str = ascii_art_str();
+    VALUE ascii_art = rb_str_new_cstr(str);
+    basic_str_free(str);
+    return ascii_art;
+}
+
 void Init_symengine() {
     m_symengine = rb_define_module("SymEngine");
+    rb_define_singleton_method(m_symengine, "ascii_art", msymengine_ascii_art, 0);
 
     //Basic class
     c_basic = rb_define_class_under(m_symengine, "Basic", rb_cObject);
