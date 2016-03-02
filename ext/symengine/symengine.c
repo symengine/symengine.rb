@@ -74,6 +74,29 @@ void Init_symengine() {
     rb_define_module_function(m_symengine, "sin", cfunction_sin, 1);
     rb_define_module_function(m_symengine, "cos", cfunction_cos, 1);
     rb_define_module_function(m_symengine, "tan", cfunction_tan, 1);
-    
+    rb_define_module_function(m_symengine, "csc", cfunction_csc, 1);
+    rb_define_module_function(m_symengine, "cot", cfunction_cot, 1);
+    rb_define_module_function(m_symengine, "sec", cfunction_sec, 1);
+    rb_define_module_function(m_symengine, "asin", cfunction_asin, 1);
+    rb_define_module_function(m_symengine, "acos", cfunction_acos, 1);
+    rb_define_module_function(m_symengine, "asec", cfunction_asec, 1);
+    rb_define_module_function(m_symengine, "acsc", cfunction_acsc, 1);
+    rb_define_module_function(m_symengine, "atan", cfunction_atan, 1);
+    rb_define_module_function(m_symengine, "acot", cfunction_acot, 1);
+    rb_define_module_function(m_symengine, "sinh", cfunction_sinh, 1);
+    rb_define_module_function(m_symengine, "cosh", cfunction_cosh, 1);
+    rb_define_module_function(m_symengine, "tanh", cfunction_tanh, 1);
+    rb_define_module_function(m_symengine, "csch", cfunction_csch, 1);
+    rb_define_module_function(m_symengine, "sech", cfunction_sech, 1);
+    rb_define_module_function(m_symengine, "coth", cfunction_coth, 1);
+    rb_define_module_function(m_symengine, "asinh", cfunction_asinh, 1);
+    rb_define_module_function(m_symengine, "acosh", cfunction_acosh, 1);
+    rb_define_module_function(m_symengine, "asech", cfunction_asech, 1);
+    rb_define_module_function(m_symengine, "acsch", cfunction_acsch, 1);
+    rb_define_module_function(m_symengine, "atanh", cfunction_atanh, 1);
+    rb_define_module_function(m_symengine, "acoth", cfunction_acoth, 1);
+    rb_define_module_function(m_symengine, "lambertw", cfunction_lambertw, 1);
+    rb_define_module_function(m_symengine, "dirichlet_eta", cfunction_dirichlet_eta, 1);
+    rb_define_module_function(m_symengine, "gamma", cfunction_gamma, 1); 
 
 }
