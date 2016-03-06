@@ -69,6 +69,42 @@ void Init_symengine() {
     //Functions Class
     c_function = rb_define_class_under(m_symengine, "Function", c_basic);
 
+    //Function SubClasses
+    c_trig_function = rb_define_class_under(m_symengine, "TrigFunction", c_function);
+    c_hyperbolic_function = rb_define_class_under(m_symengine, "HyperbolicFunction", c_function);
+    c_lambertw = rb_define_class_under(m_symengine, "LambertW", c_function);
+    c_dirichlet_eta = rb_define_class_under(m_symengine, "Dirichlet_eta", c_function);
+    c_zeta = rb_define_class_under(m_symengine, "Zeta", c_function);
+    c_gamma = rb_define_class_under(m_symengine, "Gamma", c_function);
+
+    //TrigFunction SubClasses
+    c_sin = rb_define_class_under(m_symengine, "Sin", c_trig_function);
+    c_cos = rb_define_class_under(m_symengine, "Cos", c_trig_function);
+    c_tan = rb_define_class_under(m_symengine, "Tan", c_trig_function);
+    c_csc = rb_define_class_under(m_symengine, "Csc", c_trig_function);
+    c_sec = rb_define_class_under(m_symengine, "Sec", c_trig_function);
+    c_cot = rb_define_class_under(m_symengine, "Cot", c_trig_function);
+    c_asin = rb_define_class_under(m_symengine, "ASin", c_trig_function);
+    c_acos = rb_define_class_under(m_symengine, "ACos", c_trig_function);
+    c_atan = rb_define_class_under(m_symengine, "ATan", c_trig_function);
+    c_acsc = rb_define_class_under(m_symengine, "ACsc", c_trig_function);
+    c_asec = rb_define_class_under(m_symengine, "ASec", c_trig_function);
+    c_acot = rb_define_class_under(m_symengine, "ACot", c_trig_function);
+
+    //HyperbolicFunction SubClasses
+    c_sinh = rb_define_class_under(m_symengine, "Sinh", c_hyperbolic_function);
+    c_cosh = rb_define_class_under(m_symengine, "Cosh", c_hyperbolic_function);
+    c_tanh = rb_define_class_under(m_symengine, "Tanh", c_hyperbolic_function);
+    c_csch = rb_define_class_under(m_symengine, "Csch", c_hyperbolic_function);
+    c_sech = rb_define_class_under(m_symengine, "Sech", c_hyperbolic_function);
+    c_coth = rb_define_class_under(m_symengine, "Coth", c_hyperbolic_function);
+    c_asinh = rb_define_class_under(m_symengine, "ASinh", c_hyperbolic_function);
+    c_acosh = rb_define_class_under(m_symengine, "ACosh", c_hyperbolic_function);
+    c_atanh = rb_define_class_under(m_symengine, "ATanh", c_hyperbolic_function);
+    c_acsch = rb_define_class_under(m_symengine, "ACsch", c_hyperbolic_function);
+    c_asech = rb_define_class_under(m_symengine, "ASech", c_hyperbolic_function);
+    c_acoth = rb_define_class_under(m_symengine, "ACoth", c_hyperbolic_function);
+
     //SymEngine Functions as Module Level Funcions
     rb_define_module_function(m_symengine, "abs", cfunction_abs, 1);
     rb_define_module_function(m_symengine, "sin", cfunction_sin, 1);

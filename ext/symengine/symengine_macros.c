@@ -51,6 +51,62 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_mul;
         case SYMENGINE_POW:
             return c_pow;
+        case SYMENGINE_SIN:
+            return c_sin;
+        case SYMENGINE_COS:
+            return c_cos;
+        case SYMENGINE_TAN:
+            return c_tan;
+        case SYMENGINE_CSC:
+            return c_csc;
+        case SYMENGINE_SEC:
+            return c_sec;
+        case SYMENGINE_COT:
+            return c_cot;
+        case SYMENGINE_ASIN:
+            return c_asin;
+        case SYMENGINE_ACOS:
+            return c_acos;
+        case SYMENGINE_ATAN:
+            return c_atan;
+        case SYMENGINE_ACSC:
+            return c_acsc;
+        case SYMENGINE_ASEC:
+            return c_asec;
+        case SYMENGINE_ACOT:
+            return c_acot;
+        case SYMENGINE_SINH:
+            return c_sinh;
+        case SYMENGINE_COSH:
+            return c_cosh;
+        case SYMENGINE_TANH:
+            return c_tanh;
+        case SYMENGINE_CSCH:
+            return c_csch;
+        case SYMENGINE_SECH:
+            return c_sech;
+        case SYMENGINE_COTH:
+            return c_coth;
+        case SYMENGINE_ASINH:
+            return c_asinh;
+        case SYMENGINE_ACOSH:
+            return c_acosh;
+        case SYMENGINE_ATANH:
+            return c_atanh;
+        case SYMENGINE_ACSCH:
+            return c_acsch;
+        case SYMENGINE_ASECH:
+            return c_asech;
+        case SYMENGINE_ACOTH:
+            return c_acoth;
+        case SYMENGINE_LAMBERTW:
+            return c_lambertw;
+        case SYMENGINE_DIRICHLET_ETA:
+            return c_dirichlet_eta;
+        case SYMENGINE_ZETA:
+            return c_zeta;
+        case SYMENGINE_GAMMA:
+            return c_gamma;
         default:
             return c_basic;
     }
