@@ -19,11 +19,7 @@ VALUE cfunction_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), V
 
 #define IMPLEMENT_ONE_ARG_FUNC(func) \
 VALUE cfunction_ ## func(VALUE self, VALUE operand1) { \
-<<<<<<< HEAD
     return cfunction_onearg(basic_ ## func, operand1); \
-=======
-    return cfunction_func(basic_ ## func, operand1); \
->>>>>>> 9a4b4c7... Ruby wrappers for one argument functions
 }
 
 IMPLEMENT_ONE_ARG_FUNC(abs);
