@@ -33,7 +33,9 @@ install:
 
   - set /p commit=<symengine_version.txt
   - git clone https://github.com/symengine/symengine symengine-cpp
-  - cd symengine-cpp  
+  - cd symengine-cpp
+  - git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+  - git fetch origin
   - git checkout %commit%
   - cmake -G "MSYS Makefiles" -DGMP_DIR=C:\gmp -DBUILD_TESTS=no -DBUILD_BENCHMARKS=no .
   - make
