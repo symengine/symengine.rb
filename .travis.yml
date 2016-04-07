@@ -35,6 +35,8 @@ install:
 
   - git clone https://github.com/symengine/symengine symengine-cpp
   - cd symengine-cpp
+  - git config --add remote.origin.fetch '+refs/pull/*/head:refs/remotes/origin/pr/*'
+  - git fetch origin
   - git checkout `cat ../symengine_version.txt`
 
   # Setup travis for C++ library
