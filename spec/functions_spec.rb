@@ -123,5 +123,113 @@ describe SymEngine do
       end
     end
 
+    describe '#sinh' do
+      context 'calculation of sinh zero' do
+        it 'returns zero' do
+          f = SymEngine::sinh(0)
+          expect(f).to eql(0)
+        end
+      end
+    end
+
+    describe '#cosh' do
+      context 'calculation of cosh zero' do
+        it 'returns one' do
+          f = SymEngine::cosh(0)
+          expect(f).to eql(1)
+        end
+      end
+    end
+
+    describe '#tanh' do
+      context 'calculation of tanh zero' do
+        it 'returns zero' do
+          f = SymEngine::tanh(0)
+          expect(f).to eql(0)
+        end
+      end
+    end
+
+    describe '#csch' do
+      context 'calculation of csch 1' do
+        it 'returns csch(1)' do
+          f = SymEngine::csch(1)
+          expect(f.to_s).to eql('csch(1)')
+        end
+      end
+    end
+
+    describe '#sech' do
+      context 'calculation of sech zero' do
+        it 'returns one' do
+          f = SymEngine::sech(0)
+          expect(f).to eql(1)
+        end
+      end
+    end
+
+    describe '#coth' do
+      context 'calculation of coth 1' do
+        it 'returns coth(1)' do
+          f = SymEngine::coth(1)
+          expect(f.to_s).to eql('coth(1)')
+        end
+      end
+    end
+
+    describe '#asinh' do
+      context 'calculation of asinh zero' do
+        it 'returns 0' do
+          f = SymEngine::asinh(0)
+          expect(f).to eql(0)
+        end
+      end
+    end
+
+    describe '#acosh' do
+      context 'calculation of acosh 1' do
+        it 'returns zero' do
+          f = SymEngine::acosh(1)
+          expect(f).to eql(0)
+        end
+      end
+    end
+
+    describe '#atanh' do
+      context 'calculation of atanh zero' do
+        it 'returns zero' do
+          f = SymEngine::atanh(0)
+          expect(f).to eql(0)
+        end
+      end
+    end
+
+    describe '#acsch' do
+      context 'calculation of acsch 1' do
+        it 'returns log(1 + 2**(1/2))' do
+          f = SymEngine::acsch(1)
+          expect(f.to_s).to eql('log(1 + 2**(1/2))')
+        end
+      end
+    end
+
+    describe '#asech' do
+      context 'calculation of asech 1' do
+        it 'returns zero' do
+          f = SymEngine::asech(1)
+          expect(f).to eql(0)
+        end
+      end
+    end
+
+    describe '#acoth' do
+      context 'calculation of acoth 1' do
+        it 'returns acoth(1)' do
+          f = SymEngine::acoth(1)
+          expect(f.to_s).to eql('acoth(1)')
+        end
+      end
+    end
+
   end
 end
