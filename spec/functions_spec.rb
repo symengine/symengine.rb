@@ -231,5 +231,44 @@ describe SymEngine do
       end
     end
 
+    describe '#lambertw' do
+      context 'calculation of lambertw -e**-1' do
+        it 'returns -1' do
+          f = SymEngine::lambertw(-@e**(-1))
+          expect(f).to eql(-1)
+        end
+      end
+    end
+
+    describe '#zeta' do
+      context 'calculation of zeta zero' do
+        it 'returns minus half' do
+          f = SymEngine::zeta(0)
+          r1 = SymEngine::Integer.new(-1)
+          r2 = SymEngine::Integer.new(2)
+          r = r1/r2
+          expect(f).to eql(r)
+        end
+      end
+    end
+
+    describe '#dirichlet_eta' do
+      context 'calculation of dirichlet_eta 1' do
+        it 'returns log(2)' do
+          f = SymEngine::dirichlet_eta(1)
+          expect(f.to_s).to eql('log(2)')
+        end
+      end
+    end
+
+    describe '#gamma' do
+      context 'calculation of gamma 1' do
+        it 'returns one' do
+          f = SymEngine::gamma(1)
+          expect(f.to_s).to eql('1')
+        end
+      end
+    end
+
   end
 end
