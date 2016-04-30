@@ -19,8 +19,8 @@ environment:
 install:
 
   - SET PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
-  - if [%PLATFORM%] == [x64] set DEVKIT=C:\Ruby21-x64\DevKit
-  - if [%PLATFORM%] == [Win32] set DEVKIT=C:\Ruby21\DevKit
+  - if [%PLATFORM%] == [x64] set DEVKIT=C:\Ruby23-x64\DevKit
+  - if [%PLATFORM%] == [Win32] set DEVKIT=C:\Ruby23\DevKit
   - "%DEVKIT%\\devkitvars.bat"
   - gem install bundler --no-rdoc --no-ri
   - bundler env
