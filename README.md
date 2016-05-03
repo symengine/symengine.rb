@@ -29,8 +29,8 @@ Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written i
 * Install the gem, `gem install symengine-0.1.0.gem`
 
 ### Using the extensions
-SymEngine is a module in the extensions, and the classes are a part of it. So
-first you fire up the interpreter and load the file
+SymEngine is a module in the extensions, and the classes are a part of it. To check if
+you can use them, fire up the interpreter and load the file
 ``` ruby
 ~$ irb
 2.2.0 :001 > require 'symengine'
@@ -48,8 +48,4 @@ Go ahead and try a function
       |___|               |___|
  => nil
 ```
-or create a variable
-``` ruby
-2.2.0 :003 > basic = SymEngine::Symbol.new("x")
-=> #<SymEngine::Symbol:0x0000000274d608>
-```
+Please go through the [IRuby notebooks](https://github.com/symengine/symengine.rb/tree/master/notebooks) for more demonstrations. If you are new to symengine.rb, please refer to the [beginner notebook](https://github.com/symengine/symengine.rb/blob/master/notebooks/beginner.ipynb).
