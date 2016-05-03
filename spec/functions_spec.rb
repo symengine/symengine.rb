@@ -8,10 +8,6 @@ describe SymEngine do
     before :each do
       @pi = SymEngine::PI
       @e = SymEngine::E
-      @one = SymEngine::Integer.new(1)
-      @zero = SymEngine::Integer.new(0)
-      @two = SymEngine::Integer.new(2)
-      @minone = SymEngine::Integer.new(-1)
       @x = SymEngine::Symbol.new("x");
     end
 
