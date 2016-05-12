@@ -1,6 +1,6 @@
 #include "ruby_ntheory.h"
 
-VALUE cfunction_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1) {
+VALUE cntheory_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1) {
     basic_struct *cresult;
     VALUE result;
 
@@ -16,7 +16,7 @@ VALUE cfunction_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), V
     return result;
 }
 
-VALUE cfunction_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*), VALUE operand1, VALUE operand2) {
+VALUE cntheory_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*), VALUE operand1, VALUE operand2) {
     basic_struct *cresult;
     VALUE result;
 
@@ -37,22 +37,22 @@ VALUE cfunction_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, co
     return result;
 }
 
-VALUE cfunction_nextprime(VALUE self, VALUE operand1) {
-    return cfunction_onearg(nthoery_gcd, operand1);
+VALUE cntheory_nextprime(VALUE self, VALUE operand1) {
+    return cntheory_onearg(ntheory_nextprime, operand1);
 }
 
-VALUE cfunction_gcd(VALUE self, VALUE operand1, VALUE operand2) {
-    return cfunction_twoarg(ntheory_gcd, operand1, operand2);
+VALUE cntheory_gcd(VALUE self, VALUE operand1, VALUE operand2) {
+    return cntheory_twoarg(ntheory_gcd, operand1, operand2);
 }
 
-VALUE cfunction_lcm(VALUE self, VALUE operand1, VALUE operand2) {
-    return cfunction_twoarg(ntheory_lcm, operand1, operand2);
+VALUE cntheory_lcm(VALUE self, VALUE operand1, VALUE operand2) {
+    return cntheory_twoarg(ntheory_lcm, operand1, operand2);
 }
 
-VALUE cfunction_mod(VALUE self, VALUE operand1, VALUE operand2) {
-    return cfunction_twoarg(ntheory_mod, operand1, operand2);
+VALUE cntheory_mod(VALUE self, VALUE operand1, VALUE operand2) {
+    return cntheory_twoarg(ntheory_mod, operand1, operand2);
 }
 
-VALUE cfunction_quotient(VALUE self, VALUE operand1, VALUE operand2) {
-    return cfunction_twoarg(ntheory_quotient, operand1, operand2);
+VALUE cntheory_quotient(VALUE self, VALUE operand1, VALUE operand2) {
+    return cntheory_twoarg(ntheory_quotient, operand1, operand2);
 }
