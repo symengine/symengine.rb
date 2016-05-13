@@ -6,7 +6,7 @@ set(RUBY_WRAPPER_SRC
     ruby_constant.c
     ruby_function.c
     ruby_ntheory.c
-    symengine_macros.c
+    symengine_utils.c
     symengine.c
     )
 

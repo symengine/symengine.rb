@@ -4,9 +4,8 @@
 #include <ruby.h>
 #include <symengine/cwrapper.h>
 
-#include "ruby_basic.h"
 #include "symengine.h"
-#include "symengine_macros.h"
+#include "symengine_utils.h"
 
 VALUE cfunction_func(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1);
 

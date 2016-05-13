@@ -1,4 +1,4 @@
-#include "symengine_macros.h"
+#include "symengine_utils.h"
 #include "symengine.h"
 
 void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
@@ -110,4 +110,41 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
         default:
             return c_basic;
     }
+}
+
+VALUE function_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1) {
+    basic_struct *cresult;
+    VALUE result;
+
+    basic cbasic_operand1;
+    basic_new_stack(cbasic_operand1);
+    sympify(operand1, cbasic_operand1);
+
+    cresult = basic_new_heap();
+    cwfunc_ptr(cresult, cbasic_operand1);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    basic_free_stack(cbasic_operand1);
+
+    return result;
+}
+
+VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*), VALUE operand1, VALUE operand2) {
+    basic_struct *cresult;
+    VALUE result;
+
+    basic cbasic_operand1;
+    basic_new_stack(cbasic_operand1);
+    sympify(operand1, cbasic_operand1);
+
+    basic cbasic_operand2;
+    basic_new_stack(cbasic_operand2);
+    sympify(operand2, cbasic_operand2);
+
+    cresult = basic_new_heap();
+    cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    basic_free_stack(cbasic_operand1);
+    basic_free_stack(cbasic_operand2);
+
+    return result;
 }

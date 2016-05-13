@@ -4,9 +4,8 @@
 #include <ruby.h>
 #include <symengine/cwrapper.h>
 
-#include "ruby_basic.h"
 #include "symengine.h"
-#include "symengine_macros.h"
+#include "symengine_utils.h"
 
 VALUE cntheory_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1);
 VALUE cntheory_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*), VALUE operand1, VALUE operand2);
