@@ -36,25 +36,25 @@ describe SymEngine do
     describe '#mod' do
       context '5 mod 4' do
         it 'returns 1' do
-          f = SymEngine::mod(5, 4)
+          f = 5 % 4
           expect(f).to eql(1)
         end
       end
       context '-5 mod -4' do
         it 'returns -1' do
-          f = SymEngine::mod(-5, -4)
+          f = -5 % -4
           expect(f).to eql(-1)
         end
       end
       context '5 mod -4' do
         it 'returns -3' do
-          f = SymEngine::mod(5, -4)
+          f = 5 % -4
           expect(f).to eql(-3)
         end
       end
       context '-5 mod 4' do
         it 'returns 3' do
-          f = SymEngine::mod(-5, 4)
+          f = -5 % 4
           expect(f).to eql(3)
         end
       end

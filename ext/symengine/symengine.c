@@ -150,7 +150,7 @@ void Init_symengine() {
     rb_define_module_function(m_symengine, "gcd", cntheory_gcd, 2);
     rb_define_module_function(m_symengine, "lcm", cntheory_lcm, 2);
     rb_define_module_function(m_symengine, "nextprime", cntheory_nextprime, 1);
-    rb_define_module_function(m_symengine, "mod", cntheory_mod, 2);
+    rb_define_module_function(m_symengine, "%", cntheory_mod, 2);
     rb_define_module_function(m_symengine, "quotient", cntheory_quotient, 2);
     rb_define_module_function(m_symengine, "fibonacci", cntheory_fibonacci, 1);
     rb_define_module_function(m_symengine, "lucas", cntheory_lucas, 1);
