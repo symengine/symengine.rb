@@ -128,7 +128,8 @@ VALUE function_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VA
     return result;
 }
 
-VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*), VALUE operand1, VALUE operand2) {
+VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*),
+                      VALUE operand1, VALUE operand2) {
     basic_struct *cresult;
     VALUE result;
 

@@ -5,6 +5,7 @@
 #include <symengine/cwrapper.h>
 
 #include "symengine.h"
+#include "ruby_basic.h"
 #include "symengine_utils.h"
 
 VALUE cntheory_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1);

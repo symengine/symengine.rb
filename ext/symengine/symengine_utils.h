@@ -12,7 +12,8 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr);
 //Returns the result from the function pointed by cwfunc_ptr: for one argument functions
 VALUE function_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1);
 //Returns the result from the function pointed by cwfunc_ptr: for two argument functions
-VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*), VALUE operand1, VALUE operand2);
+VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*),
+                      VALUE operand1, VALUE operand2);
 
 //Obtains the value from Ruby Fixnum or Bignum to an already allocated basic_struct
 #define GET_SYMINTFROMVAL(num_value, this) { \
