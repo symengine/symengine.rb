@@ -4,7 +4,7 @@
 #include <ruby.h>
 #include <symengine/cwrapper.h>
 
-#include "symengine_macros.h"
+#include "symengine_utils.h"
 
 void cbasic_free(void *ptr);
 

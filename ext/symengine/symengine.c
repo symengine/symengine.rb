@@ -5,6 +5,7 @@
 #include "ruby_rational.h"
 #include "ruby_constant.h"
 #include "ruby_function.h"
+#include "ruby_ntheory.h"
 #include "symengine.h"
 
 ///////////////////
@@ -52,6 +53,7 @@ void Init_symengine() {
     c_integer = rb_define_class_under(m_symengine, "Integer", c_basic);
     rb_define_alloc_func(c_integer, cbasic_alloc);
     rb_define_method(c_integer, "initialize", cinteger_init, 1);
+    rb_define_method(c_integer, "%", cntheory_mod, 1);
 
     //Rational class
     c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);
@@ -144,5 +146,14 @@ void Init_symengine() {
     rb_define_module_function(m_symengine, "dirichlet_eta", cfunction_dirichlet_eta, 1);
     rb_define_module_function(m_symengine, "zeta", cfunction_zeta, 1);
     rb_define_module_function(m_symengine, "gamma", cfunction_gamma, 1); 
+
+    //NTheory Functions as Module Level Functions
+    rb_define_module_function(m_symengine, "gcd", cntheory_gcd, 2);
+    rb_define_module_function(m_symengine, "lcm", cntheory_lcm, 2);
+    rb_define_module_function(m_symengine, "nextprime", cntheory_nextprime, 1);
+    rb_define_module_function(m_symengine, "quotient", cntheory_quotient, 2);
+    rb_define_module_function(m_symengine, "fibonacci", cntheory_fibonacci, 1);
+    rb_define_module_function(m_symengine, "lucas", cntheory_lucas, 1);
+    rb_define_module_function(m_symengine, "binomial", cntheory_binomial, 2);
 
 }
