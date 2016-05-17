@@ -12,8 +12,8 @@ VALUE cntheory_lcm(VALUE self, VALUE operand1, VALUE operand2) {
     return function_twoarg(ntheory_lcm, operand1, operand2);
 }
 
-VALUE cntheory_mod(VALUE self, VALUE operand1, VALUE operand2) {
-    VALUE ans = function_twoarg(ntheory_mod, operand1, operand2);
+VALUE cntheory_mod(VALUE self, VALUE operand2) {
+    VALUE ans = function_twoarg(ntheory_mod, self, operand2);
     VALUE ans1 = cbasic_add(ans, operand2);
     return function_twoarg(ntheory_mod, ans1, operand2);
 }

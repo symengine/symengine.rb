@@ -6,3 +6,4 @@ VALUE cinteger_init(VALUE self, VALUE num_value) {
     GET_SYMINTFROMVAL(num_value, this);
     return self;
 }
+
