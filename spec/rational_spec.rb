@@ -11,6 +11,12 @@ describe SymEngine do
           expect(a.to_s).to eq('2/3')
         end
       end
+      context 'with a Ruby Integer as input' do
+        it 'returns an instance of SymEngine::Integer class' do
+          a = SymEngine::Rational.new(2/1)
+          expect(a).to be_a SymEngine::Integer
+        end
+      end
     end
 
     describe 'coercion tests' do
