@@ -2,6 +2,7 @@
 #include "symengine.h"
 
 void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+
     basic_struct *temp;
     VALUE new_operand2, num, den;
 

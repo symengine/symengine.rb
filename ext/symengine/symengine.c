@@ -7,6 +7,8 @@
 #include "ruby_constant.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
+#include "ruby_utils.h"
+#include "symengine_utils.h"
 #include "symengine.h"
 
 ///////////////////
@@ -44,6 +46,9 @@ void Init_symengine() {
     rb_define_method(c_basic, "hash", cbasic_hash, 0);
     rb_define_method(c_basic, "subs", cbasic_subs, -1);
     rb_define_method(c_basic, "coerce", cbasic_coerce, 1);
+
+    //Sympify as a Module Level Function
+    rb_define_module_function(m_symengine, "sympify", cutils_sympify, 1);
 
     //Symbol class
     c_symbol = rb_define_class_under(m_symengine, "Symbol", c_basic);
