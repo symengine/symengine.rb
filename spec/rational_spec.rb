@@ -39,13 +39,13 @@ describe SymEngine do
         it 'succeeds with commutative operations' do
           c = @a * @b
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(SymEngine::Rational.new(@b) * @a)
+          expect(c).to eq(SymEngine::sympify(@b) * @a)
         end
 
         it 'succeeds with non commutative operations' do
           c = @a / @b
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(@a / SymEngine::Rational.new(@b))
+          expect(c).to eq(@a / SymEngine::sympify(@b))
         end
       end
 
@@ -53,13 +53,13 @@ describe SymEngine do
         it 'succeeds with commutative operations' do
           c = @b * @a
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(@a * SymEngine::Rational.new(@b))
+          expect(c).to eq(@a * SymEngine::sympify(@b))
         end
 
         it 'succeeds with non commutative operations' do
           c = @b / @a
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(SymEngine::Rational.new(@b) / @a)
+          expect(c).to eq(SymEngine::sympify(@b) / @a)
         end
       end
     end
