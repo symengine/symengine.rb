@@ -6,15 +6,17 @@ describe SymEngine do
       context 'with a Ruby Complex object as input' do
         it 'returns an instance of SymEngine::Complex class' do
           a = Complex(2, 3)
-          a = SymEngine::Complex.new(a)
+          a = SymEngine::sympify(a)
           expect(a).to be_a SymEngine::Complex
-          expect(a.to_s).to eq('2+3i')
+          expect(a.to_s).to eq('2 + 3*I')
         end
       end
       context 'with a Ruby Integer as input' do
         it 'returns an instance of SymEngine::Integer class' do
-          a = SymEngine::Complex.new(2)
+          a = 2 + 0i;
+          a = SymEngine::sympify(a)
           expect(a).to be_a SymEngine::Integer
+          expect(a.to_s).to eq('2')
         end
       end
     end

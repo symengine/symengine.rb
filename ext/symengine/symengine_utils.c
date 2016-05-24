@@ -32,7 +32,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
 
         case T_COMPLEX:
             real = rb_funcall(operand2, rb_intern("real"), 0, NULL);
-            imag = rb_funcall(operand2, rb_intern("denominator"), 0, NULL);
+            imag = rb_funcall(operand2, rb_intern("imaginary"), 0, NULL);
 
             basic_struct *real_basic = basic_new_heap();
             basic_struct *imag_basic = basic_new_heap();
