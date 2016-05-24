@@ -22,3 +22,7 @@ VALUE cconstant_e() {
 VALUE cconstant_euler_gamma() {
     return cconstant_const(basic_const_EulerGamma);
 }
+
+VALUE cconstant_i() {
+    return cconstant_const(basic_const_I);
+}

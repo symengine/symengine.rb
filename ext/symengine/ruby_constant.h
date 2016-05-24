@@ -15,4 +15,6 @@ VALUE cconstant_e();
 
 VALUE cconstant_euler_gamma();
 
+VALUE cconstant_i();
+
 #endif //RUBY_CONSTANTS_H_

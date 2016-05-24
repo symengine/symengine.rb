@@ -12,6 +12,7 @@ describe SymEngine do
       @d = SymEngine::Integer.new(1);
       @e = SymEngine::Integer.new(0);
       @x = SymEngine::Symbol.new("x");
+      @i = SymEngine::I
     end
 
     describe '#pi' do
@@ -30,6 +31,17 @@ describe SymEngine do
         end
       end
 
+    end
+
+    describe '#i' do
+      context 'when squared' do
+        it 'returns -1' do
+          f = @i * @i
+          expect(@i).to be_an_instance_of SymEngine::Constant
+          expect(f).to be_a SymEngine::Basic
+          expect(f.to_s).to eql('-1')
+        end
+      end
     end
 
     describe '#EulerGamma' do
