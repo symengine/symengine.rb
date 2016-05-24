@@ -2,8 +2,6 @@
 #include "ruby_basic.h"
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
-#include "ruby_rational.h"
-#include "ruby_complex.h"
 #include "ruby_constant.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
@@ -64,12 +62,10 @@ void Init_symengine() {
     //Rational class
     c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);
     rb_define_alloc_func(c_rational, cbasic_alloc);
-    rb_define_method(c_rational, "initialize", crational_init, 1);
 
     //Complex class
     c_complex = rb_define_class_under(m_symengine, "Complex", c_basic);
     rb_define_alloc_func(c_complex, cbasic_alloc);
-    rb_define_method(c_complex, "initialize", ccomplex_init, 1);
 
     //Constant class
     c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);

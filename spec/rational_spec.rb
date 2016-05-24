@@ -6,15 +6,25 @@ describe SymEngine do
       context 'with a Ruby Rational object as input' do
         it 'returns an instance of SymEngine::Rational class' do
           a = Rational('2/3')
-          a = SymEngine::Rational.new(a)
+          a = SymEngine::sympify(a)
           expect(a).to be_a SymEngine::Rational
           expect(a.to_s).to eq('2/3')
         end
       end
       context 'with a Ruby Integer as input' do
         it 'returns an instance of SymEngine::Integer class' do
-          a = SymEngine::Rational.new(2/1)
+          a = Rational('2/1')
+          a = SymEngine::sympify(a)
           expect(a).to be_a SymEngine::Integer
+          expect(a.to_s).to eq('2')
+        end
+      end
+      context 'with a Ruby Integer (x/x) as input' do
+        it 'returns an instance of SymEngine::Integer class' do
+          a = Rational('5/5')
+          a = SymEngine::sympify(a)
+          expect(a).to be_a SymEngine::Integer
+          expect(a.to_s).to eq('1')
         end
       end
     end
