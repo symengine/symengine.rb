@@ -1,72 +1,47 @@
-require 'spec_helper'
-
-describe SymEngine do
-  before :each do
-  end
-
+describe SymEngine, 'constants' do
   describe 'Constant' do
-    before :each do
-      @a = SymEngine::PI
-      @b = SymEngine::E
-      @c = SymEngine::EULER_GAMMA
-      @d = SymEngine::Integer.new(1);
-      @e = SymEngine::Integer.new(0);
-      @x = SymEngine::Symbol.new("x");
-    end
+    describe 'PI' do
+      subject(:pi) { SymEngine::PI }
 
-    describe '#pi' do
-      context 'with summation with one' do
-        it 'returns an initialised Basic object that is equalent to 1 + pi' do
-          f = @a + @d
-          expect(@a).to be_an_instance_of SymEngine::Constant
-          expect(f).to be_a SymEngine::Basic
-          expect(f.to_s).to eql('1 + pi')
-        end
+      it { is_expected.to be_a SymEngine::Constant }
+      its(:to_s) { is_expected.to eq 'pi' }
+
+      context 'sum with integer' do
+        subject { int(1) + pi }
+
+        its(:to_s) { is_expected.to eq '1 + pi' }
       end
 
       context 'with plus one and minus one' do
-        it 'returns a Constant' do
-          expect(1 + @a - 1).to be_an_instance_of SymEngine::Constant
-        end
-      end
+        subject { 1 + pi - 1 }
 
+      it { is_expected.to be_a SymEngine::Constant }
+      end
     end
 
-    describe '#EulerGamma' do
+    describe 'EULER_GAMMA' do
+      subject(:euler_gamma) { SymEngine::EULER_GAMMA }
+
+      it { is_expected.to be_a SymEngine::Constant }
+
       context 'with powered to zero' do
-        it 'returns an initialised Basic object that is equalent 1' do
-          f = @c ** @e
-          expect(@c).to be_an_instance_of SymEngine::Constant
-          expect(f).to be_an_instance_of SymEngine::Integer
-          expect(f.to_s).to eql('1')
-        end
-      end
+        subject { euler_gamma ** int(0) }
 
-      context 'with plus one and minus one' do
-        it 'returns a Constant' do
-          expect(1 + @c - 1).to be_an_instance_of SymEngine::Constant
-        end
+        it { is_expected.to be_a SymEngine::Integer }
+        its(:to_s) { is_expected.to eq('1') }
       end
-
     end
 
     describe '#E' do
+      subject(:e) { SymEngine::E }
+
+      it { is_expected.to be_a SymEngine::Constant }
+
       context 'with summation with x' do
-        it 'returns an initialised Basic object that is equalent to x + E' do
-          f = @b + @x
-          expect(@b).to be_an_instance_of SymEngine::Constant
-          expect(f).to be_a SymEngine::Basic
-          expect(f.to_s).to eql('x + E')
-        end
+        subject { e + sym('x') }
+        it { is_expected.to be_a SymEngine::Basic }
+        its(:to_s) { is_expected.to eq 'x + E' }
       end
-
-      context 'with plus one and minus one' do
-        it 'returns a Constant' do
-          expect(1 + @b - 1).to be_an_instance_of SymEngine::Constant
-        end
-      end
-
     end
-
   end
 end

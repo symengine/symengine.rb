@@ -1,50 +1,40 @@
-require 'spec_helper'
+describe SymEngine::Rational do
+  context 'Rational() method' do
+    subject { SymEngine::Rational.new(Rational('2/3')) }
 
-describe SymEngine do
-  describe SymEngine::Rational do
-    describe '.new' do
-      context 'with a Ruby Rational object as input' do
-        it 'returns an instance of SymEngine::Rational class' do
-          a = Rational('2/3')
-          a = SymEngine::Rational.new(a)
-          expect(a).to be_a SymEngine::Rational
-          expect(a.to_s).to eq('2/3')
-        end
+    it { is_expected.to be_a SymEngine::Rational }
+    its(:to_s) { is_expected.to eq '2/3' }
+  end
+
+  context 'coercion' do
+    let(:x) { sym('x') }
+    let(:r) { Rational(3, 5) }
+
+    context 'using a ruby Rational as the second operand' do
+      context 'commutative operations' do
+        subject { x * r }
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to eq(SymEngine::Rational.new(r) * x) }
+      end
+
+      context 'non commutative operations' do
+        subject { x / r }
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to eq(x / SymEngine::Rational.new(r)) }
       end
     end
 
-    describe 'coercion tests' do
-      before :each do
-        @a = SymEngine::Symbol.new('x')
-        @b = Rational(3, 5)
+    context 'using a ruby Rational as the first operand' do
+      context 'commutative operations' do
+        subject { r * x }
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to eq(SymEngine::Rational.new(r) * x) }
       end
 
-      context 'using a ruby Rational as the second operand' do
-        it 'succeeds with commutative operations' do
-          c = @a * @b
-          expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(SymEngine::Rational.new(@b) * @a)
-        end
-
-        it 'succeeds with non commutative operations' do
-          c = @a / @b
-          expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(@a / SymEngine::Rational.new(@b))
-        end
-      end
-
-      context 'using a ruby Rational as the first operand' do
-        it 'succeeds with commutative operations' do
-          c = @b * @a
-          expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(@a * SymEngine::Rational.new(@b))
-        end
-
-        it 'succeeds with non commutative operations' do
-          c = @b / @a
-          expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(SymEngine::Rational.new(@b) / @a)
-        end
+      context 'non commutative operations' do
+        subject { r / x }
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to eq(SymEngine::Rational.new(r) / x) }
       end
     end
   end

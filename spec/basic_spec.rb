@@ -1,217 +1,189 @@
-require 'spec_helper'
-
-describe SymEngine do
-  before :each do
+describe SymEngine::Basic do
+  describe '.new' do
+    subject { described_class.new }
+    it { is_expected.to be_a SymEngine::Basic }
   end
 
-  describe SymEngine::Basic do
-    before :each do
-    end
+  let(:x) { sym('x') }
+  let(:y) { sym('y') }
+  let(:z) { sym('z') }
 
-    describe '.new' do
-      context 'with no arguments' do
-        it 'returns a Basic object' do
-          basic = SymEngine::Basic.new
-          expect(basic).to be_an_instance_of SymEngine::Basic
-        end
-      end
-    end
+  context 'binary operations' do
+    expected_classes = {
+      :+ => SymEngine::Add,
+      :- => SymEngine::Add,
 
-    describe 'binary operations' do
-      before :each do
-        @a = SymEngine::Symbol.new('x')
-        @b = SymEngine::Symbol.new('y')
-      end
-      describe '#+' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns a initialised Basic object that is result of
-                        self added to the argument' do
-            c = @a + @b
-            expect(c).to be_a SymEngine::Basic
-            expect(c.to_s).to eql('x + y')
-          end
-        end
-      end
-      describe '#-' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns a initialised Basic object that is result of
-                        argument subtracted from self' do
-            c = @a - @b
-            expect(c).to be_a SymEngine::Basic
-            expect(c.to_s).to eql('x - y')
-          end
-        end
-      end
-      describe '#*' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns a initialised Basic object that is result of
-                        self multiplied by the argument' do
-            c = @a * @b
-            expect(c).to be_a SymEngine::Basic
-            expect(c.to_s).to eql('x*y')
-          end
-        end
-      end
-      describe '#/' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns a initialised Basic object that is result of
-                        self divided by the argument' do
-            c = @a / @b
-            expect(c).to be_a SymEngine::Basic
-            expect(c.to_s).to eql('x/y')
-          end
-        end
-      end
-      describe '#**' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns a initialised Basic object that is result of
-                        self raised to the power of argument' do
-            c = @a**@b
-            expect(c).to be_a SymEngine::Basic
-            expect(c.to_s).to eql('x**y')
-          end
-        end
-      end
-      describe '#diff' do
-        context 'with another initialised Basic object as argument' do
-          it 'differentiates self with respect to the argument
-              and returns the result' do
-            a = @a**3
-            c = a.diff(@a)
-            expect(c).to be_a SymEngine::Basic
-            expect(c).to eq(3 * @a**2)
-            expect(a.diff(2)).to be_nil
-          end
-        end
-      end
-      describe '#==' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns true if they are the same expression
-                        false if not' do
-            a = SymEngine::Symbol.new('x')
-            b = SymEngine::Symbol.new('y')
-            c = ((a * b) == (@a * @b))
-            expect(c).to be true
-          end
-        end
-      end
-      describe '#eql?' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns true if they are the same expression
-                        false if not' do
-            a = SymEngine::Symbol.new('x')
-            b = SymEngine::Symbol.new('y')
-            c = ((a * b).eql?(@a * @b))
-            expect(c).to be true
-          end
-        end
-      end
-      describe '#!=' do
-        context 'with another initialised Basic object as argument' do
-          it 'returns true is they are not the same expression
-                        false if they are' do |_variable|
-            a = SymEngine::Symbol.new('x')
-            b = SymEngine::Symbol.new('y')
-            c = ((a * b) != (@a * @b))
-            expect(c).to be false
-          end
-        end
+      :* => SymEngine::Mul,
+      :/ => SymEngine::Mul,
+
+      :** => SymEngine::Pow
+    }
+
+    # + and - have spaces around operator, while others haven't
+    # That's a behavior of underlying library
+    [:+, :-].each do |op|
+      context "##{op}" do
+        subject { x.send(op, y) }
+
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to be_a expected_classes[op] }
+        its(:to_s) { is_expected.to eq "x #{op} y" }
       end
     end
 
-    describe 'unary operations' do
-      before :each do
-        @x = SymEngine::Symbol.new('a')
-      end
-      describe '#-@' do
-        context "doesn't take any argument" do
-          it 'returns the negation of self' do
-            p = -@x
-            expect(p).to be_a SymEngine::Basic
-            expect(p.to_s).to eql('-a')
-          end
-        end
+    [:*, :/, :**].each do |op|
+      context "##{op}" do
+        subject { x.send(op, y) }
+
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to be_a expected_classes[op] }
+        its(:to_s) { is_expected.to eq "x#{op}y" }
       end
     end
 
-    describe '#args' do
-      context 'with nothing as argument' do
-        it 'returns array of arguments' do
-          x = SymEngine::Symbol.new('x')
-          y = SymEngine::Symbol.new('y')
-          z = SymEngine::Symbol.new('z')
-          e = (x**y + z)
-          f = e.args
-          expect(f).to be_an_instance_of Array
-          expect(f.length).to be 2
-          expect(f.to_set).to eql([x**y, z].to_set)
-        end
+    context '#diff' do
+      let(:fun) { (x**3) }
+      context 'by variable' do
+        subject { fun.diff(x) }
+
+        it { is_expected.to be_a SymEngine::Basic }
+        it { is_expected.to eq(3 * x**2) }
+      end
+
+      context 'by constant' do
+        subject { fun.diff(2) }
+        it { is_expected.to be_nil }
       end
     end
 
-    describe '#free_symbols' do
-      context 'with nothing as argument' do
-        it 'returns the set of symbols' do
-          x = SymEngine::Symbol.new('x')
-          y = SymEngine::Symbol.new('y')
-          z = SymEngine::Symbol.new('z')
-          e = (x**y / z)
-          f = e.free_symbols
-          expect(f).to be_an_instance_of Set
-          expect(f.length).to be 3
-          expect(f).to eql([x, y, z].to_set)
-        end
+    context 'equality and inequality' do
+      subject { x * y }
+      it { is_expected.to eq SymEngine::Symbol.new('x')*SymEngine::Symbol.new('y') }
+      it { is_expected.not_to eq SymEngine::Symbol.new('x')*SymEngine::Symbol.new('z') }
+    end
+
+    it 'simplifies' do
+      expect(x + x).to eq(int(2) * x)
+      expect(x + x).to eq(2 * x)
+      expect(x * x).to eq(x**2)
+      expect(x + y + x + x).to eq(3 * x + y)
+      expect(x * y * x * x).to eq(x**3 * y)
+      expect(x - x).to eq 0
+      expect(2 * x - x).to eq x
+      expect(3 * x - x).to eq 2 * x
+      expect(2 * x * y - x * y).to eq x * y
+      expect(x**y * x**x).to eq(x**(x + y))
+      expect(x**y * x**x * x**z).to eq(x**(x + y + z))
+      expect(x**y - x**y).to eq(0)
+      expect(x**2 / x).to eq(x)
+      expect(y * x**2 / (x * y)).to eq(x)
+      expect((2 * x**3 * y**2 * z)**3 / 8).to eq(x**9 * y**6 * z**3)
+      expect((2 * y**(-2 * x**2)) * (3 * y**(2 * x**2))).to eq(6)
+      expect((x**2)**3).to eq(x**6)
+    end
+
+    it 'is reasonably commutative' do
+      expect(x + y).to eq(y + x)
+      expect(x * y).to eq(y * x)
+      expect(x - y).not_to eq(y - x)
+    end
+
+    it 'raises on wrong args' do
+      expect { 'x' * x }.to raise_error(TypeError)
+    end
+  end
+
+  context 'unary operations' do
+    context '#-@' do
+      subject { -x }
+
+      it { is_expected.to be_a SymEngine::Basic }
+      its(:to_s) { is_expected.to eq '-x' }
+    end
+  end
+
+  context 'formula meta-information' do
+    let(:formula) { (x**y + z) }
+
+    context '#args' do
+      subject { formula.args }
+
+      it { is_expected.to be_an Array }
+      its(:size) { is_expected.to eq 2 }
+      it { is_expected.to match_array [x**y, z] }
+    end
+
+    context '#free_symbols' do
+      subject { formula.free_symbols }
+      it { is_expected.to be_a Set }
+      its(:size) { is_expected.to eq 3 }
+      it { is_expected.to eq [x, y, z].to_set }
+    end
+  end
+
+  describe '#expand' do
+    let(:formula) { (x + y + z) * (x + y + z) }
+
+    # Note let! -- formula is expanded immediately
+    let!(:expanded) { formula.expand }
+    subject { expanded }
+
+    context 'original' do
+      subject { formula }
+
+      its(:to_s) { is_expected.to eq '(x + y + z)**2' }
+    end
+
+    context 'expanded' do
+      it { is_expected.to be_a SymEngine::Basic }
+      its(:to_s) { is_expected.to eq '2*x*y + 2*x*z + 2*y*z + x**2 + y**2 + z**2' }
+      it { is_expected.not_to eq formula }
+    end
+
+    context 'square of sums' do
+      let(:formula) { (x + y)**2 }
+
+      it { is_expected.to eq(x**2 + 2 * x * y + y**2) }
+      it { is_expected.to be_a SymEngine::Add }
+    end
+
+    it 'works for many different kinds of formulae' do
+      expect(((2 * x + y)**2).expand).to eq(4 * x**2 + 4 * x * y + y**2)
+      expect(((2 * x**2 + 3 * y)**2).expand).to eq(4 * x**4 + 12 * x**2 * y + 9 * y**2)
+      expect(((2 * x / 3 + y / 4)**2).expand).to eq(4 * x**2 / 9 + x * y / 3 + y**2 / 16)
+      expect(((1 / (y * z) - y * z) * y * z).expand).to eq(1 - (y * z)**2)
+      expect(((1 / (x * y) - x * y + 2) * (1 + x * y)).expand).to eq(3 + 1 / (x * y) + x * y - (x * y)**2)
+    end
+  end
+
+  describe '#subs' do
+    let(:formula) { x + y + z }
+
+    context 'with two basic objects as argument' do
+      subject { formula.subs(x, y) }
+
+      it {is_expected.to eq(2 * y + z) }
+    end
+
+    context 'with a Hash as argument' do
+      context 'existing variables' do
+        subject { formula.subs(x => y, z => y) }
+
+        it { is_expected.to eq(3 * y) }
+      end
+
+      context 'new variable' do
+        let(:k) { sym('k') }
+        subject { formula.subs(x => k, y => k / 2, z => 2 * k) }
+
+        it { is_expected.to eq((7 * k) / 2) }
       end
     end
 
-    describe '#expand' do
-      context 'with nothing as argument' do
-        it 'returns the expanded form' do
-          x = SymEngine::Symbol.new('x')
-          y = SymEngine::Symbol.new('y')
-          z = SymEngine::Symbol.new('z')
-          e = (x + y + z) * (x + y + z)
-          f = e.expand
-          expect(e.to_s).to eql('(x + y + z)**2')
-          expect(f).to be_a SymEngine::Basic
-          expect(f.to_s).to eql('2*x*y + 2*x*z + 2*y*z + x**2 + y**2 + z**2')
-          expect(e == f).to be false
-        end
-      end
-    end
-
-    describe '#subs' do
-      before :each do
-        @x = SymEngine::Symbol.new('x')
-        @y = SymEngine::Symbol.new('y')
-        @z = SymEngine::Symbol.new('z')
-        @e = @x + @y + @z
-      end
-
-      context 'with two basic objects as argument' do
-        it 'returns the expression with first
-            substituted with second in self' do
-          expect(@e.subs(@x, @y)).to eql(2 * @y + @z)
-        end
-      end
-
-      context 'with a Hash as argument' do
-        it 'returns the expression with
-            each key subtituted with its mapped value' do
-          expect(@e.subs(@x => @y, @z => @y)).to eql(3 * @y)
-          k = SymEngine::Symbol.new('k')
-          e = @e.subs(@x => k, @y => k / 2, @z => 2 * k)
-          expect(e).to eql((7 * k) / 2)
-        end
-      end
-
-      context ' with less than one or more than two or wrong argument' do
-        it 'raises errors' do
-          expect { @e.subs }.to raise_error(ArgumentError)
-          expect { @e.subs(@x, @y, @z) }.to raise_error(ArgumentError)
-          expect { @e.subs(@x) }.to raise_error(TypeError)
-        end
-      end
+    it 'fails on wrong arguments' do
+      expect { formula.subs }.to raise_error(ArgumentError)
+      expect { formula.subs(x, y, z) }.to raise_error(ArgumentError)
+      expect { formula.subs(x) }.to raise_error(TypeError)
     end
   end
 end
