@@ -67,6 +67,10 @@ void Init_symengine() {
     c_complex = rb_define_class_under(m_symengine, "Complex", c_basic);
     rb_define_alloc_func(c_complex, cbasic_alloc);
 
+    //ComplexDouble class
+    c_complex_double = rb_define_class_under(m_symengine, "ComplexDouble", c_basic);
+    rb_define_alloc_func(c_complex_double, cbasic_alloc);
+
     //Constant class
     c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);
 
