@@ -13,7 +13,7 @@ describe SymEngine do
       end
       context 'with a Ruby Integer as input' do
         it 'returns an instance of SymEngine::Integer class' do
-          a = 2 + 0i;
+          a = Complex(2, 0);
           a = SymEngine::sympify(a)
           expect(a).to be_a SymEngine::Integer
           expect(a.to_s).to eq('2')
