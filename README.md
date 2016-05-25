@@ -1,16 +1,19 @@
 ## SymEngine Ruby Wrappers
 
-Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written in C++. https://github.com/sympy/symengine
+[![Build Status](https://travis-ci.org/symengine/symengine.rb.png?branch=master)](https://travis-ci.org/symengine/symengine.rb)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/symengine/symengine.rb?branch=master&svg=true)](https://ci.appveyor.com/project/certik/symengine-rb/branch/master)
+
+Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written in C++. https://github.com/symengine/symengine
 
 ### Installation
 
 #### Prerequisites
 
-- C++ compiler        - See supported [compilers](https://github.com/sympy/symengine/wiki/Compiler-Support)
+- C++ compiler        - See supported [compilers](https://github.com/symengine/symengine/wiki/Compiler-Support)
 
 - CMake               - with executable folder in the `PATH` variable
 
-- libsymengine        - See build [instructions](https://github.com/sympy/symengine/wiki/Building-SymEngine)
+- libsymengine        - See build [instructions](https://github.com/symengine/symengine/wiki/Building-SymEngine)
 
 #### Installing
 
@@ -27,6 +30,14 @@ Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written i
 * Execute `bundle install` this will install the gems required
 * Build the gem, `gem build symengine.gemspec`
 * Install the gem, `gem install symengine-0.0.0.gem`
+
+### Mailinglist, Chat
+SciRuby mailinglist: http://groups.google.com/group/sciruby-dev
+
+SymEngine mailinglist: http://groups.google.com/group/symengine
+
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/symengine/symengine)
+
 
 ### Using the extensions
 SymEngine is a module in the extensions, and the classes are a part of it. So
