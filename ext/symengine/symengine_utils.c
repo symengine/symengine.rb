@@ -40,10 +40,19 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             sympify(real, real_basic);
             sympify(imag, imag_basic);
 
-            complex_set(cbasic_operand2, real_basic, imag_basic);
+            
+            basic_struct *const_I = basic_new_heap();
+            basic_struct *imag_part = basic_new_heap();
+
+            basic_const_I(const_I);
+            basic_mul(imag_part, const_I, imag_basic);
+            basic_add(cbasic_operand2, imag_part, real_basic);
 
             basic_free_heap(real_basic);
             basic_free_heap(imag_basic);
+            basic_free_heap(const_I);
+            basic_free_heap(imag_part);
+
             break;
 
         case T_DATA:
