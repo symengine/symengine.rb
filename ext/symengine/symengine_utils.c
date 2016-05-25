@@ -34,24 +34,21 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             real = rb_funcall(operand2, rb_intern("real"), 0, NULL);
             imag = rb_funcall(operand2, rb_intern("imaginary"), 0, NULL);
 
-            basic_struct *real_basic = basic_new_heap();
-            basic_struct *imag_basic = basic_new_heap();
+            basic real_basic;
+            basic imag_basic;
+
+            basic_new_stack(real_basic);
+            basic_new_stack(imag_basic);
 
             sympify(real, real_basic);
             sympify(imag, imag_basic);
 
-            
-            basic_struct *const_I = basic_new_heap();
-            basic_struct *imag_part = basic_new_heap();
+            basic_const_I(cbasic_operand2);
+            basic_mul(cbasic_operand2, cbasic_operand2, imag_basic);
+            basic_add(cbasic_operand2, cbasic_operand2, real_basic);
 
-            basic_const_I(const_I);
-            basic_mul(imag_part, const_I, imag_basic);
-            basic_add(cbasic_operand2, imag_part, real_basic);
-
-            basic_free_heap(real_basic);
-            basic_free_heap(imag_basic);
-            basic_free_heap(const_I);
-            basic_free_heap(imag_part);
+            basic_free_stack(real_basic);
+            basic_free_stack(imag_basic);
 
             break;
 
@@ -59,6 +56,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             Data_Get_Struct(operand2, basic_struct, temp);
             basic_assign(cbasic_operand2, temp);
             break;
+            
     }
 }
 
@@ -72,6 +70,8 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_rational;
         case SYMENGINE_COMPLEX:
             return c_complex;
+        case SYMENGINE_COMPLEX_DOUBLE:
+            return c_complex_double;
         case SYMENGINE_CONSTANT:
             return c_constant;
         case SYMENGINE_ADD:
