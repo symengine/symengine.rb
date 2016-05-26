@@ -59,7 +59,7 @@ script:
   # Test ruby gem
   - gem install gem-path --no-ri --no-rdoc
   - cd $HOME/gems/symengine-0.1.0/
-  - bundle exec rspec --require ./spec/spec_helper.rb
+  - bundle exec rspec
 
 notifications:
   email: false

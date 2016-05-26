@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
     gem.email = ["abinashdakshana999@gmail.com"]
     gem.homepage = 'https://github.com/sympy/symengine'
     gem.files = Dir["lib/**/*", "bin/*", "LICENSE", "*.md", "ext/**/*", "spec/**/*", "CMakeLists.txt", "Gemfile",
-                    "cmake/FindRuby.cmake", "symengine.gemspec"]
+                    "cmake/FindRuby.cmake", "symengine.gemspec", ".rspec"]
     gem.require_paths = ["lib"]
     gem.extensions = ["ext/symengine/extconf.rb"]
     gem.license = 'MIT'
