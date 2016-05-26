@@ -1,5 +1,5 @@
 describe SymEngine::Rational do
-  context 'Rational() method' do
+  context '#initialize' do
     subject { SymEngine::Rational.new(Rational('2/3')) }
 
     it { is_expected.to be_a SymEngine::Rational }

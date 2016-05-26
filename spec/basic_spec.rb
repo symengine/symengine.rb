@@ -58,8 +58,8 @@ describe SymEngine::Basic do
 
     context 'equality and inequality' do
       subject { x * y }
-      it { is_expected.to eq SymEngine::Symbol.new('x')*SymEngine::Symbol.new('y') }
-      it { is_expected.not_to eq SymEngine::Symbol.new('x')*SymEngine::Symbol.new('z') }
+      it { is_expected.to eq sym('x')*sym('y') }
+      it { is_expected.not_to eq sym('x')*sym('z') }
     end
 
     it 'simplifies' do
