@@ -3,6 +3,7 @@
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
 #include "ruby_constant.h"
+#include "ruby_complex.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
 #include "ruby_utils.h"
@@ -67,6 +68,8 @@ void Init_symengine() {
     //Complex class
     c_complex = rb_define_class_under(m_symengine, "Complex", c_basic);
     rb_define_alloc_func(c_complex, cbasic_alloc);
+    rb_define_method(c_complex, "real", ccomplex_real_part, 0);
+    rb_define_method(c_complex, "imaginary", ccomplex_imaginary_part, 0);
 
     //ComplexDouble class
     c_complex_double = rb_define_class_under(m_symengine, "ComplexDouble", c_basic);

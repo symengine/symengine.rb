@@ -4,4 +4,4 @@ module SymEngine
         self.to_s.sub('I', 'i').sub('*','').gsub(' ','').to_c
     end
   end
-end
+end 
