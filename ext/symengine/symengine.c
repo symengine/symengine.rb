@@ -47,6 +47,7 @@ void Init_symengine() {
 
     //Sympify as a Module Level Function
     rb_define_module_function(m_symengine, "sympify", cutils_sympify, 1);
+    rb_define_module_function(m_symengine, "S", cutils_sympify, 1);
 
     //Symbol class
     c_symbol = rb_define_class_under(m_symengine, "Symbol", c_basic);
