@@ -22,6 +22,7 @@ VALUE msymengine_ascii_art(VALUE self) {
 }
 
 void Init_symengine() {
+
     m_symengine = rb_define_module("SymEngine");
     rb_define_singleton_method(m_symengine, "ascii_art", msymengine_ascii_art, 0);
 
@@ -47,8 +48,8 @@ void Init_symengine() {
     rb_define_method(c_basic, "coerce", cbasic_coerce, 1);
 
     //Sympify as a Module Level Function
-    rb_define_module_function(m_symengine, "sympify", cutils_sympify, 1);
-    rb_define_module_function(m_symengine, "S", cutils_sympify, 1);
+    rb_define_module_function(m_symengine, "convert", cutils_sympify, 1);
+    rb_define_global_function("SymEngine", cutils_sympify, 1);
 
     //Symbol class
     c_symbol = rb_define_class_under(m_symengine, "Symbol", c_basic);

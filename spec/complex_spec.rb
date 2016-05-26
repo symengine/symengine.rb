@@ -6,7 +6,7 @@ describe SymEngine do
       context 'with a Ruby Complex object as input' do
         it 'returns an instance of SymEngine::Complex class' do
           a = Complex(2, 3)
-          a = SymEngine::sympify(a)
+          a = SymEngine::convert(a)
           expect(a).to be_an_instance_of SymEngine::Complex
           expect(a.to_s).to eq('2 + 3*I')
         end
@@ -14,7 +14,7 @@ describe SymEngine do
       context 'with a Ruby Integer as input' do
         it 'returns an instance of SymEngine::Integer class' do
           a = Complex(2, 0)
-          a = SymEngine::sympify(a)
+          a = SymEngine::convert(a)
           expect(a).to be_an_instance_of SymEngine::Integer
           expect(a.to_s).to eq('2')
         end
@@ -22,7 +22,7 @@ describe SymEngine do
       context 'Obtaining the integer real part' do
         it 'returns an instance of SymEngine::Integer class' do
           a = Complex(2, 7)
-          a = SymEngine::S(a)
+          a = SymEngine::convert(a)
           a = a.real
           expect(a).to be_an_instance_of SymEngine::Integer
           expect(a.to_s).to eq('2');
@@ -31,7 +31,7 @@ describe SymEngine do
       context 'Obtaining the integer imaginary part' do
         it 'returns an instance of SymEngine::Integer class' do
           a = Complex(2, 7)
-          a = SymEngine::S(a)
+          a = SymEngine::convert(a)
           a = a.imaginary
           expect(a).to be_an_instance_of SymEngine::Integer
           expect(a.to_s).to eq('7');
@@ -41,7 +41,7 @@ describe SymEngine do
         it 'returns an instance of SymEngine::Rational class' do
           a = Rational('5/4')
           a = Complex(a, 7)
-          a = SymEngine::S(a)
+          a = SymEngine::convert(a)
           a = a.real
           expect(a).to be_an_instance_of SymEngine::Rational
           expect(a.to_s).to eq('5/4');
@@ -51,7 +51,7 @@ describe SymEngine do
         it 'returns an instance of SymEngine::Integer class' do
           a = Rational('5/4')
           a = Complex(2, a)
-          a = SymEngine::S(a)
+          a = SymEngine::convert(a)
           a = a.imaginary
           expect(a).to be_an_instance_of SymEngine::Rational
           expect(a.to_s).to eq('5/4');

@@ -6,7 +6,7 @@ describe SymEngine do
       context 'with a Ruby Rational object as input' do
         it 'returns an instance of SymEngine::Rational class' do
           a = Rational('2/3')
-          a = SymEngine::sympify(a)
+          a = SymEngine::convert(a)
           expect(a).to be_a SymEngine::Rational
           expect(a.to_s).to eq('2/3')
         end
@@ -14,7 +14,7 @@ describe SymEngine do
       context 'with a Ruby Integer as input' do
         it 'returns an instance of SymEngine::Integer class' do
           a = Rational('2/1')
-          a = SymEngine::sympify(a)
+          a = SymEngine::convert(a)
           expect(a).to be_a SymEngine::Integer
           expect(a.to_s).to eq('2')
         end
@@ -22,7 +22,7 @@ describe SymEngine do
       context 'with a Ruby Integer (x/x) as input' do
         it 'returns an instance of SymEngine::Integer class' do
           a = Rational('5/5')
-          a = SymEngine::sympify(a)
+          a = SymEngine::convert(a)
           expect(a).to be_a SymEngine::Integer
           expect(a.to_s).to eq('1')
         end
@@ -39,13 +39,13 @@ describe SymEngine do
         it 'succeeds with commutative operations' do
           c = @a * @b
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(SymEngine::sympify(@b) * @a)
+          expect(c).to eq(SymEngine::convert(@b) * @a)
         end
 
         it 'succeeds with non commutative operations' do
           c = @a / @b
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(@a / SymEngine::sympify(@b))
+          expect(c).to eq(@a / SymEngine::convert(@b))
         end
       end
 
@@ -53,13 +53,13 @@ describe SymEngine do
         it 'succeeds with commutative operations' do
           c = @b * @a
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(@a * SymEngine::sympify(@b))
+          expect(c).to eq(@a * SymEngine::convert(@b))
         end
 
         it 'succeeds with non commutative operations' do
           c = @b / @a
           expect(c).to be_a SymEngine::Basic
-          expect(c).to eq(SymEngine::sympify(@b) / @a)
+          expect(c).to eq(SymEngine::convert(@b) / @a)
         end
       end
     end
