@@ -6,11 +6,20 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     basic_struct *temp;
     VALUE new_operand2, num, den;
     VALUE real, imag;
+    VALUE Rb_Temp_String;
+    char *s;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
         case T_BIGNUM:
             GET_SYMINTFROMVAL(operand2, cbasic_operand2);
+            break;
+
+        case T_FLOAT:
+            Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);
+            s = StringValueCStr(Rb_Temp_String);
+            real_double_set_d(this, atof(s));
+
             break;
 
         case T_RATIONAL:
@@ -66,6 +75,8 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_symbol;
         case SYMENGINE_INTEGER:
             return c_integer;
+        case SYMENGINE_REAL_DOUBLE:
+            return c_real_double;
         case SYMENGINE_RATIONAL:
             return c_rational;
         case SYMENGINE_COMPLEX:
