@@ -46,7 +46,7 @@ describe SymEngine, 'constants' do
   describe '#i' do
     subject(:i) { SymEngine::I }
 
-    it { is_expected.to be_a SymEngine::Constant }
+    it { is_expected.to be_a SymEngine::Complex }
 
     context 'when squared' do
       subject { i * i}

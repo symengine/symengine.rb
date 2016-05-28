@@ -24,5 +24,12 @@ VALUE cconstant_euler_gamma() {
 }
 
 VALUE cconstant_i() {
-    return cconstant_const(basic_const_I);
+    basic_struct *cresult;
+    VALUE result;
+
+    cresult = basic_new_heap();
+    basic_const_I(cresult);
+    
+    result = Data_Wrap_Struct(c_complex, NULL, cbasic_free_heap, cresult);
+    return result;
 }
