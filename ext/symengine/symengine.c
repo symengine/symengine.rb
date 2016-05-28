@@ -64,7 +64,7 @@ void Init_symengine() {
 
     //RealDouble Class
     c_real_double = rb_define_class_under(m_symengine, "RealDouble", c_basic);
-    rb_define_alloc_func(c_double, cbasic_alloc);
+    rb_define_alloc_func(c_real_double, cbasic_alloc);
 
     //Rational class
     c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);

@@ -15,11 +15,12 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             GET_SYMINTFROMVAL(operand2, cbasic_operand2);
             break;
 
-        case T_FLOAT:
-            Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);
-            s = StringValueCStr(Rb_Temp_String);
-            real_double_set_d(this, atof(s));
+        case T_FLOAT:         
+            Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);           
 
+            s = StringValueCStr(Rb_Temp_String);
+            double f = atof(s);
+            real_double_set_d(cbasic_operand2, f);
             break;
 
         case T_RATIONAL:
