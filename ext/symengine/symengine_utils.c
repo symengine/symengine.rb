@@ -2,8 +2,10 @@
 #include "symengine.h"
 
 void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+
     basic_struct *temp;
     VALUE new_operand2, num, den;
+    VALUE real, imag;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -28,10 +30,33 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             basic_free_stack(den_basic);
             break;
 
+        case T_COMPLEX:
+            real = rb_funcall(operand2, rb_intern("real"), 0, NULL);
+            imag = rb_funcall(operand2, rb_intern("imaginary"), 0, NULL);
+
+            basic real_basic;
+            basic imag_basic;
+
+            basic_new_stack(real_basic);
+            basic_new_stack(imag_basic);
+
+            sympify(real, real_basic);
+            sympify(imag, imag_basic);
+
+            basic_const_I(cbasic_operand2);
+            basic_mul(cbasic_operand2, cbasic_operand2, imag_basic);
+            basic_add(cbasic_operand2, cbasic_operand2, real_basic);
+
+            basic_free_stack(real_basic);
+            basic_free_stack(imag_basic);
+
+            break;
+
         case T_DATA:
             Data_Get_Struct(operand2, basic_struct, temp);
             basic_assign(cbasic_operand2, temp);
             break;
+            
     }
 }
 
@@ -43,6 +68,10 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_integer;
         case SYMENGINE_RATIONAL:
             return c_rational;
+        case SYMENGINE_COMPLEX:
+            return c_complex;
+        case SYMENGINE_COMPLEX_DOUBLE:
+            return c_complex_double;
         case SYMENGINE_CONSTANT:
             return c_constant;
         case SYMENGINE_ADD:

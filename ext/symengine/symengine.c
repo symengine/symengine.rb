@@ -2,10 +2,12 @@
 #include "ruby_basic.h"
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
-#include "ruby_rational.h"
 #include "ruby_constant.h"
+#include "ruby_complex.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
+#include "ruby_utils.h"
+#include "symengine_utils.h"
 #include "symengine.h"
 
 ///////////////////
@@ -20,6 +22,7 @@ VALUE msymengine_ascii_art(VALUE self) {
 }
 
 void Init_symengine() {
+
     m_symengine = rb_define_module("SymEngine");
     rb_define_singleton_method(m_symengine, "ascii_art", msymengine_ascii_art, 0);
 
@@ -44,6 +47,10 @@ void Init_symengine() {
     rb_define_method(c_basic, "subs", cbasic_subs, -1);
     rb_define_method(c_basic, "coerce", cbasic_coerce, 1);
 
+    //Sympify as a Module Level Function
+    rb_define_module_function(m_symengine, "convert", cutils_sympify, 1);
+    rb_define_global_function("SymEngine", cutils_sympify, 1);
+
     //Symbol class
     c_symbol = rb_define_class_under(m_symengine, "Symbol", c_basic);
     rb_define_alloc_func(c_symbol, cbasic_alloc);
@@ -58,7 +65,16 @@ void Init_symengine() {
     //Rational class
     c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);
     rb_define_alloc_func(c_rational, cbasic_alloc);
-    rb_define_method(c_rational, "initialize", crational_init, 1);
+
+    //Complex class
+    c_complex = rb_define_class_under(m_symengine, "Complex", c_basic);
+    rb_define_alloc_func(c_complex, cbasic_alloc);
+    rb_define_method(c_complex, "real", ccomplex_real_part, 0);
+    rb_define_method(c_complex, "imaginary", ccomplex_imaginary_part, 0);
+
+    //ComplexDouble class
+    c_complex_double = rb_define_class_under(m_symengine, "ComplexDouble", c_basic);
+    rb_define_alloc_func(c_complex_double, cbasic_alloc);
 
     //Constant class
     c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);
@@ -67,6 +83,7 @@ void Init_symengine() {
     rb_define_const(m_symengine, "PI", cconstant_pi());
     rb_define_const(m_symengine, "E", cconstant_e());
     rb_define_const(m_symengine, "EULER_GAMMA", cconstant_euler_gamma());
+    rb_define_const(m_symengine, "I", cconstant_i());
 
     //Add class
     c_add = rb_define_class_under(m_symengine, "Add", c_basic);

@@ -42,4 +42,17 @@ describe SymEngine, 'constants' do
       its(:to_s) { is_expected.to eq 'x + E' }
     end
   end
+
+  describe '#i' do
+    subject(:i) { SymEngine::I }
+
+    it { is_expected.to be_a SymEngine::Complex }
+
+    context 'when squared' do
+      subject { i * i}
+      it { is_expected.to be_a SymEngine::Basic }
+      its(:to_s) { is_expected.to eq '-1' }  
+    end
+  end
+
 end

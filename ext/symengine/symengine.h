@@ -11,6 +11,8 @@ VALUE c_basic;
 VALUE c_symbol;
 VALUE c_integer;
 VALUE c_rational;
+VALUE c_complex;
+VALUE c_complex_double;
 VALUE c_constant;
 VALUE c_add;
 VALUE c_mul;
