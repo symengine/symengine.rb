@@ -1,5 +1,5 @@
 describe SymEngine::Rational do
-  context '#initialize' do
+  context 'Convert to SymEngine types' do
     context 'with a Rational' do
       subject { SymEngine(Rational('2/3')) }
 

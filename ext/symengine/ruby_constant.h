@@ -7,7 +7,7 @@
 #include "symengine.h"
 #include "symengine_utils.h"
 
-VALUE cconstant_const(void (*cwfunc_ptr)(basic_struct*));
+VALUE cconstant_const(void (*cwfunc_ptr)(basic_struct*), VALUE klass);
 
 VALUE cconstant_pi();
 

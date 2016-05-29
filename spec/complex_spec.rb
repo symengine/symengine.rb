@@ -1,5 +1,5 @@
 describe SymEngine::Complex do
-  context '#initialize' do
+  context 'Convert to SymEngine types' do
     context 'with a Complex' do
       subject { SymEngine(Complex(2, 3)) }
 
