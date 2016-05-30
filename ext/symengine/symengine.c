@@ -5,6 +5,7 @@
 #include "ruby_real_double.h"
 #include "ruby_constant.h"
 #include "ruby_complex.h"
+#include "ruby_complex_double.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
 #include "ruby_utils.h"
@@ -81,6 +82,8 @@ void Init_symengine() {
     //ComplexDouble class
     c_complex_double = rb_define_class_under(m_symengine, "ComplexDouble", c_basic);
     rb_define_alloc_func(c_complex_double, cbasic_alloc);
+    rb_define_method(c_complex_double, "real", ccomplex_double_real_part, 0);
+    rb_define_method(c_complex_double, "imaginary", ccomplex_double_imaginary_part, 0);
 
     //Constant class
     c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);
