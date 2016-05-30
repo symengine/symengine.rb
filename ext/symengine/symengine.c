@@ -2,6 +2,7 @@
 #include "ruby_basic.h"
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
+#include "ruby_real_double.h"
 #include "ruby_constant.h"
 #include "ruby_complex.h"
 #include "ruby_function.h"
@@ -65,6 +66,7 @@ void Init_symengine() {
     //RealDouble Class
     c_real_double = rb_define_class_under(m_symengine, "RealDouble", c_basic);
     rb_define_alloc_func(c_real_double, cbasic_alloc);
+    rb_define_method(c_real_double, "to_f", crealdouble_to_float, 0);
 
     //Rational class
     c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);

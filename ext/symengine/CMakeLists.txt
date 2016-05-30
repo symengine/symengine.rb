@@ -2,6 +2,7 @@ set(RUBY_WRAPPER_SRC
     ruby_basic.c
     ruby_symbol.c
     ruby_integer.c
+    ruby_real_double.c
     ruby_complex.c
     ruby_constant.c
     ruby_function.c

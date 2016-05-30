@@ -6,8 +6,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     basic_struct *temp;
     VALUE new_operand2, num, den;
     VALUE real, imag;
-    VALUE Rb_Temp_String;
-    char *s;
+    double f;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -16,10 +15,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             break;
 
         case T_FLOAT:         
-            Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);           
-
-            s = StringValueCStr(Rb_Temp_String);
-            double f = atof(s);
+            f = rb_float_value(operand2);
             real_double_set_d(cbasic_operand2, f);
             break;
 
