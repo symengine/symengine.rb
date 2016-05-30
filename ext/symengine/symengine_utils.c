@@ -11,7 +11,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     switch(TYPE(operand2)) {
         case T_FIXNUM:
         case T_BIGNUM:
-            GET_SYMINTFROMVAL(operand2, cbasic_operand2);
+            get_symintfromval(operand2, cbasic_operand2);
             break;
 
         case T_FLOAT:         
@@ -27,8 +27,8 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             basic_new_stack(num_basic);
             basic_new_stack(den_basic);
 
-            GET_SYMINTFROMVAL(num, num_basic);
-            GET_SYMINTFROMVAL(den, den_basic);
+            get_symintfromval(num, num_basic);
+            get_symintfromval(den, den_basic);
 
             rational_set(cbasic_operand2, num_basic, den_basic);
 
@@ -63,6 +63,19 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             basic_assign(cbasic_operand2, temp);
             break;
             
+    }
+}
+
+void get_symintfromval(VALUE operand2, basic_struct *cbasic_operand2)
+{
+    if ( TYPE(operand2) == T_FIXNUM ){
+        int i = NUM2INT( operand2 );
+        integer_set_si(cbasic_operand2, i);
+    } else if ( TYPE(operand2) == T_BIGNUM ){
+        VALUE Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);
+        integer_set_str(cbasic_operand2, StringValueCStr(Rb_Temp_String));
+    } else {
+        rb_raise(rb_eTypeError, "Invalid Type: Fixnum or Bignum required");
     }
 }
 
