@@ -15,7 +15,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             break;
 
         case T_FLOAT:         
-            f = rb_float_value(operand2);
+            f = RFLOAT_VALUE(operand2);
             real_double_set_d(cbasic_operand2, f);
             break;
 
