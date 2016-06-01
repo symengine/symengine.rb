@@ -6,6 +6,7 @@
 #include "ruby_constant.h"
 #include "ruby_complex.h"
 #include "ruby_complex_double.h"
+#include "ruby_real_mpfr.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
 #include "ruby_utils.h"
