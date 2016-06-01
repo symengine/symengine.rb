@@ -10,6 +10,7 @@ VALUE m_symengine;
 VALUE c_basic;
 VALUE c_symbol;
 VALUE c_integer;
+VALUE c_real_double;
 VALUE c_rational;
 VALUE c_complex;
 VALUE c_complex_double;

@@ -2,8 +2,10 @@
 #include "ruby_basic.h"
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
+#include "ruby_real_double.h"
 #include "ruby_constant.h"
 #include "ruby_complex.h"
+#include "ruby_complex_double.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
 #include "ruby_utils.h"
@@ -62,6 +64,11 @@ void Init_symengine() {
     rb_define_method(c_integer, "initialize", cinteger_init, 1);
     rb_define_method(c_integer, "%", cntheory_mod, 1);
 
+    //RealDouble Class
+    c_real_double = rb_define_class_under(m_symengine, "RealDouble", c_basic);
+    rb_define_alloc_func(c_real_double, cbasic_alloc);
+    rb_define_method(c_real_double, "to_f", crealdouble_to_float, 0);
+
     //Rational class
     c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);
     rb_define_alloc_func(c_rational, cbasic_alloc);
@@ -75,6 +82,8 @@ void Init_symengine() {
     //ComplexDouble class
     c_complex_double = rb_define_class_under(m_symengine, "ComplexDouble", c_basic);
     rb_define_alloc_func(c_complex_double, cbasic_alloc);
+    rb_define_method(c_complex_double, "real", ccomplex_double_real_part, 0);
+    rb_define_method(c_complex_double, "imaginary", ccomplex_double_imaginary_part, 0);
 
     //Constant class
     c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);

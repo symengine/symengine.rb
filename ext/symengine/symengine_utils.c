@@ -6,11 +6,17 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     basic_struct *temp;
     VALUE new_operand2, num, den;
     VALUE real, imag;
+    double f;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
         case T_BIGNUM:
-            GET_SYMINTFROMVAL(operand2, cbasic_operand2);
+            get_symintfromval(operand2, cbasic_operand2);
+            break;
+
+        case T_FLOAT:         
+            f = RFLOAT_VALUE(operand2);
+            real_double_set_d(cbasic_operand2, f);
             break;
 
         case T_RATIONAL:
@@ -21,8 +27,8 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             basic_new_stack(num_basic);
             basic_new_stack(den_basic);
 
-            GET_SYMINTFROMVAL(num, num_basic);
-            GET_SYMINTFROMVAL(den, den_basic);
+            get_symintfromval(num, num_basic);
+            get_symintfromval(den, den_basic);
 
             rational_set(cbasic_operand2, num_basic, den_basic);
 
@@ -60,12 +66,27 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     }
 }
 
+void get_symintfromval(VALUE operand2, basic_struct *cbasic_operand2)
+{
+    if ( TYPE(operand2) == T_FIXNUM ){
+        int i = NUM2INT( operand2 );
+        integer_set_si(cbasic_operand2, i);
+    } else if ( TYPE(operand2) == T_BIGNUM ){
+        VALUE Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);
+        integer_set_str(cbasic_operand2, StringValueCStr(Rb_Temp_String));
+    } else {
+        rb_raise(rb_eTypeError, "Invalid Type: Fixnum or Bignum required");
+    }
+}
+
 VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
     switch(basic_get_type(basic_ptr)) {
         case SYMENGINE_SYMBOL:
             return c_symbol;
         case SYMENGINE_INTEGER:
             return c_integer;
+        case SYMENGINE_REAL_DOUBLE:
+            return c_real_double;
         case SYMENGINE_RATIONAL:
             return c_rational;
         case SYMENGINE_COMPLEX:
