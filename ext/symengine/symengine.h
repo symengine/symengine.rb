@@ -14,6 +14,8 @@ VALUE c_real_double;
 VALUE c_rational;
 VALUE c_complex;
 VALUE c_complex_double;
+VALUE c_real_mpfr;
+VALUE c_complex_mpc;
 VALUE c_constant;
 VALUE c_add;
 VALUE c_mul;
