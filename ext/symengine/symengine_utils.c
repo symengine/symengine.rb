@@ -6,7 +6,9 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     basic_struct *temp;
     VALUE new_operand2, num, den;
     VALUE real, imag;
+    VALUE a, b;
     double f;
+    char *c;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -62,7 +64,13 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             Data_Get_Struct(operand2, basic_struct, temp);
             basic_assign(cbasic_operand2, temp);
             break;
-            
+
+        case T_OBJECT:
+            a = rb_funcall(operand2, rb_intern("class"), 0, NULL);
+            b = rb_funcall(a, rb_intern("to_s"), 0, NULL);
+            *c = RSTRING_PTR( b );
+            printf("%s\n", c);
+            break;
     }
 }
 
@@ -87,12 +95,16 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_integer;
         case SYMENGINE_REAL_DOUBLE:
             return c_real_double;
+        case SYMENGINE_REAL_MPFR:
+            return c_real_mpfr;
         case SYMENGINE_RATIONAL:
             return c_rational;
         case SYMENGINE_COMPLEX:
             return c_complex;
         case SYMENGINE_COMPLEX_DOUBLE:
             return c_complex_double;
+        case SYMENGINE_COMPLEX_MPC:
+            return c_complex_mpc;
         case SYMENGINE_CONSTANT:
             return c_constant;
         case SYMENGINE_ADD:
