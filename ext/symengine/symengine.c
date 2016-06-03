@@ -90,6 +90,7 @@ void Init_symengine() {
     c_real_mpfr = rb_define_class_under(m_symengine, "RealMPFR", c_basic);
     rb_define_alloc_func(c_real_mpfr, cbasic_alloc);
     rb_define_method(c_real_mpfr, "initialize", crealmpfr_init, 2);
+    rb_define_method(c_real_mpfr, "to_f", crealmpfr_to_float, 0);
 
     //ComplexMPC class
     c_complex_mpc = rb_define_class_under(m_symengine, "ComplexMPC", c_basic);
