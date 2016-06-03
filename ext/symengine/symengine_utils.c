@@ -61,15 +61,15 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             break;
 
         case T_DATA:
+            c = rb_obj_classname(operand2);
+            if(strcmp(c, "BigDecimal") == 0){
+                c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
+                real_mpfr_set_str(cbasic_operand2, c, 200);
+                break;
+            }
+
             Data_Get_Struct(operand2, basic_struct, temp);
             basic_assign(cbasic_operand2, temp);
-            break;
-
-        case T_OBJECT:
-            a = rb_funcall(operand2, rb_intern("class"), 0, NULL);
-            b = rb_funcall(a, rb_intern("to_s"), 0, NULL);
-            *c = RSTRING_PTR( b );
-            printf("%s\n", c);
             break;
     }
 }
