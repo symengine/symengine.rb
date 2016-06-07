@@ -113,7 +113,6 @@ void Init_symengine() {
     c_dirichlet_eta = rb_define_class_under(m_symengine, "Dirichlet_eta", c_function);
     c_zeta = rb_define_class_under(m_symengine, "Zeta", c_function);
     c_gamma = rb_define_class_under(m_symengine, "Gamma", c_function);
-    c_one_arg_function = rb_define_class_under(m_symengine, "OneArgFunction", c_function);
 
     //Abs Class
     c_abs = rb_define_class_under(m_symengine, "Abs", c_function);
