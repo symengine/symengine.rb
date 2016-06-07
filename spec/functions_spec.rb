@@ -2,6 +2,26 @@ describe SymEngine, 'functions' do
   let(:pi) { SymEngine::PI }
   let(:e)  { SymEngine::E  }
   let(:x)  { sym("x")      }
+  let(:y)  { sym("y")      }
+
+  context "Abs" do
+    context "with a symbol" do
+      subject { SymEngine::abs(x)}
+      it { is_expected.to be_a SymEngine::Abs }
+    end
+    context "with an integer" do
+      subject { SymEngine::abs(SymEngine(1))}
+      it { is_expected.to be_a SymEngine::Integer }
+    end
+    context "with a symbol addition" do
+      subject { SymEngine::abs(x+y) }
+      it { is_expected.to be_a SymEngine::Abs }
+    end
+    context "with a function of a symbol" do
+      subject { SymEngine::abs(SymEngine::sin(x)) }
+      it { is_expected.to be_a SymEngine::Abs }
+    end
+  end
 
   context '2*x' do
     [
