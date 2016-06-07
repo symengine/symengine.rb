@@ -35,14 +35,14 @@ VALUE crealmpfr_init(VALUE self, VALUE num_value, VALUE prec_value)
 
 VALUE crealmpfr_to_float(VALUE self)
 {
-    VALUE result;
-    basic cbasic_operand1;
-    basic_new_stack(cbasic_operand1);
-    sympify(self, cbasic_operand1);
-    
-    result = rb_float_new(real_mpfr_get_d(cbasic_operand1));
+    // TODO: Make the following method work
+    //VALUE result;
+    //basic cbasic_operand1;
+    //basic_new_stack(cbasic_operand1);
+    //sympify(self, cbasic_operand1);
+    //result = rb_float_new(real_mpfr_get_d(cbasic_operand1));
 
-    basic_free_stack(cbasic_operand1);
-    return result;
+    return rb_funcall(( rb_funcall( self, rb_intern("to_s"), 1, rb_str_new2("F")) ),
+                       rb_intern("to_f"), 0, NULL);
 }
 
