@@ -42,7 +42,6 @@ VALUE crealmpfr_to_float(VALUE self)
     //sympify(self, cbasic_operand1);
     //result = rb_float_new(real_mpfr_get_d(cbasic_operand1));
 
-    return rb_funcall(( rb_funcall( self, rb_intern("to_s"), 1, rb_str_new2("F")) ),
-                       rb_intern("to_f"), 0, NULL);
+    return rb_funcall(rb_funcall(self, rb_intern("to_s"), 0, NULL), rb_intern("to_f"), 0, NULL);
 }
 
