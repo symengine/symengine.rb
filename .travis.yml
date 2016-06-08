@@ -14,7 +14,6 @@ addons:
     - binutils-dev
     - g++-4.7
 rvm:
- - 1.9.3
  - 2.0
  - 2.1
  - 2.2
@@ -25,10 +24,10 @@ matrix:
     - os: osx
   include:
     - os: osx
-      rvm: 1.9.3
+      rvm: 2.0
   allow_failures:
     - os: osx
-      rvm: 1.9.3
+      rvm: 2.0
 
 install:
   - export RUBY_SOURCE_DIR=`pwd`
