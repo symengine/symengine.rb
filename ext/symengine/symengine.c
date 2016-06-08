@@ -114,6 +114,9 @@ void Init_symengine() {
     c_zeta = rb_define_class_under(m_symengine, "Zeta", c_function);
     c_gamma = rb_define_class_under(m_symengine, "Gamma", c_function);
 
+    //Abs Class
+    c_abs = rb_define_class_under(m_symengine, "Abs", c_function);
+
     //TrigFunction SubClasses
     c_sin = rb_define_class_under(m_symengine, "Sin", c_trig_function);
     c_cos = rb_define_class_under(m_symengine, "Cos", c_trig_function);

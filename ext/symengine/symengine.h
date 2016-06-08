@@ -25,6 +25,7 @@ VALUE c_lambertw;
 VALUE c_dirichlet_eta;
 VALUE c_zeta;
 VALUE c_gamma;
+VALUE c_abs;
 VALUE c_sin;
 VALUE c_cos;
 VALUE c_tan;
