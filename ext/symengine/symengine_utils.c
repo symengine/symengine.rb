@@ -113,6 +113,8 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_mul;
         case SYMENGINE_POW:
             return c_pow;
+        case SYMENGINE_ABS:
+            return c_abs;
         case SYMENGINE_SIN:
             return c_sin;
         case SYMENGINE_COS:
