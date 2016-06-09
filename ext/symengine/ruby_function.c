@@ -41,37 +41,34 @@ IMPLEMENT_ONE_ARG_FUNC(gamma);
 
 VALUE cfunction_functionsymbol_init(VALUE self, VALUE args)
 {
-    int argc = NUM2INT(rb_funcall(args, rb_intern("length"), 0, NULL));
-    printf("argc : %d\n", argc);
+    int argc = NUM2INT(rb_ary_length(args));
+    if(argc == 0){
+        rb_raise(rb_eTypeError, "Arguments Expected");
+    }
+
     VALUE first = rb_ary_shift(args);
     if( TYPE(first) != T_STRING ){
         rb_raise(rb_eTypeError, "String expected as first argument");
     }
-    char *name = StringValueCStr( first );
-    char *c;
+    char *name = StringValueCStr(first);
     
     CVecBasic *cargs = vecbasic_new();
 
-    //basic_struct *cargs[argc];
-
     basic x;
-    basic y;
     basic_new_stack(x);
     int i;
     for(i = 0; i < argc-1; i++){
-        printf("%d : ", i);
         sympify(rb_ary_shift(args), x);
         vecbasic_push_back(cargs, x);
     }
-
-    basic_free_stack(x);
     
     basic_struct *this;
     Data_Get_Struct(self, basic_struct, this);
-
     function_symbol_set(this, name, cargs);
     
     vecbasic_free(cargs);
+    basic_free_stack(x);
+
     return self;
 }
 
