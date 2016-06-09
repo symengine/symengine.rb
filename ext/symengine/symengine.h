@@ -19,6 +19,7 @@ VALUE c_add;
 VALUE c_mul;
 VALUE c_pow;
 VALUE c_function;
+VALUE c_function_symbol;
 VALUE c_trig_function;
 VALUE c_hyperbolic_function;
 VALUE c_lambertw;

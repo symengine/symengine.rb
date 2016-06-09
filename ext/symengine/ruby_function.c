@@ -37,3 +37,31 @@ IMPLEMENT_ONE_ARG_FUNC(gamma);
 
 #undef IMPLEMENT_ONE_ARG_FUNC
 
+VALUE cfunction_functionsymbol_init(VALUE self, VALUE args)
+{
+    int argc = NUM2INT(rb_funcall(args, rb_intern("length"), 0, NULL));
+    printf("%d\n", argc);
+    VALUE first = rb_ary_shift(args);
+    if( TYPE(first) != T_STRING ){
+        rb_raise(rb_eTypeError, "String expected as first argument");
+    }
+    char *name = StringValueCStr( first );
+
+    basic_struct *cargs[argc];
+    int i;
+    for(i = 0; i < argc; i++){
+        cargs[i] = basic_new_heap();
+        sympify(rb_ary_shift(args), cargs[i]);
+    }
+    
+    basic_struct *this;
+    Data_Get_Struct(self, basic_struct, this);
+
+    function_symbol_set(this, name, cargs);
+    
+    for(i = 0; i < argc; i++){
+        basic_free_heap(cargs[i]);
+    }
+    return self;
+}
+
