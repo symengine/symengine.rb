@@ -1,5 +1,7 @@
 #include "ruby_function.h"
 
+typedef struct CVecBasic CVecBasic;
+
 #define IMPLEMENT_ONE_ARG_FUNC(func) \
 VALUE cfunction_ ## func(VALUE self, VALUE operand1) { \
     return function_onearg(basic_ ## func, operand1); \
@@ -40,28 +42,36 @@ IMPLEMENT_ONE_ARG_FUNC(gamma);
 VALUE cfunction_functionsymbol_init(VALUE self, VALUE args)
 {
     int argc = NUM2INT(rb_funcall(args, rb_intern("length"), 0, NULL));
-    printf("%d\n", argc);
+    printf("argc : %d\n", argc);
     VALUE first = rb_ary_shift(args);
     if( TYPE(first) != T_STRING ){
         rb_raise(rb_eTypeError, "String expected as first argument");
     }
     char *name = StringValueCStr( first );
+    char *c;
+    
+    CVecBasic *cargs = vecbasic_new();
 
-    basic_struct *cargs[argc];
+    //basic_struct *cargs[argc];
+
+    basic x;
+    basic y;
+    basic_new_stack(x);
     int i;
-    for(i = 0; i < argc; i++){
-        cargs[i] = basic_new_heap();
-        sympify(rb_ary_shift(args), cargs[i]);
+    for(i = 0; i < argc-1; i++){
+        printf("%d : ", i);
+        sympify(rb_ary_shift(args), x);
+        vecbasic_push_back(cargs, x);
     }
+
+    basic_free_stack(x);
     
     basic_struct *this;
     Data_Get_Struct(self, basic_struct, this);
 
     function_symbol_set(this, name, cargs);
     
-    for(i = 0; i < argc; i++){
-        basic_free_heap(cargs[i]);
-    }
+    vecbasic_free(cargs);
     return self;
 }
 
