@@ -8,6 +8,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     VALUE a, b;
     double f;
     char *c;
+    VALUE rb_cBigDecimal;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -61,7 +62,8 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
 
         case T_DATA:
             c = rb_obj_classname(operand2);
-            if(strcmp(c, "BigDecimal") == 0){
+            rb_cBigDecimal = CLASS_OF(rb_eval_string("BigDecimal.new('0.0001')")) ;
+            if(CLASS_OF(operand2) == rb_cBigDecimal){
                 c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
                 real_mpfr_set_str(cbasic_operand2, c, 200);
                 break;
