@@ -95,6 +95,8 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_complex_double;
         case SYMENGINE_CONSTANT:
             return c_constant;
+        case SYMENGINE_SUBS:
+            return c_subs;
         case SYMENGINE_ADD:
             return c_add;
         case SYMENGINE_MUL:

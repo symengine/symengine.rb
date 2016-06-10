@@ -93,6 +93,9 @@ void Init_symengine() {
     rb_define_const(m_symengine, "E", cconstant_e());
     rb_define_const(m_symengine, "EULER_GAMMA", cconstant_euler_gamma());
     rb_define_const(m_symengine, "I", cconstant_i());
+    
+    //Subs class
+    c_subs = rb_define_class_under(m_symengine, "Subs", c_basic);
 
     //Add class
     c_add = rb_define_class_under(m_symengine, "Add", c_basic);

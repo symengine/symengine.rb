@@ -15,6 +15,7 @@ VALUE c_rational;
 VALUE c_complex;
 VALUE c_complex_double;
 VALUE c_constant;
+VALUE c_subs;
 VALUE c_add;
 VALUE c_mul;
 VALUE c_pow;
