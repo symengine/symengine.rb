@@ -41,7 +41,7 @@ IMPLEMENT_ONE_ARG_FUNC(gamma);
 
 VALUE cfunction_functionsymbol_init(VALUE self, VALUE args)
 {
-    int argc = NUM2INT(rb_ary_length(args));
+    int argc = RARRAY_LEN(args);
     if(argc == 0){
         rb_raise(rb_eTypeError, "Arguments Expected");
     }
