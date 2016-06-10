@@ -15,6 +15,8 @@ Ruby wrappers gem for SymEngine, a fast symbolic manipulation library, written i
 
 - libsymengine        - See build [instructions](https://github.com/symengine/symengine/wiki/Building-SymEngine)
 
+- ruby >= 2.0.0       - Needs Ruby shared library and headers
+
 #### Installing
 
 - Simply do,
