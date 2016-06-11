@@ -1,5 +1,6 @@
 #include "ruby_real_mpfr.h"
 
+#ifdef HAVE_SYMENGINE_MPFR
 VALUE crealmpfr_init(VALUE self, VALUE num_value, VALUE prec_value)
 {
     basic_struct *cresult;
@@ -20,8 +21,8 @@ VALUE crealmpfr_init(VALUE self, VALUE num_value, VALUE prec_value)
             break;
         case T_DATA:
             c = rb_obj_classname(num_value);
-            if(strcmp(c, "BigDecimal") == 0){
-                c = RSTRING_PTR( rb_funcall(num_value, rb_intern("to_s"), 1, rb_str_new2("F")) );
+            if (strcmp(c, "BigDecimal") == 0) {
+                c = RSTRING_PTR(rb_funcall(num_value, rb_intern("to_s"), 1, rb_str_new2("F")));
                 real_mpfr_set_str(cresult, c, prec);
                 break;
             }
@@ -44,4 +45,5 @@ VALUE crealmpfr_to_float(VALUE self)
 
     return rb_funcall(rb_funcall(self, rb_intern("to_s"), 0, NULL), rb_intern("to_f"), 0, NULL);
 }
+#endif //HAVE_SYMENGINE_MPFR
 

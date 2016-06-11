@@ -5,6 +5,8 @@
 #include "ruby_basic.h"
 #include "symengine/cwrapper.h"
 
+VALUE rb_cBigDecimal;
+
 //Returns the pointer wrapped inside the Ruby VALUE
 void sympify(VALUE operand2, basic_struct *cbasic_operand2);
 //Returns the pointer wrapped inside the Ruby Fixnum or Bignum 

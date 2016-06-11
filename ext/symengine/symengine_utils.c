@@ -8,7 +8,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     VALUE a, b;
     double f;
     char *c;
-    VALUE rb_cBigDecimal;
+    rb_cBigDecimal = CLASS_OF(rb_eval_string("BigDecimal.new('0.0001')"));
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -62,12 +62,13 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
 
         case T_DATA:
             c = rb_obj_classname(operand2);
-            rb_cBigDecimal = CLASS_OF(rb_eval_string("BigDecimal.new('0.0001')")) ;
+            #ifdef HAVE_SYMENGINE_MPFR
             if(CLASS_OF(operand2) == rb_cBigDecimal){
                 c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
                 real_mpfr_set_str(cbasic_operand2, c, 200);
                 break;
             }
+            #endif //HAVE_SYMENGINE_MPFR
 
             Data_Get_Struct(operand2, basic_struct, temp);
             basic_assign(cbasic_operand2, temp);
@@ -96,16 +97,20 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
             return c_integer;
         case SYMENGINE_REAL_DOUBLE:
             return c_real_double;
+        #ifdef HAVE_SYMENGINE_MPFR
         case SYMENGINE_REAL_MPFR:
             return c_real_mpfr;
+        #endif //HAVE_SYMENGINE_MPFR
         case SYMENGINE_RATIONAL:
             return c_rational;
         case SYMENGINE_COMPLEX:
             return c_complex;
         case SYMENGINE_COMPLEX_DOUBLE:
             return c_complex_double;
+        #ifdef HAVE_SYMENGINE_MPC
         case SYMENGINE_COMPLEX_MPC:
             return c_complex_mpc;
+        #endif //HAVE_SYMENGINE_MPFR
         case SYMENGINE_CONSTANT:
             return c_constant;
         case SYMENGINE_ADD:

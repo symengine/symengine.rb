@@ -14,8 +14,12 @@ VALUE c_real_double;
 VALUE c_rational;
 VALUE c_complex;
 VALUE c_complex_double;
+#ifdef HAVE_SYMENGINE_MPFR
 VALUE c_real_mpfr;
+#endif //HAVE_SYMENGINE_MPFR
+#ifdef HAVE_SYMENGINE_MPC
 VALUE c_complex_mpc;
+#endif //HAVE_SYMENGINE_MPC
 VALUE c_constant;
 VALUE c_add;
 VALUE c_mul;

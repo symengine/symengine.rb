@@ -26,3 +26,19 @@ VALUE cconstant_euler_gamma() {
 VALUE cconstant_i() {
     return cconstant_const(basic_const_I, c_complex);
 }
+
+VALUE cconstant_have_mpfr() {
+    #ifdef HAVE_SYMENGINE_MPFR
+        return Qtrue;
+    #else
+        return Qfalse;
+    #endif //HAVE_SYMENGINE_MPFR
+}
+
+VALUE cconstant_have_mpc() {
+    #ifdef HAVE_SYMENGINE_MPC
+        return Qtrue;
+    #else
+        return Qfalse;
+    #endif //HAVE_SYMENGINE_MPC
+}
