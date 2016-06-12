@@ -6,6 +6,7 @@
 #include "ruby_constant.h"
 #include "ruby_complex.h"
 #include "ruby_complex_double.h"
+#include "ruby_real_mpfr.h"
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
 #include "ruby_utils.h"
@@ -85,6 +86,20 @@ void Init_symengine() {
     rb_define_method(c_complex_double, "real", ccomplex_double_real_part, 0);
     rb_define_method(c_complex_double, "imaginary", ccomplex_double_imaginary_part, 0);
 
+    #ifdef HAVE_SYMENGINE_MPFR
+    //RealMPFR class
+    c_real_mpfr = rb_define_class_under(m_symengine, "RealMPFR", c_basic);
+    rb_define_alloc_func(c_real_mpfr, cbasic_alloc);
+    rb_define_method(c_real_mpfr, "initialize", crealmpfr_init, 2);
+    rb_define_method(c_real_mpfr, "to_f", crealmpfr_to_float, 0);
+    #endif //HAVE_SYMENGINE_MPFR
+
+    #ifdef HAVE_SYMENGINE_MPC
+    //ComplexMPC class
+    c_complex_mpc = rb_define_class_under(m_symengine, "ComplexMPC", c_basic);
+    rb_define_alloc_func(c_complex_mpc, cbasic_alloc);
+    #endif //HAVE_SYMENGINE_MPC
+
     //Constant class
     c_constant = rb_define_class_under(m_symengine, "Constant", c_basic);
 
@@ -93,6 +108,8 @@ void Init_symengine() {
     rb_define_const(m_symengine, "E", cconstant_e());
     rb_define_const(m_symengine, "EULER_GAMMA", cconstant_euler_gamma());
     rb_define_const(m_symengine, "I", cconstant_i());
+    rb_define_const(m_symengine, "HAVE_MPFR", cconstant_have_mpfr());
+    rb_define_const(m_symengine, "HAVE_MPC", cconstant_have_mpc());
 
     //Add class
     c_add = rb_define_class_under(m_symengine, "Add", c_basic);

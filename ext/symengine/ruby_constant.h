@@ -17,4 +17,8 @@ VALUE cconstant_euler_gamma();
 
 VALUE cconstant_i();
 
+VALUE cconstant_have_mpfr();
+
+VALUE cconstant_have_mpc();
+
 #endif //RUBY_CONSTANTS_H_
