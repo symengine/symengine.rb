@@ -19,14 +19,9 @@ describe SymEngine::FunctionSymbol do
   context '#diff' do
     let(:fun) { (SymEngine::FunctionSymbol.new('f', 2*x, y, SymEngine::sin(z))) }
     context 'by variable' do
-        subject { fun.diff(x)/2 }
-        it { is_expected.to be_a SymEngine::Subs }
-      end
-
-      context 'by constant' do
-        subject { fun.diff(2) }
-        it { is_expected.to be_nil }
-      end
+      subject { fun.diff(x)/2 }
+      it { is_expected.to be_a SymEngine::Subs }
+    end
   end
 end
 
