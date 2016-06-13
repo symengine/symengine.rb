@@ -26,11 +26,10 @@ module SymEngine
       ary_or_string.map do |symbol_or_string| 
         SymEngine::Symbol.new(symbol_or_string)
       end
-    end
-  end
-  
-  def SymEngine.Function(n)
-    return SymEngine::UndefFunction.new(n)
+    end    
+    def Function(n)
+      return SymEngine::UndefFunction.new(n)
+    end    
   end
 end
 
