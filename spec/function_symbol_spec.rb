@@ -23,6 +23,18 @@ describe SymEngine::FunctionSymbol do
       it { is_expected.to be_a SymEngine::Subs }
     end
   end
+  
+  context 'Initializing with UndefFunctions' do
+    let(:fun) { SymEngine::Function('f') }
+    context 'UndefFunction' do
+      subject { fun }
+      it { is_expected.to be_a SymEngine::UndefFunction }
+    end   
+    context 'using call method for UndefFunction' do
+      subject { fun.(x, y, z) }
+      it { is_expected.to be_a SymEngine::FunctionSymbol }
+    end
+  end
 end
 
 
