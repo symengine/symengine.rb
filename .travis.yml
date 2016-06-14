@@ -13,6 +13,7 @@ addons:
     - libmpc-dev
     - binutils-dev
     - g++-4.7
+
 rvm:
  - 2.0
  - 2.1
@@ -23,6 +24,15 @@ matrix:
   exclude:
     - os: osx
   include:
+    - os: linux
+      rvm: 2.0
+      env: BUILD_TYPE="Debug" WITH_BFD="yes" WITH_MPC="yes"
+    - os: linux
+      rvm: 2.3.0
+      env: BUILD_TYPE="Debug" WITH_BFD="yes" WITH_MPC="yes"
+    - os: linux
+      rvm: 2.3.0
+      env: BUILD_TYPE="Debug" WITH_BFD="yes" WITH_MPFR="yes"
     - os: osx
       rvm: 2.0
   allow_failures:
