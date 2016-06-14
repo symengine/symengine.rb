@@ -4,7 +4,6 @@
 VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
 
     basic_struct *temp;
-    VALUE new_operand2;
     VALUE a, b;
     double f;
     const char *c;

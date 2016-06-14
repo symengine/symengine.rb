@@ -127,7 +127,7 @@ VALUE cbasic_neg(VALUE self){
 }
 
 VALUE cbasic_get_args(VALUE self) {
-    basic_struct *this, *iterator_basic;
+    basic_struct *this;
     CVecBasic *args = vecbasic_new();
     int size = 0;
 
@@ -149,7 +149,7 @@ VALUE cbasic_get_args(VALUE self) {
 }
 
 VALUE cbasic_free_symbols(VALUE self) {
-    basic_struct *this, *iterator_basic;
+    basic_struct *this;
     CSetBasic *symbols = setbasic_new();
     int size = 0;
 
