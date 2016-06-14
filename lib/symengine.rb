@@ -1,6 +1,5 @@
 module SymEngine
   class << self
-
     # Defines a shortcut for SymEngine::Symbol.new() allowing multiple symbols
     # to be created all at once.
     #
@@ -27,7 +26,10 @@ module SymEngine
       ary_or_string.map do |symbol_or_string| 
         SymEngine::Symbol.new(symbol_or_string)
       end
-    end
+    end    
+    def Function(n)
+      return SymEngine::UndefFunction.new(n)
+    end    
   end
 end
 
@@ -37,3 +39,4 @@ require 'symengine/basic'
 require 'symengine/integer'
 require 'symengine/complex'
 require 'symengine/complex_double'
+require 'symengine/undef_function'

@@ -110,6 +110,9 @@ void Init_symengine() {
     rb_define_const(m_symengine, "I", cconstant_i());
     rb_define_const(m_symengine, "HAVE_MPFR", cconstant_have_mpfr());
     rb_define_const(m_symengine, "HAVE_MPC", cconstant_have_mpc());
+    
+    //Subs class
+    c_subs = rb_define_class_under(m_symengine, "Subs", c_basic);
 
     //Add class
     c_add = rb_define_class_under(m_symengine, "Add", c_basic);
@@ -130,9 +133,11 @@ void Init_symengine() {
     c_dirichlet_eta = rb_define_class_under(m_symengine, "Dirichlet_eta", c_function);
     c_zeta = rb_define_class_under(m_symengine, "Zeta", c_function);
     c_gamma = rb_define_class_under(m_symengine, "Gamma", c_function);
-
-    //Abs Class
     c_abs = rb_define_class_under(m_symengine, "Abs", c_function);
+
+    //FunctionSymbol Class
+    c_function_symbol = rb_define_class_under(m_symengine, "FunctionSymbol", c_function);
+    rb_define_method(c_function_symbol, "initialize", cfunction_functionsymbol_init, -2);
 
     //TrigFunction SubClasses
     c_sin = rb_define_class_under(m_symengine, "Sin", c_trig_function);

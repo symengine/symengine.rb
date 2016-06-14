@@ -21,10 +21,12 @@ VALUE c_real_mpfr;
 VALUE c_complex_mpc;
 #endif //HAVE_SYMENGINE_MPC
 VALUE c_constant;
+VALUE c_subs;
 VALUE c_add;
 VALUE c_mul;
 VALUE c_pow;
 VALUE c_function;
+VALUE c_function_symbol;
 VALUE c_trig_function;
 VALUE c_hyperbolic_function;
 VALUE c_lambertw;
