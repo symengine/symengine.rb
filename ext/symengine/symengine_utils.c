@@ -6,7 +6,6 @@ VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
     basic_struct *temp;
     VALUE a, b;
     double f;
-    const char *c;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -66,6 +65,7 @@ VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             }
             #ifdef HAVE_SYMENGINE_MPFR
             if (strcmp(rb_obj_classname(operand2), "BigDecimal") == 0) {
+                const char *c;
                 c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
                 real_mpfr_set_str(cbasic_operand2, c, 200);
                 break;
