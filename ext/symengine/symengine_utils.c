@@ -60,9 +60,8 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             break;
 
         case T_DATA:
-            c = rb_obj_classname(operand2);
             #ifdef HAVE_SYMENGINE_MPFR
-            if (strcmp(c, "BigDecimal") == 0) {
+            if (strcmp(rb_obj_classname(operand2), "BigDecimal") == 0) {
                 c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
                 real_mpfr_set_str(cbasic_operand2, c, 200);
                 break;

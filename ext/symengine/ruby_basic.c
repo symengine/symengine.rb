@@ -132,7 +132,7 @@ VALUE cbasic_get_args(VALUE self) {
     size = vecbasic_size(args);
     VALUE ruby_array = rb_ary_new2(size);
     int i = 0;
-    VALUE temp = NULL;
+    VALUE temp;
     for(i = 0; i < size; i++) {
         basic_struct *temp_basic = basic_new_heap();
         vecbasic_get(args, i, temp_basic);
@@ -154,7 +154,7 @@ VALUE cbasic_free_symbols(VALUE self) {
     size = setbasic_size(symbols);
     VALUE ruby_array = rb_ary_new2(size);
     int i = 0;
-    VALUE temp = NULL;
+    VALUE temp;
     for(i = 0; i < size; i++) {
         basic_struct *temp_basic = basic_new_heap();
         setbasic_get(symbols, i, temp_basic);
