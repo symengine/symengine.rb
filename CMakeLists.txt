@@ -8,6 +8,7 @@ find_package(SymEngine 0.1.0 REQUIRED CONFIG
              PATH_SUFFIXES lib/cmake/symengine CMake/)
 set(CMAKE_BUILD_TYPE ${SYMENGINE_BUILD_TYPE})
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
+message("SymEngine directory: ${SymEngine_DIR}")
 include_directories(${SYMENGINE_INCLUDE_DIRS})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
