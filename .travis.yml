@@ -52,6 +52,8 @@ install:
 script:
   # Build ruby gem
   - gem build symengine.gemspec
+  # Convert all warnings to errors
+  - export CFLAGS="-Werror"
   # Install ruby gem
   - gem install symengine-0.1.0.gem --install-dir $HOME --verbose -- -DSymEngine_DIR=$our_install_dir
 
