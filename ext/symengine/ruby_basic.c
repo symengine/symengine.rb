@@ -90,12 +90,15 @@ VALUE cbasic_diff(VALUE self, VALUE operand2) {
 }
 
 VALUE cbasic_eq(VALUE self, VALUE operand2) {
+
     basic_struct *this;
 
     basic cbasic_operand2;
     basic_new_stack(cbasic_operand2);
     Data_Get_Struct(self, basic_struct, this);
-    sympify(operand2, cbasic_operand2);
+
+    VALUE ret = check_sympify(operand2, cbasic_operand2);
+    if (ret == Qfalse) return Qfalse;
 
     VALUE ret_val = basic_eq(this, cbasic_operand2) ? Qtrue : Qfalse;
     basic_free_stack(cbasic_operand2);
@@ -109,7 +112,9 @@ VALUE cbasic_neq(VALUE self, VALUE operand2) {
     basic cbasic_operand2;
     basic_new_stack(cbasic_operand2);
     Data_Get_Struct(self, basic_struct, this);
-    sympify(operand2, cbasic_operand2);
+
+    VALUE ret = check_sympify(operand2, cbasic_operand2);
+    if (ret == Qfalse) return Qtrue;
 
     VALUE ret_val =  basic_neq(this, cbasic_operand2) ? Qtrue : Qfalse;
     basic_free_stack(cbasic_operand2);

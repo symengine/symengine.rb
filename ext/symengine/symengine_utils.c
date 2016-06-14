@@ -1,13 +1,13 @@
 #include "symengine_utils.h"
 #include "symengine.h"
 
-void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
 
     basic_struct *temp;
     VALUE new_operand2;
     VALUE a, b;
     double f;
-    char *c;
+    const char *c;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -73,7 +73,15 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             }
             #endif //HAVE_SYMENGINE_MPFR
         default:
-            rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic", rb_obj_classname(operand2));
+            return Qfalse;
+    }
+    return Qtrue;
+}
+
+void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+    VALUE ret = check_sympify(operand2, cbasic_operand2);
+    if (ret == Qfalse) {
+        rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic", rb_obj_classname(operand2));
     }
 }
 

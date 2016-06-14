@@ -7,8 +7,10 @@
 
 VALUE rb_cBigDecimal;
 
-//Returns the pointer wrapped inside the Ruby VALUE
+//Coerces operand2 into a SymEngine object
 void sympify(VALUE operand2, basic_struct *cbasic_operand2);
+//Coerces operand2 into a SymEngine object and returns whether successful
+VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2);
 //Returns the pointer wrapped inside the Ruby Fixnum or Bignum 
 void get_symintfromval(VALUE operand2, basic_struct *cbasic_operand2);
 //Returns the Ruby class of the corresponding basic_struct pointer
