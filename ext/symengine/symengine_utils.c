@@ -60,6 +60,11 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             break;
 
         case T_DATA:
+            if (rb_obj_is_kind_of(operand2, c_basic)) {
+                Data_Get_Struct(operand2, basic_struct, temp);
+                basic_assign(cbasic_operand2, temp);
+                break;
+            }
             #ifdef HAVE_SYMENGINE_MPFR
             if (strcmp(rb_obj_classname(operand2), "BigDecimal") == 0) {
                 c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
@@ -67,10 +72,8 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
                 break;
             }
             #endif //HAVE_SYMENGINE_MPFR
-
-            Data_Get_Struct(operand2, basic_struct, temp);
-            basic_assign(cbasic_operand2, temp);
-            break;
+        default:
+            rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic", rb_obj_classname(operand2));
     }
 }
 
