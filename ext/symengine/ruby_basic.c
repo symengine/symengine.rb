@@ -90,12 +90,15 @@ VALUE cbasic_diff(VALUE self, VALUE operand2) {
 }
 
 VALUE cbasic_eq(VALUE self, VALUE operand2) {
+
     basic_struct *this;
 
     basic cbasic_operand2;
     basic_new_stack(cbasic_operand2);
     Data_Get_Struct(self, basic_struct, this);
-    sympify(operand2, cbasic_operand2);
+
+    VALUE ret = check_sympify(operand2, cbasic_operand2);
+    if (ret == Qfalse) return Qfalse;
 
     VALUE ret_val = basic_eq(this, cbasic_operand2) ? Qtrue : Qfalse;
     basic_free_stack(cbasic_operand2);
@@ -109,7 +112,9 @@ VALUE cbasic_neq(VALUE self, VALUE operand2) {
     basic cbasic_operand2;
     basic_new_stack(cbasic_operand2);
     Data_Get_Struct(self, basic_struct, this);
-    sympify(operand2, cbasic_operand2);
+
+    VALUE ret = check_sympify(operand2, cbasic_operand2);
+    if (ret == Qfalse) return Qtrue;
 
     VALUE ret_val =  basic_neq(this, cbasic_operand2) ? Qtrue : Qfalse;
     basic_free_stack(cbasic_operand2);
@@ -122,7 +127,7 @@ VALUE cbasic_neg(VALUE self){
 }
 
 VALUE cbasic_get_args(VALUE self) {
-    basic_struct *this, *iterator_basic;
+    basic_struct *this;
     CVecBasic *args = vecbasic_new();
     int size = 0;
 
@@ -132,7 +137,7 @@ VALUE cbasic_get_args(VALUE self) {
     size = vecbasic_size(args);
     VALUE ruby_array = rb_ary_new2(size);
     int i = 0;
-    VALUE temp = NULL;
+    VALUE temp;
     for(i = 0; i < size; i++) {
         basic_struct *temp_basic = basic_new_heap();
         vecbasic_get(args, i, temp_basic);
@@ -144,7 +149,7 @@ VALUE cbasic_get_args(VALUE self) {
 }
 
 VALUE cbasic_free_symbols(VALUE self) {
-    basic_struct *this, *iterator_basic;
+    basic_struct *this;
     CSetBasic *symbols = setbasic_new();
     int size = 0;
 
@@ -154,7 +159,7 @@ VALUE cbasic_free_symbols(VALUE self) {
     size = setbasic_size(symbols);
     VALUE ruby_array = rb_ary_new2(size);
     int i = 0;
-    VALUE temp = NULL;
+    VALUE temp;
     for(i = 0; i < size; i++) {
         basic_struct *temp_basic = basic_new_heap();
         setbasic_get(symbols, i, temp_basic);

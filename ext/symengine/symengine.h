@@ -1,7 +1,8 @@
 #ifndef SYMENGINE_H_
 #define SYMENGINE_H_
 
-#include "ruby.h"
+#include <ruby/ruby.h>
+#include <ruby/intern.h>
 
 //variable name for a module starts with m
 VALUE m_symengine;

@@ -207,4 +207,5 @@ void Init_symengine() {
     rb_define_module_function(m_symengine, "lucas", cntheory_lucas, 1);
     rb_define_module_function(m_symengine, "binomial", cntheory_binomial, 2);
 
+    symengine_print_stack_on_segfault();
 }

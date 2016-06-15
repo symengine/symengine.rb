@@ -1,17 +1,17 @@
 #include "ruby_symbol.h"
 
 VALUE csymbol_init(VALUE self, VALUE name_or_id) {
-    char *str_ptr;
+    const char *str_ptr;
 
     switch (TYPE(name_or_id)) {
-    case T_STRING:
-      str_ptr = StringValueCStr(name_or_id);
-      break;
-    case T_SYMBOL:
-      str_ptr = rb_id2name(rb_to_id(name_or_id));
-      break;      
-    default:
-      rb_raise(rb_eTypeError, "wrong argument type %s (expected Symbol or String)", rb_obj_classname(name_or_id));
+        case T_STRING:
+            str_ptr = StringValueCStr(name_or_id);
+            break;
+        case T_SYMBOL:
+            str_ptr = rb_id2name(rb_to_id(name_or_id));
+            break;      
+        default:
+            rb_raise(rb_eTypeError, "wrong argument type %s (expected Symbol or String)", rb_obj_classname(name_or_id));
     }
 
     basic_struct *this;

@@ -1,13 +1,11 @@
 #include "symengine_utils.h"
 #include "symengine.h"
 
-void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
 
     basic_struct *temp;
-    VALUE new_operand2;
     VALUE a, b;
     double f;
-    char *c;
 
     switch(TYPE(operand2)) {
         case T_FIXNUM:
@@ -60,18 +58,29 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
             break;
 
         case T_DATA:
-            c = rb_obj_classname(operand2);
+            if (rb_obj_is_kind_of(operand2, c_basic)) {
+                Data_Get_Struct(operand2, basic_struct, temp);
+                basic_assign(cbasic_operand2, temp);
+                break;
+            }
             #ifdef HAVE_SYMENGINE_MPFR
-            if (strcmp(c, "BigDecimal") == 0) {
+            if (strcmp(rb_obj_classname(operand2), "BigDecimal") == 0) {
+                const char *c;
                 c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
                 real_mpfr_set_str(cbasic_operand2, c, 200);
                 break;
             }
             #endif //HAVE_SYMENGINE_MPFR
+        default:
+            return Qfalse;
+    }
+    return Qtrue;
+}
 
-            Data_Get_Struct(operand2, basic_struct, temp);
-            basic_assign(cbasic_operand2, temp);
-            break;
+void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+    VALUE ret = check_sympify(operand2, cbasic_operand2);
+    if (ret == Qfalse) {
+        rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic", rb_obj_classname(operand2));
     }
 }
 

@@ -60,6 +60,7 @@ describe SymEngine::Basic do
       subject { x * y }
       it { is_expected.to eq sym('x')*sym('y') }
       it { is_expected.not_to eq sym('x')*sym('z') }
+      it { is_expected.not_to eq "asd" }
     end
 
     it 'simplifies' do
@@ -90,6 +91,7 @@ describe SymEngine::Basic do
 
     it 'raises on wrong args' do
       expect { 'x' * x }.to raise_error(TypeError)
+      expect {  x  * 'x' }.to raise_error(TypeError)
     end
   end
 
