@@ -10,9 +10,9 @@ VALUE crealmpfr_init(VALUE self, VALUE num_value, VALUE prec_value)
 
     Data_Get_Struct(self, basic_struct, cresult);
 
-    switch( TYPE(num_value) ) {
+    switch (TYPE(num_value)) {
         case T_FLOAT:
-            d = RFLOAT_VALUE(num_value);     
+            d = RFLOAT_VALUE(num_value);
             real_mpfr_set_d(cresult, d, prec);
             break;
         case T_STRING:
@@ -21,12 +21,14 @@ VALUE crealmpfr_init(VALUE self, VALUE num_value, VALUE prec_value)
             break;
         case T_DATA:
             if (strcmp(rb_obj_classname(num_value), "BigDecimal") == 0) {
-                c = RSTRING_PTR(rb_funcall(num_value, rb_intern("to_s"), 1, rb_str_new2("F")));
+                c = RSTRING_PTR(rb_funcall(num_value, rb_intern("to_s"), 1,
+                                           rb_str_new2("F")));
                 real_mpfr_set_str(cresult, c, prec);
                 break;
             }
         default:
-            rb_raise(rb_eTypeError, "Invalid Type: Float, BigDecimal or String required.");
+            rb_raise(rb_eTypeError,
+                     "Invalid Type: Float, BigDecimal or String required.");
             break;
     }
 
@@ -36,13 +38,13 @@ VALUE crealmpfr_init(VALUE self, VALUE num_value, VALUE prec_value)
 VALUE crealmpfr_to_float(VALUE self)
 {
     // TODO: Make the following method work
-    //VALUE result;
-    //basic cbasic_operand1;
-    //basic_new_stack(cbasic_operand1);
-    //sympify(self, cbasic_operand1);
-    //result = rb_float_new(real_mpfr_get_d(cbasic_operand1));
+    // VALUE result;
+    // basic cbasic_operand1;
+    // basic_new_stack(cbasic_operand1);
+    // sympify(self, cbasic_operand1);
+    // result = rb_float_new(real_mpfr_get_d(cbasic_operand1));
 
-    return rb_funcall(rb_funcall(self, rb_intern("to_s"), 0, NULL), rb_intern("to_f"), 0, NULL);
+    return rb_funcall(rb_funcall(self, rb_intern("to_s"), 0, NULL),
+                      rb_intern("to_f"), 0, NULL);
 }
-#endif //HAVE_SYMENGINE_MPFR
-
+#endif // HAVE_SYMENGINE_MPFR

@@ -12,9 +12,12 @@ void cbasic_free_heap(void *ptr);
 
 VALUE cbasic_alloc(VALUE klass);
 
-VALUE cbasic_binary_op(VALUE self, VALUE operand2, void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*));
+VALUE cbasic_binary_op(VALUE self, VALUE operand2,
+                       void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                          const basic_struct *));
 
-VALUE cbasic_unary_op(VALUE self, void (*cwfunc_ptr)(basic_struct*, const basic_struct*));
+VALUE cbasic_unary_op(VALUE self,
+                      void (*cwfunc_ptr)(basic_struct *, const basic_struct *));
 
 VALUE cbasic_add(VALUE self, VALUE operand2);
 
@@ -50,4 +53,4 @@ VALUE cbasic_subs(int argc, VALUE *argv, VALUE self);
 
 VALUE cbasic_coerce(VALUE self, VALUE other);
 
-#endif //RUBY_BASIC_H_
+#endif // RUBY_BASIC_H_

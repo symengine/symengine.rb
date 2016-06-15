@@ -9,4 +9,4 @@
 
 VALUE crealdouble_to_float(VALUE self);
 
-#endif //RUBY_REAL_DOUBLE_H_
+#endif // RUBY_REAL_DOUBLE_H_

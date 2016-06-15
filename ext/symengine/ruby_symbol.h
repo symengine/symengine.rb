@@ -5,4 +5,4 @@
 
 VALUE csymbol_init(VALUE self, VALUE name);
 
-#endif //RUBY_SYMBOL_H_
+#endif // RUBY_SYMBOL_H_

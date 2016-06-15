@@ -39,4 +39,4 @@ VALUE cfunction_gamma(VALUE self, VALUE operand1);
 
 VALUE cfunction_functionsymbol_init(VALUE self, VALUE args);
 
-#endif //RUBY_FUNCTION_H_
+#endif // RUBY_FUNCTION_H_

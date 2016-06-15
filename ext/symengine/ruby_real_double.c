@@ -1,6 +1,5 @@
 #include "ruby_real_double.h"
 
-
 VALUE crealdouble_to_float(VALUE self)
 {
     VALUE result;

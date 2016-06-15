@@ -1,19 +1,20 @@
 #include "symengine_utils.h"
 #include "symengine.h"
 
-VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2)
+{
 
     basic_struct *temp;
     VALUE a, b;
     double f;
 
-    switch(TYPE(operand2)) {
+    switch (TYPE(operand2)) {
         case T_FIXNUM:
         case T_BIGNUM:
             get_symintfromval(operand2, cbasic_operand2);
             break;
 
-        case T_FLOAT:         
+        case T_FLOAT:
             f = RFLOAT_VALUE(operand2);
             real_double_set_d(cbasic_operand2, f);
             break;
@@ -63,33 +64,36 @@ VALUE check_sympify(VALUE operand2, basic_struct *cbasic_operand2) {
                 basic_assign(cbasic_operand2, temp);
                 break;
             }
-            #ifdef HAVE_SYMENGINE_MPFR
+#ifdef HAVE_SYMENGINE_MPFR
             if (strcmp(rb_obj_classname(operand2), "BigDecimal") == 0) {
                 const char *c;
-                c = RSTRING_PTR( rb_funcall(operand2, rb_intern("to_s"), 1, rb_str_new2("F")) );
+                c = RSTRING_PTR(rb_funcall(operand2, rb_intern("to_s"), 1,
+                                           rb_str_new2("F")));
                 real_mpfr_set_str(cbasic_operand2, c, 200);
                 break;
             }
-            #endif //HAVE_SYMENGINE_MPFR
+#endif // HAVE_SYMENGINE_MPFR
         default:
             return Qfalse;
     }
     return Qtrue;
 }
 
-void sympify(VALUE operand2, basic_struct *cbasic_operand2) {
+void sympify(VALUE operand2, basic_struct *cbasic_operand2)
+{
     VALUE ret = check_sympify(operand2, cbasic_operand2);
     if (ret == Qfalse) {
-        rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic", rb_obj_classname(operand2));
+        rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic",
+                 rb_obj_classname(operand2));
     }
 }
 
 void get_symintfromval(VALUE operand2, basic_struct *cbasic_operand2)
 {
-    if ( TYPE(operand2) == T_FIXNUM ){
-        int i = NUM2INT( operand2 );
+    if (TYPE(operand2) == T_FIXNUM) {
+        int i = NUM2INT(operand2);
         integer_set_si(cbasic_operand2, i);
-    } else if ( TYPE(operand2) == T_BIGNUM ){
+    } else if (TYPE(operand2) == T_BIGNUM) {
         VALUE Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);
         integer_set_str(cbasic_operand2, StringValueCStr(Rb_Temp_String));
     } else {
@@ -97,28 +101,29 @@ void get_symintfromval(VALUE operand2, basic_struct *cbasic_operand2)
     }
 }
 
-VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
-    switch(basic_get_type(basic_ptr)) {
+VALUE Klass_of_Basic(const basic_struct *basic_ptr)
+{
+    switch (basic_get_type(basic_ptr)) {
         case SYMENGINE_SYMBOL:
             return c_symbol;
         case SYMENGINE_INTEGER:
             return c_integer;
         case SYMENGINE_REAL_DOUBLE:
             return c_real_double;
-        #ifdef HAVE_SYMENGINE_MPFR
+#ifdef HAVE_SYMENGINE_MPFR
         case SYMENGINE_REAL_MPFR:
             return c_real_mpfr;
-        #endif //HAVE_SYMENGINE_MPFR
+#endif // HAVE_SYMENGINE_MPFR
         case SYMENGINE_RATIONAL:
             return c_rational;
         case SYMENGINE_COMPLEX:
             return c_complex;
         case SYMENGINE_COMPLEX_DOUBLE:
             return c_complex_double;
-        #ifdef HAVE_SYMENGINE_MPC
+#ifdef HAVE_SYMENGINE_MPC
         case SYMENGINE_COMPLEX_MPC:
             return c_complex_mpc;
-        #endif //HAVE_SYMENGINE_MPFR
+#endif // HAVE_SYMENGINE_MPFR
         case SYMENGINE_CONSTANT:
             return c_constant;
         case SYMENGINE_SUBS:
@@ -194,7 +199,9 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr) {
     }
 }
 
-VALUE function_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VALUE operand1) {
+VALUE function_onearg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *),
+                      VALUE operand1)
+{
     basic_struct *cresult;
     VALUE result;
 
@@ -204,14 +211,17 @@ VALUE function_onearg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*), VA
 
     cresult = basic_new_heap();
     cwfunc_ptr(cresult, cbasic_operand1);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
+                              cresult);
     basic_free_stack(cbasic_operand1);
 
     return result;
 }
 
-VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*),
-                      VALUE operand1, VALUE operand2) {
+VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                         const basic_struct *),
+                      VALUE operand1, VALUE operand2)
+{
     basic_struct *cresult;
     VALUE result;
 
@@ -225,7 +235,8 @@ VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct*, const basic_struct*, con
 
     cresult = basic_new_heap();
     cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
+                              cresult);
     basic_free_stack(cbasic_operand1);
     basic_free_stack(cbasic_operand2);
 

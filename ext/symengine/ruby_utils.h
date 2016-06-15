@@ -3,7 +3,7 @@
 
 #include "symengine_utils.h"
 
-//Returns the Ruby Value after going through sympify
+// Returns the Ruby Value after going through sympify
 VALUE cutils_sympify(VALUE self, VALUE operand);
 
-#endif //RUBY_UTILS_H_
+#endif // RUBY_UTILS_H_
