@@ -7,7 +7,7 @@
 #include "symengine.h"
 #include "symengine_utils.h"
 
-VALUE cconstant_const(void (*cwfunc_ptr)(basic_struct*), VALUE klass);
+VALUE cconstant_const(void (*cwfunc_ptr)(basic_struct *), VALUE klass);
 
 VALUE cconstant_pi();
 
@@ -21,4 +21,4 @@ VALUE cconstant_have_mpfr();
 
 VALUE cconstant_have_mpc();
 
-#endif //RUBY_CONSTANTS_H_
+#endif // RUBY_CONSTANTS_H_

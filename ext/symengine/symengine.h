@@ -4,10 +4,10 @@
 #include <ruby/ruby.h>
 #include <ruby/intern.h>
 
-//variable name for a module starts with m
+// variable name for a module starts with m
 VALUE m_symengine;
 
-//variable names for classes begin with c
+// variable names for classes begin with c
 VALUE c_basic;
 VALUE c_symbol;
 VALUE c_integer;
@@ -17,10 +17,10 @@ VALUE c_complex;
 VALUE c_complex_double;
 #ifdef HAVE_SYMENGINE_MPFR
 VALUE c_real_mpfr;
-#endif //HAVE_SYMENGINE_MPFR
+#endif // HAVE_SYMENGINE_MPFR
 #ifdef HAVE_SYMENGINE_MPC
 VALUE c_complex_mpc;
-#endif //HAVE_SYMENGINE_MPC
+#endif // HAVE_SYMENGINE_MPC
 VALUE c_constant;
 VALUE c_subs;
 VALUE c_add;
@@ -60,5 +60,4 @@ VALUE c_acsch;
 VALUE c_asech;
 VALUE c_acoth;
 
-
-#endif //SYMENGINE_H_
+#endif // SYMENGINE_H_

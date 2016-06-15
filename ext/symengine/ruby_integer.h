@@ -5,4 +5,4 @@
 
 VALUE cinteger_init(VALUE self, VALUE num_value);
 
-#endif //RUBY_INTEGER_H_
+#endif // RUBY_INTEGER_H_

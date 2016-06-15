@@ -10,4 +10,4 @@
 VALUE ccomplex_real_part(VALUE self);
 VALUE ccomplex_imaginary_part(VALUE self);
 
-#endif //RUBY_COMPLEX_H_
+#endif // RUBY_COMPLEX_H_

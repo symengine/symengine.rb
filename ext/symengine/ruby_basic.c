@@ -1,21 +1,27 @@
 #include "ruby_basic.h"
 
-void cbasic_free(void *ptr){
+void cbasic_free(void *ptr)
+{
     basic_struct *basic_ptr = ptr;
     basic_free_stack(basic_ptr);
 }
 
-void cbasic_free_heap(void *ptr) {
+void cbasic_free_heap(void *ptr)
+{
     basic_struct *basic_ptr = ptr;
     basic_free_heap(basic_ptr);
 }
 
-VALUE cbasic_alloc(VALUE klass){
+VALUE cbasic_alloc(VALUE klass)
+{
     basic_struct *struct_ptr = basic_new_heap();
     return Data_Wrap_Struct(klass, NULL, cbasic_free_heap, struct_ptr);
 }
 
-VALUE cbasic_binary_op(VALUE self, VALUE operand2, void (*cwfunc_ptr)(basic_struct*, const basic_struct*, const basic_struct*)){
+VALUE cbasic_binary_op(VALUE self, VALUE operand2,
+                       void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                          const basic_struct *))
+{
     basic_struct *this, *cresult;
     VALUE result;
 
@@ -27,13 +33,16 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2, void (*cwfunc_ptr)(basic_stru
 
     cresult = basic_new_heap();
     cwfunc_ptr(cresult, this, cbasic_operand2);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
+                              cresult);
     basic_free_stack(cbasic_operand2);
 
     return result;
 }
 
-VALUE cbasic_unary_op(VALUE self, void (*cwfunc_ptr)(basic_struct*, const basic_struct*)){
+VALUE cbasic_unary_op(VALUE self,
+                      void (*cwfunc_ptr)(basic_struct *, const basic_struct *))
+{
     basic_struct *this, *cresult;
     VALUE result;
 
@@ -41,32 +50,39 @@ VALUE cbasic_unary_op(VALUE self, void (*cwfunc_ptr)(basic_struct*, const basic_
 
     cresult = basic_new_heap();
     cwfunc_ptr(cresult, this);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
+                              cresult);
 
     return result;
 }
 
-VALUE cbasic_add(VALUE self, VALUE operand2){
+VALUE cbasic_add(VALUE self, VALUE operand2)
+{
     return cbasic_binary_op(self, operand2, basic_add);
 }
 
-VALUE cbasic_sub(VALUE self, VALUE operand2){
+VALUE cbasic_sub(VALUE self, VALUE operand2)
+{
     return cbasic_binary_op(self, operand2, basic_sub);
 }
 
-VALUE cbasic_mul(VALUE self, VALUE operand2){
+VALUE cbasic_mul(VALUE self, VALUE operand2)
+{
     return cbasic_binary_op(self, operand2, basic_mul);
 }
 
-VALUE cbasic_div(VALUE self, VALUE operand2){
+VALUE cbasic_div(VALUE self, VALUE operand2)
+{
     return cbasic_binary_op(self, operand2, basic_div);
 }
 
-VALUE cbasic_pow(VALUE self, VALUE operand2){
+VALUE cbasic_pow(VALUE self, VALUE operand2)
+{
     return cbasic_binary_op(self, operand2, basic_pow);
 }
 
-VALUE cbasic_diff(VALUE self, VALUE operand2) {
+VALUE cbasic_diff(VALUE self, VALUE operand2)
+{
     basic_struct *this, *cresult;
     VALUE result;
 
@@ -83,13 +99,15 @@ VALUE cbasic_diff(VALUE self, VALUE operand2) {
         basic_free_heap(cresult);
         return Qnil;
     }
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL , cbasic_free_heap, cresult);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
+                              cresult);
     basic_free_stack(cbasic_operand2);
 
     return result;
 }
 
-VALUE cbasic_eq(VALUE self, VALUE operand2) {
+VALUE cbasic_eq(VALUE self, VALUE operand2)
+{
 
     basic_struct *this;
 
@@ -98,7 +116,8 @@ VALUE cbasic_eq(VALUE self, VALUE operand2) {
     Data_Get_Struct(self, basic_struct, this);
 
     VALUE ret = check_sympify(operand2, cbasic_operand2);
-    if (ret == Qfalse) return Qfalse;
+    if (ret == Qfalse)
+        return Qfalse;
 
     VALUE ret_val = basic_eq(this, cbasic_operand2) ? Qtrue : Qfalse;
     basic_free_stack(cbasic_operand2);
@@ -106,7 +125,8 @@ VALUE cbasic_eq(VALUE self, VALUE operand2) {
     return ret_val;
 }
 
-VALUE cbasic_neq(VALUE self, VALUE operand2) {
+VALUE cbasic_neq(VALUE self, VALUE operand2)
+{
     basic_struct *this;
 
     basic cbasic_operand2;
@@ -114,19 +134,22 @@ VALUE cbasic_neq(VALUE self, VALUE operand2) {
     Data_Get_Struct(self, basic_struct, this);
 
     VALUE ret = check_sympify(operand2, cbasic_operand2);
-    if (ret == Qfalse) return Qtrue;
+    if (ret == Qfalse)
+        return Qtrue;
 
-    VALUE ret_val =  basic_neq(this, cbasic_operand2) ? Qtrue : Qfalse;
+    VALUE ret_val = basic_neq(this, cbasic_operand2) ? Qtrue : Qfalse;
     basic_free_stack(cbasic_operand2);
 
     return ret_val;
 }
 
-VALUE cbasic_neg(VALUE self){
+VALUE cbasic_neg(VALUE self)
+{
     return cbasic_unary_op(self, basic_neg);
 }
 
-VALUE cbasic_get_args(VALUE self) {
+VALUE cbasic_get_args(VALUE self)
+{
     basic_struct *this;
     CVecBasic *args = vecbasic_new();
     int size = 0;
@@ -138,17 +161,19 @@ VALUE cbasic_get_args(VALUE self) {
     VALUE ruby_array = rb_ary_new2(size);
     int i = 0;
     VALUE temp;
-    for(i = 0; i < size; i++) {
+    for (i = 0; i < size; i++) {
         basic_struct *temp_basic = basic_new_heap();
         vecbasic_get(args, i, temp_basic);
-        temp = Data_Wrap_Struct(rb_obj_class(self), NULL , cbasic_free_heap, temp_basic);
+        temp = Data_Wrap_Struct(rb_obj_class(self), NULL, cbasic_free_heap,
+                                temp_basic);
         rb_ary_push(ruby_array, temp);
     }
     vecbasic_free(args);
     return ruby_array;
 }
 
-VALUE cbasic_free_symbols(VALUE self) {
+VALUE cbasic_free_symbols(VALUE self)
+{
     basic_struct *this;
     CSetBasic *symbols = setbasic_new();
     int size = 0;
@@ -160,17 +185,19 @@ VALUE cbasic_free_symbols(VALUE self) {
     VALUE ruby_array = rb_ary_new2(size);
     int i = 0;
     VALUE temp;
-    for(i = 0; i < size; i++) {
+    for (i = 0; i < size; i++) {
         basic_struct *temp_basic = basic_new_heap();
         setbasic_get(symbols, i, temp_basic);
-        temp = Data_Wrap_Struct(rb_obj_class(self), NULL , cbasic_free_heap, temp_basic);
+        temp = Data_Wrap_Struct(rb_obj_class(self), NULL, cbasic_free_heap,
+                                temp_basic);
         rb_ary_push(ruby_array, temp);
     }
     setbasic_free(symbols);
     return ruby_array;
 }
 
-VALUE cbasic_to_str(VALUE self){
+VALUE cbasic_to_str(VALUE self)
+{
     basic_struct *this;
     char *str_ptr;
     VALUE result;
@@ -184,11 +211,13 @@ VALUE cbasic_to_str(VALUE self){
     return result;
 }
 
-VALUE cbasic_expand(VALUE self){
+VALUE cbasic_expand(VALUE self)
+{
     return cbasic_unary_op(self, basic_expand);
 }
 
-VALUE cbasic_hash(VALUE self){
+VALUE cbasic_hash(VALUE self)
+{
     basic_struct *this;
     Data_Get_Struct(self, basic_struct, this);
     // All ruby objects return FIXNUM when `hash` method is called.
@@ -203,7 +232,8 @@ VALUE cbasic_hash(VALUE self){
     return SIZET2NUM(basic_hash(this));
 }
 
-int insert_entries(VALUE key, VALUE val, VALUE input) {
+int insert_entries(VALUE key, VALUE val, VALUE input)
+{
     CMapBasicBasic *cmapbb;
     Data_Get_Struct(input, CMapBasicBasic, cmapbb);
 
@@ -220,18 +250,21 @@ int insert_entries(VALUE key, VALUE val, VALUE input) {
     return ST_CONTINUE;
 }
 
-VALUE cbasic_subs(int argc, VALUE *argv, VALUE self) {
+VALUE cbasic_subs(int argc, VALUE *argv, VALUE self)
+{
     basic_struct *this, *cresult;
     cresult = basic_new_heap();
 
     VALUE val_a, val_b;
     Data_Get_Struct(self, basic_struct, this);
 
-    rb_scan_args(argc, argv, "11", &val_a, &val_b); // 1 mandatory and 1 optional parameter
+    rb_scan_args(argc, argv, "11", &val_a,
+                 &val_b); // 1 mandatory and 1 optional parameter
     if (argc == 1) {
         Check_Type(val_a, T_HASH);
         CMapBasicBasic *cmapbb = mapbasicbasic_new();
-        VALUE mapbb = Data_Wrap_Struct(rb_cObject, NULL, mapbasicbasic_free, cmapbb);
+        VALUE mapbb
+            = Data_Wrap_Struct(rb_cObject, NULL, mapbasicbasic_free, cmapbb);
 
         rb_hash_foreach(val_a, insert_entries, mapbb);
         basic_subs(cresult, this, cmapbb);
@@ -248,13 +281,16 @@ VALUE cbasic_subs(int argc, VALUE *argv, VALUE self) {
         basic_free_stack(b);
     }
 
-    return Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap, cresult);
+    return Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
+                            cresult);
 }
 
-VALUE cbasic_coerce(VALUE self, VALUE other){
+VALUE cbasic_coerce(VALUE self, VALUE other)
+{
     basic_struct *cbasic_operand2;
     cbasic_operand2 = basic_new_heap();
     sympify(other, cbasic_operand2);
-    VALUE new_other = Data_Wrap_Struct(Klass_of_Basic(cbasic_operand2), NULL , cbasic_free_heap, cbasic_operand2);
+    VALUE new_other = Data_Wrap_Struct(Klass_of_Basic(cbasic_operand2), NULL,
+                                       cbasic_free_heap, cbasic_operand2);
     return rb_assoc_new(new_other, self);
 }
