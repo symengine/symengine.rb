@@ -57,6 +57,9 @@ void Init_symengine()
     // Sympify as a Module Level Function
     rb_define_module_function(m_symengine, "convert", cutils_sympify, 1);
     rb_define_global_function("SymEngine", cutils_sympify, 1);
+    
+    // evalf as a Module Level Function
+    rb_define_module_function(m_symengine, "evalf", cutils_evalf, 3);
 
     // Symbol class
     c_symbol = rb_define_class_under(m_symengine, "Symbol", c_basic);
