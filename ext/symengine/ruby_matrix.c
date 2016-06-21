@@ -1,13 +1,24 @@
 #include "ruby_matrix.h"
 
-void cmatrix_free(void *ptr)
+void cmatrix_dense_free(void *ptr)
 {
-    CMatrixBase *mat_ptr = ptr;
-    matrix_base_free(mat_ptr);
+    CDenseMatrix *mat_ptr = ptr;
+    dense_matrix_free(mat_ptr);
 }
 
-VALUE cmatrix_alloc(VALUE klass)
+VALUE cmatrix_dense_alloc(VALUE klass)
 {
-    CMatrixBase *mat_ptr = matrix_base_new();
-    return Data_Wrap_Struct(klass, NULL, cmatrix_free, mat_ptr);
+    CDenseMatrix *mat_ptr = dense_matrix_new();
+    return Data_Wrap_Struct(klass, NULL, cmatrix_dense_free, mat_ptr);
+}
+
+
+VALUE cmatrix_dense_init(VALUE self)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    
+    dense_matrix(this);
+    
+    return self;
 }
