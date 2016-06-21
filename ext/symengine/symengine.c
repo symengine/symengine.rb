@@ -224,6 +224,13 @@ void Init_symengine()
     rb_define_module_function(m_symengine, "fibonacci", cntheory_fibonacci, 1);
     rb_define_module_function(m_symengine, "lucas", cntheory_lucas, 1);
     rb_define_module_function(m_symengine, "binomial", cntheory_binomial, 2);
+    
+    // MatrixBase Class
+    c_matrix_base = rb_define_class_under(m_symengine, "MatrixBase", rb_cObject);
+    
+    // DenseMatrix and SparseMatrix Classes
+    c_dense_matrix = rb_define_class_under(m_symengine, "DenseMatrix", c_matrix_base);
+    c_sparse_matrix = rb_define_class_under(m_symengine, "SparseMatrix", c_matrix_base);
 
     symengine_print_stack_on_segfault();
 }

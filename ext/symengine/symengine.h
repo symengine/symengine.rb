@@ -59,5 +59,8 @@ VALUE c_atanh;
 VALUE c_acsch;
 VALUE c_asech;
 VALUE c_acoth;
+VALUE c_matrix_base;
+VALUE c_dense_matrix;
+VALUE c_sparse_matrix;
 
 #endif // SYMENGINE_H_
