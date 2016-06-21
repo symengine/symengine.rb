@@ -10,6 +10,7 @@
 #include "ruby_function.h"
 #include "ruby_ntheory.h"
 #include "ruby_utils.h"
+#include "ruby_matrix.h"
 #include "symengine_utils.h"
 #include "symengine.h"
 
