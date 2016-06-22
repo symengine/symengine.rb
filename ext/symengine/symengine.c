@@ -234,7 +234,8 @@ void Init_symengine()
     c_sparse_matrix = rb_define_class_under(m_symengine, "SparseMatrix", c_matrix_base);
     
     // DenseMatrix Methods
-    rb_define_method(c_dense_matrix, "initialize", cmatrix_dense_init, 0);
+    rb_define_alloc_func(c_dense_matrix, cmatrix_dense_alloc);
+    rb_define_method(c_dense_matrix, "initialize", cmatrix_dense_init, -2);
 
     symengine_print_stack_on_segfault();
 }
