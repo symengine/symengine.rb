@@ -20,42 +20,89 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
     Data_Get_Struct(self, CDenseMatrix, this);
     
     if (argc == 0) {
+    
     // SymEngine::DenseMatrix()
         dense_matrix(this);
+        
     } else if (argc == 1) {
     // SymEngine::DenseMatrix(SymEngine::DenseMatrix) OR
     // SymEngine::DenseMatrix(NMatrix) OR
     // SymEngine::DenseMatrix(Array)
+    
         VALUE operand = rb_ary_shift(args);
         char *s = rb_obj_classname(operand);
         printf("class name: %s\n", s);
+        
         if(strcmp(s, "SymEngine::DenseMatrix") == 0) {
-        // SymEngine::DenseMatrix(SymEngine::DenseMatrix)
         
+        // SymEngine::DenseMatrix(SymEngine::DenseMatrix)
+            CDenseMatrix *temp;
+            Data_Get_Struct(operand, CDenseMatrix, temp);
+            dense_matrix_set(this, temp);
+            
         } else if(strcmp(s, "NMatrix") == 0) {
-        // SymEngine::DenseMatrix(SymEngine::DenseMatrix)
         
+        // SymEngine::DenseMatrix(NMatrix)
+            rb_raise(rb_eTypeError, "TODO");
+            
         } else if(strcmp(s, "Array") == 0) {
-        // SymEngine::DenseMatrix(SymEngine::DenseMatrix)
         
+        // SymEngine::DenseMatrix(Array)
+            int counter = 0;
+        
+            int rows = RARRAY_LEN(operand);
+            int cols = -1;
+            CVecBasic *cargs = vecbasic_new();
+            basic x;
+            basic_new_stack(x);
+            int i;
+            for (i = 0; i < rows; i++) {
+                int j;
+                VALUE row = rb_ary_shift(operand);
+                if ( cols == -1 ) {
+                    cols = RARRAY_LEN(row); 
+                // Checking all rows for same col length
+                } else if (cols != RARRAY_LEN(row)) {
+                    rb_raise(rb_eTypeError, "2D Array's rows contain different column counts");
+                }
+                
+                for(j = 0; j < cols; j++) {
+                    sympify(rb_ary_shift(row), x);
+                    vecbasic_push_back(cargs, x);
+                    counter++;
+                }
+            }
+            dense_matrix_set_vec(this, rows, cols, cargs);
+            
+            basic_free_stack(x);
+            vecbasic_free(cargs);
+            
         } else {
             rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single SymEngine::DenseMatrix, a single NMatrix, a single Array or two Numerics expected.");
         } 
     
     } else if (argc == 2) {
+    
     // SymEngine::DenseMatrix(no_rows, no_cols)
         VALUE val1 = rb_ary_shift(args);
         VALUE val2 = rb_ary_shift(args);
+        
         if((TYPE(val1) == T_FIXNUM || TYPE(val1) == T_BIGNUM) 
             && (TYPE(val2) == T_FIXNUM || TYPE(val2) == T_BIGNUM) ) {
+            
             unsigned long int rows = NUM2ULONG(val1);
             unsigned long int cols = NUM2ULONG(val2);
             dense_matrix_rows_cols(this, rows, cols);
+            
         } else {
+        
             rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single SymEngine::DenseMatrix, a single NMatrix, a single Array or two Numerics expected.");
+            
         }
     } else {
+    
         rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single SymEngine::DenseMatrix, a single NMatrix, a single Array or two Numerics expected.");
+        
     }
     
     return self;
