@@ -239,6 +239,10 @@ void Init_symengine()
     rb_define_method(c_dense_matrix, "to_s", cmatrix_dense_to_str, 0);
     rb_define_method(c_dense_matrix, "get", cmatrix_dense_get, 2);
     rb_define_method(c_dense_matrix, "set", cmatrix_dense_set, 3);
+    rb_define_method(c_dense_matrix, "det", cmatrix_dense_det, 0);
+    rb_define_method(c_dense_matrix, "inv", cmatrix_dense_inv, 0);
+    rb_define_method(c_dense_matrix, "transpose", cmatrix_dense_transpose, 0);
+    rb_define_method(c_dense_matrix, "submatrix", cmatrix_dense_submatrix, 6);
     
     // SparseMatrix Methods
     rb_define_alloc_func(c_sparse_matrix, cmatrix_sparse_alloc);
