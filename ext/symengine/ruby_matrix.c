@@ -37,7 +37,7 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
     if (argc == 0) {
     
     // SymEngine::DenseMatrix()
-        dense_matrix(this);
+        dense_matrix_init(this);
         
     } else if (argc == 1) {
     // SymEngine::DenseMatrix(SymEngine::DenseMatrix) OR
