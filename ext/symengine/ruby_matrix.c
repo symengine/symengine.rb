@@ -6,13 +6,25 @@ void cmatrix_dense_free(void *ptr)
     dense_matrix_free(mat_ptr);
 }
 
+void cmatrix_sparse_free(void *ptr)
+{
+    CSparseMatrix *mat_ptr = ptr;
+    sparse_matrix_free(mat_ptr);
+}
+
 VALUE cmatrix_dense_alloc(VALUE klass)
 {
     CDenseMatrix *mat_ptr = dense_matrix_new();
     return Data_Wrap_Struct(klass, NULL, cmatrix_dense_free, mat_ptr);
 }
 
-VALUE cmatrix_to_str(VALUE self)
+VALUE cmatrix_sparse_alloc(VALUE klass)
+{
+    CSparseMatrix *mat_ptr = sparse_matrix_new();
+    return Data_Wrap_Struct(klass, NULL, cmatrix_sparse_free, mat_ptr);
+}
+
+VALUE cmatrix_dense_to_str(VALUE self)
 {
     CDenseMatrix *this;
     char *str_ptr;
@@ -20,7 +32,22 @@ VALUE cmatrix_to_str(VALUE self)
 
     Data_Get_Struct(self, CDenseMatrix, this);
 
-    str_ptr = matrix_str(this);
+    str_ptr = dense_matrix_str(this);
+    result = rb_str_new_cstr(str_ptr);
+    basic_str_free(str_ptr);
+
+    return result;
+}
+
+VALUE cmatrix_sparse_to_str(VALUE self)
+{
+    CSparseMatrix *this;
+    char *str_ptr;
+    VALUE result;
+
+    Data_Get_Struct(self, CSparseMatrix, this);
+
+    str_ptr = sparse_matrix_str(this);
     result = rb_str_new_cstr(str_ptr);
     basic_str_free(str_ptr);
 
@@ -116,6 +143,44 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
     } else {
     
         rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single SymEngine::DenseMatrix, a single NMatrix, a single Array or two Numerics expected.");
+        
+    }
+    
+    return self;
+}
+
+VALUE cmatrix_sparse_init(VALUE self, VALUE args)
+{
+    int argc = RARRAY_LEN(args);
+    CSparseMatrix *this;
+    Data_Get_Struct(self, CSparseMatrix, this);
+    
+    if (argc == 0) {
+    
+    // SymEngine::SparseMatrix()
+        sparse_matrix_init(this);
+        
+    } else if (argc == 2) {
+    
+    // SymEngine::SparseMatrix(no_rows, no_cols)
+        VALUE val1 = rb_ary_shift(args);
+        VALUE val2 = rb_ary_shift(args);
+        
+        if((TYPE(val1) == T_FIXNUM || TYPE(val1) == T_BIGNUM) 
+            && (TYPE(val2) == T_FIXNUM || TYPE(val2) == T_BIGNUM) ) {
+            
+            unsigned long int rows = NUM2ULONG(val1);
+            unsigned long int cols = NUM2ULONG(val2);
+            sparse_matrix_rows_cols(this, rows, cols);
+            
+        } else {
+        
+            rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, or two Numerics expected.");
+            
+        }
+    } else {
+    
+        rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, or two Numerics expected.");
         
     }
     

@@ -236,7 +236,13 @@ void Init_symengine()
     // DenseMatrix Methods
     rb_define_alloc_func(c_dense_matrix, cmatrix_dense_alloc);
     rb_define_method(c_dense_matrix, "initialize", cmatrix_dense_init, -2);
-    rb_define_method(c_dense_matrix, "to_s", cmatrix_to_str, 0);
+    rb_define_method(c_dense_matrix, "to_s", cmatrix_dense_to_str, 0);
+    
+    // SparseMatrix Methods
+    rb_define_alloc_func(c_sparse_matrix, cmatrix_sparse_alloc);
+    rb_define_method(c_sparse_matrix, "initialize", cmatrix_sparse_init, -2);
+    rb_define_method(c_sparse_matrix, "to_s", cmatrix_sparse_to_str, 0);
+    
 
     symengine_print_stack_on_segfault();
 }

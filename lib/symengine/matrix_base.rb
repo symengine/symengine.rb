@@ -1,7 +1,7 @@
 module SymEngine
   class MatrixBase
     def inspect
-      "#<#{self.class}(#{to_s})>"
+      "#<#{self.class}()>"
     end
   end
 end
