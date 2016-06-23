@@ -12,6 +12,21 @@ VALUE cmatrix_dense_alloc(VALUE klass)
     return Data_Wrap_Struct(klass, NULL, cmatrix_dense_free, mat_ptr);
 }
 
+VALUE cmatrix_to_str(VALUE self)
+{
+    CDenseMatrix *this;
+    char *str_ptr;
+    VALUE result;
+
+    Data_Get_Struct(self, CDenseMatrix, this);
+
+    str_ptr = matrix_str(this);
+    result = rb_str_new_cstr(str_ptr);
+    basic_str_free(str_ptr);
+
+    return result;
+}
+
 
 VALUE cmatrix_dense_init(VALUE self, VALUE args)
 {
@@ -31,7 +46,6 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
     
         VALUE operand = rb_ary_shift(args);
         char *s = rb_obj_classname(operand);
-        printf("class name: %s\n", s);
         
         if(strcmp(s, "SymEngine::DenseMatrix") == 0) {
         

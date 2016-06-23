@@ -7,5 +7,6 @@
 void cmatrix_dense_free(void *ptr);
 VALUE cmatrix_dense_alloc(VALUE klass);
 VALUE cmatrix_dense_init(VALUE self, VALUE args);
+VALUE cmatrix_to_str(VALUE self);
 
 #endif // RUBY_MATRIX_H_
