@@ -186,3 +186,46 @@ VALUE cmatrix_sparse_init(VALUE self, VALUE args)
     
     return self;
 }
+
+
+VALUE cmatrix_dense_get(VALUE self, VALUE r, VALUE c)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    
+    basic_struct *cresult;
+    VALUE result;
+
+    unsigned long cbasic_r;
+    cbasic_r = NUM2ULONG(r);
+    unsigned long cbasic_c;
+    cbasic_c = NUM2ULONG(c);
+
+    cresult = basic_new_heap();
+    
+    dense_matrix_get_basic(cresult, this, cbasic_r, cbasic_c);
+    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, basic_free_heap,
+                              cresult);
+    return result;
+}
+
+VALUE cmatrix_dense_set(VALUE self, VALUE r, VALUE c, VALUE operand)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    
+    basic cbasic_operand;
+    basic_new_stack(cbasic_operand);
+    sympify(operand, cbasic_operand);
+    
+    unsigned long cbasic_r;
+    cbasic_r = NUM2ULONG(r);
+    unsigned long cbasic_c;
+    cbasic_c = NUM2ULONG(c);
+    
+    dense_matrix_set_basic(this, cbasic_r, cbasic_c, cbasic_operand);
+    
+    basic_free_stack(cbasic_operand);
+    
+    return self;
+}
