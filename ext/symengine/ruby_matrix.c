@@ -308,3 +308,55 @@ VALUE cmatrix_dense_submatrix(VALUE self, VALUE r1, VALUE c1, VALUE r2, VALUE c2
                               cresult);
     return result;
 }
+
+VALUE cmatrix_dense_rows(VALUE self)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    return ULONG2NUM( dense_matrix_rows(this));
+}
+
+
+VALUE cmatrix_dense_cols(VALUE self)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    return ULONG2NUM( dense_matrix_cols(this));
+}
+
+VALUE cmatrix_dense_add(VALUE self, VALUE operand)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    
+    CDenseMatrix *cresult;
+    VALUE result;
+
+    cresult = dense_matrix_new();
+    
+    char *s = rb_obj_classname(operand);
+    
+    if(strcmp(s, "SymEngine::DenseMatrix") == 0) {
+    // Matrix Addition
+        CDenseMatrix *coperand;
+        Data_Get_Struct(operand, CDenseMatrix, coperand);
+        
+        dense_matrix_add_matrix(cresult, this, coperand);
+        
+        result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+                              
+        dense_matrix_free(coperand);
+    } else {
+    // Scalar Addition
+        basic_struct *coperand = basic_new_heap();
+        sympify(operand, coperand);
+        
+        dense_matrix_add_scalar(cresult, this, coperand);
+        result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+        basic_free_heap(coperand);
+    }
+    
+    return result;
+}
