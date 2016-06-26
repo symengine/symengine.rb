@@ -246,7 +246,7 @@ void Init_symengine()
     rb_define_method(c_dense_matrix, "rows", cmatrix_dense_rows, 0);
     rb_define_method(c_dense_matrix, "cols", cmatrix_dense_cols, 0);
     rb_define_method(c_dense_matrix, "+", cmatrix_dense_add, 1);
-    //rb_define_method(c_dense_matrix, "*", cmatrix_dense_mul, 1);
+    rb_define_method(c_dense_matrix, "*", cmatrix_dense_mul, 1);
     
     
     // SparseMatrix Methods

@@ -360,3 +360,40 @@ VALUE cmatrix_dense_add(VALUE self, VALUE operand)
     
     return result;
 }
+
+VALUE cmatrix_dense_mul(VALUE self, VALUE operand)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    
+    CDenseMatrix *cresult;
+    VALUE result;
+
+    cresult = dense_matrix_new();
+    
+    char *s = rb_obj_classname(operand);
+    
+    if(strcmp(s, "SymEngine::DenseMatrix") == 0) {
+    // Matrix Multiplication
+        CDenseMatrix *coperand;
+        Data_Get_Struct(operand, CDenseMatrix, coperand);
+        
+        dense_matrix_mul_matrix(cresult, this, coperand);
+        
+        result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+                              
+        dense_matrix_free(coperand);
+    } else {
+    // Scalar Multiplication
+        basic_struct *coperand = basic_new_heap();
+        sympify(operand, coperand);
+        
+        dense_matrix_mul_scalar(cresult, this, coperand);
+        result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+        basic_free_heap(coperand);
+    }
+    
+    return result;
+}
