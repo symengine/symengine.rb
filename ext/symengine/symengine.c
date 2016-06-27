@@ -248,6 +248,10 @@ void Init_symengine()
     rb_define_method(c_dense_matrix, "+", cmatrix_dense_add, 1);
     rb_define_method(c_dense_matrix, "*", cmatrix_dense_mul, 1);
     rb_define_method(c_dense_matrix, "LU", cmatrix_dense_LU, 0);
+    rb_define_method(c_dense_matrix, "LDL", cmatrix_dense_LDL, 0);
+    rb_define_method(c_dense_matrix, "LU_solve", cmatrix_dense_LU_solve, 1);
+    rb_define_method(c_dense_matrix, "FFLU", cmatrix_dense_FFLU, 0);
+    rb_define_method(c_dense_matrix, "FFLDU", cmatrix_dense_FFLDU, 0);
     
     
     // SparseMatrix Methods

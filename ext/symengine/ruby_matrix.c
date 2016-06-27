@@ -427,23 +427,102 @@ VALUE cmatrix_dense_LU(VALUE self)
     return result;
 }
 
-/*VALUE cmatrix_dense_LDL(VALUE self)
+VALUE cmatrix_dense_LDL(VALUE self)
 {
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
 
+    CDenseMatrix *cresult_l;
+    VALUE result_l;
+    cresult_l = dense_matrix_new();
+
+    CDenseMatrix *cresult_d;
+    VALUE result_d;
+    cresult_d = dense_matrix_new();
+
+    dense_matrix_LDL(cresult_l, cresult_d, this);
+
+    result_l = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_l);
+    result_d = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_d);
+
+    VALUE result;
+    result = rb_ary_new();
+    rb_ary_push(result, result_l);
+    rb_ary_push(result, result_d);
+
+    return result;
 }
 
 VALUE cmatrix_dense_LU_solve(VALUE self, VALUE b)
 {
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
 
+    CDenseMatrix *cresult;
+    VALUE result;
+    cresult = dense_matrix_new();
+
+    CDenseMatrix *coperand;
+    Data_Get_Struct(b, CDenseMatrix, coperand);
+
+    dense_matrix_LU_solve(cresult, this, coperand);
+
+    result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+    return result;
 }
 
 VALUE cmatrix_dense_FFLU(VALUE self)
 {
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
 
+    CDenseMatrix *cresult_lu;
+    VALUE result_lu;
+    cresult_lu = dense_matrix_new();
+
+    dense_matrix_FFLU(cresult_lu, this);
+
+    result_lu = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_lu);
+
+    return result_lu;
 }
 
 
 VALUE cmatrix_dense_FFLDU(VALUE self)
 {
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
 
-}*/
+    CDenseMatrix *cresult_l;
+    VALUE result_l;
+    cresult_l = dense_matrix_new();
+
+    CDenseMatrix *cresult_d;
+    VALUE result_d;
+    cresult_d = dense_matrix_new();
+
+    CDenseMatrix *cresult_u;
+    VALUE result_u;
+    cresult_u = dense_matrix_new();
+
+    dense_matrix_LDL(cresult_l, cresult_d, this);
+
+    result_l = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_l);
+    result_d = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_d);
+    result_u = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_u);
+
+    VALUE result;
+    result = rb_ary_new();
+    rb_ary_push(result, result_l);
+    rb_ary_push(result, result_d);
+    rb_ary_push(result, result_u);
+
+    return result;
+}
