@@ -397,3 +397,53 @@ VALUE cmatrix_dense_mul(VALUE self, VALUE operand)
     
     return result;
 }
+
+
+VALUE cmatrix_dense_LU(VALUE self)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+
+    CDenseMatrix *cresult_l;
+    VALUE result_l;
+    cresult_l = dense_matrix_new();
+
+    CDenseMatrix *cresult_u;
+    VALUE result_u;
+    cresult_u = dense_matrix_new();
+
+    dense_matrix_LU(cresult_l, cresult_u, this);
+
+    result_l = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_l);
+    result_u = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult_u);
+
+    VALUE result;
+    result = rb_ary_new();
+    rb_ary_push(result, result_l);
+    rb_ary_push(result, result_u);
+
+    return result;
+}
+
+/*VALUE cmatrix_dense_LDL(VALUE self)
+{
+
+}
+
+VALUE cmatrix_dense_LU_solve(VALUE self, VALUE b)
+{
+
+}
+
+VALUE cmatrix_dense_FFLU(VALUE self)
+{
+
+}
+
+
+VALUE cmatrix_dense_FFLDU(VALUE self)
+{
+
+}*/
