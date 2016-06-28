@@ -27,6 +27,10 @@ VALUE cmatrix_dense_LDL(VALUE self);
 VALUE cmatrix_dense_LU_solve(VALUE self, VALUE b);
 VALUE cmatrix_dense_FFLU(VALUE self);
 VALUE cmatrix_dense_FFLDU(VALUE self);
+VALUE cmatrix_dense_ones(VALUE self, VALUE r, VALUE c);
+VALUE cmatrix_dense_zeros(VALUE self, VALUE r, VALUE c);
+/*VALUE cmatrix_dense_diag(VALUE self, VALUE args);
+VALUE cmatrix_dense_eye(VALUE self, VALUE args);*/
 
 void cmatrix_sparse_free(void *ptr);
 VALUE cmatrix_sparse_alloc(VALUE klass);

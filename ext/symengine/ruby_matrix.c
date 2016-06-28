@@ -532,3 +532,48 @@ VALUE cmatrix_dense_FFLDU(VALUE self)
 
     return result;
 }
+
+
+VALUE cmatrix_dense_ones(VALUE self, VALUE r, VALUE c)
+{
+    unsigned long int r_ = NUM2ULONG(r);
+    unsigned long int c_ = NUM2ULONG(c);
+
+    CDenseMatrix *cresult;
+    cresult = dense_matrix_new();
+    VALUE result;
+
+    dense_matrix_ones(cresult, r_, c_);
+
+    result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+
+    return result;
+}
+
+VALUE cmatrix_dense_zeros(VALUE self, VALUE r, VALUE c)
+{
+    unsigned long int r_ = NUM2ULONG(r);
+    unsigned long int c_ = NUM2ULONG(c);
+
+    CDenseMatrix *cresult;
+    cresult = dense_matrix_new();
+    VALUE result;
+
+    dense_matrix_zeros(cresult, r_, c_);
+
+    result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+
+    return result;
+}
+/*
+VALUE cmatrix_dense_diag(VALUE self, VALUE args)
+{
+
+}
+
+VALUE cmatrix_dense_eye(VALUE self, VALUE args)
+{
+
+}*/

@@ -253,6 +253,12 @@ void Init_symengine()
     rb_define_method(c_dense_matrix, "FFLU", cmatrix_dense_FFLU, 0);
     rb_define_method(c_dense_matrix, "FFLDU", cmatrix_dense_FFLDU, 0);
     
+    // Numpy-like methods for DenseMatrix as module level methods
+    rb_define_module_function(m_symengine, "ones", cmatrix_dense_ones, 2);
+    rb_define_module_function(m_symengine, "zeros", cmatrix_dense_zeros, 2);
+    /*rb_define_module_function(m_symengine, "diag", cmatrix_dense_diag, -2);
+    rb_define_module_function(m_symengine, "eye", cmatrix_dense_eye, -2);*/
+    
     
     // SparseMatrix Methods
     rb_define_alloc_func(c_sparse_matrix, cmatrix_sparse_alloc);
