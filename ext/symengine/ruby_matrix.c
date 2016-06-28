@@ -100,6 +100,12 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
             for (i = 0; i < rows; i++) {
                 int j;
                 VALUE row = rb_ary_shift(operand);
+
+                s = rb_obj_classname(row);
+                if(strcmp(s, "Array") != 0){
+                    rb_raise(rb_eTypeError, "Not a 2D Array");
+                }
+
                 if ( cols == -1 ) {
                     cols = RARRAY_LEN(row); 
                 // Checking all rows for same col length
