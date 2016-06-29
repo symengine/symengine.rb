@@ -567,12 +567,54 @@ VALUE cmatrix_dense_zeros(VALUE self, VALUE r, VALUE c)
 
     return result;
 }
-/*
+
 VALUE cmatrix_dense_diag(VALUE self, VALUE args)
 {
+    int argc = RARRAY_LEN(args);
+    
+    if (argc != 1 && argc != 2){
+        rb_raise(rb_eTypeError, "Wrong number of arguments");
+    }
+    
+    CDenseMatrix *cresult;
+    cresult = dense_matrix_new();
+    VALUE result;
+    
+    VALUE operand = rb_ary_shift(args);
+    char *s = rb_obj_classname(operand);
+    
+    CVecBasic *cargs;
+    
+    if(strcmp(s, "Array") == 0) {
+        cargs = vecbasic_new();
+        basic x;
+        basic_new_stack(x);
+        int cols = RARRAY_LEN(operand);
+        int j;
+        for(j = 0; j < cols; j++) {
+            sympify(rb_ary_shift(operand), x);
+            vecbasic_push_back(cargs, x);
+        }
+        basic_free_stack(x);
+    } else {
+        rb_raise(rb_eTypeError, "Invalid Argument type");
+    }
+    
+    long int k = 0;
+    
+    if (argc == 2) { // With offset
+        k = NUM2LONG(rb_ary_shift(args));
+    }
+    
+    dense_matrix_diag(cresult, cargs, k);
+    
+    result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+    vecbasic_free(cargs);
 
+    return result;
 }
-
+/*
 VALUE cmatrix_dense_eye(VALUE self, VALUE args)
 {
 
