@@ -257,7 +257,7 @@ void Init_symengine()
     rb_define_module_function(m_symengine, "ones", cmatrix_dense_ones, 2);
     rb_define_module_function(m_symengine, "zeros", cmatrix_dense_zeros, 2);
     rb_define_module_function(m_symengine, "diag", cmatrix_dense_diag, -2);
-    /*rb_define_module_function(m_symengine, "eye", cmatrix_dense_eye, -2);*/
+    rb_define_module_function(m_symengine, "eye", cmatrix_dense_eye, -2);
     
     
     // SparseMatrix Methods

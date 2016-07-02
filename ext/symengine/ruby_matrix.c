@@ -614,8 +614,34 @@ VALUE cmatrix_dense_diag(VALUE self, VALUE args)
 
     return result;
 }
-/*
+
 VALUE cmatrix_dense_eye(VALUE self, VALUE args)
 {
+    int argc = RARRAY_LEN(args);
 
-}*/
+    if (argc != 1 && argc != 3){
+        rb_raise(rb_eTypeError, "Wrong number of arguments");
+    }
+
+    CDenseMatrix *cresult;
+    cresult = dense_matrix_new();
+    VALUE result;
+
+    VALUE operand = rb_ary_shift(args);
+    unsigned long int N = NUM2ULONG(operand);
+    unsigned long int M = N;
+    int k = 0;
+
+    if(argc == 3) {
+        operand = rb_ary_shift(args);
+        M = NUM2ULONG(operand);
+        operand = rb_ary_shift(args);
+        k = NUM2INT(operand);
+    }
+
+    dense_matrix_eye(cresult, N, M, k);
+
+    result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
+                              cresult);
+    return result;
+}
