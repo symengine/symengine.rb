@@ -264,6 +264,8 @@ void Init_symengine()
     rb_define_alloc_func(c_sparse_matrix, cmatrix_sparse_alloc);
     rb_define_method(c_sparse_matrix, "initialize", cmatrix_sparse_init, -2);
     rb_define_method(c_sparse_matrix, "to_s", cmatrix_sparse_to_str, 0);
+    rb_define_method(c_sparse_matrix, "get", cmatrix_sparse_get, 2);
+    rb_define_method(c_sparse_matrix, "set", cmatrix_sparse_set, 3);
     
 
     symengine_print_stack_on_segfault();

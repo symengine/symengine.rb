@@ -36,5 +36,7 @@ void cmatrix_sparse_free(void *ptr);
 VALUE cmatrix_sparse_alloc(VALUE klass);
 VALUE cmatrix_sparse_init(VALUE self, VALUE args);
 VALUE cmatrix_sparse_to_str(VALUE self);
+VALUE cmatrix_sparse_get(VALUE self, VALUE r, VALUE c);
+VALUE cmatrix_sparse_set(VALUE self, VALUE r, VALUE c, VALUE operand);
 
 #endif // RUBY_MATRIX_H_
