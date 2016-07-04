@@ -247,6 +247,9 @@ void Init_symengine()
     rb_define_method(c_dense_matrix, "cols", cmatrix_dense_cols, 0);
     rb_define_method(c_dense_matrix, "+", cmatrix_dense_add, 1);
     rb_define_method(c_dense_matrix, "*", cmatrix_dense_mul, 1);
+    rb_define_method(c_dense_matrix, "==", cmatrix_dense_eq, 1);
+    rb_define_method(c_dense_matrix, "eql?", cmatrix_dense_eq, 1);
+    rb_define_method(c_dense_matrix, "!=", cmatrix_dense_neq, 1);
     rb_define_method(c_dense_matrix, "LU", cmatrix_dense_LU, 0);
     rb_define_method(c_dense_matrix, "LDL", cmatrix_dense_LDL, 0);
     rb_define_method(c_dense_matrix, "LU_solve", cmatrix_dense_LU_solve, 1);

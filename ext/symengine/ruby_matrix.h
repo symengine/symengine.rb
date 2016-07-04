@@ -22,6 +22,8 @@ VALUE cmatrix_dense_rows(VALUE self);
 VALUE cmatrix_dense_cols(VALUE self);
 VALUE cmatrix_dense_add(VALUE self, VALUE operand);
 VALUE cmatrix_dense_mul(VALUE self, VALUE operand);
+VALUE cmatrix_dense_eq(VALUE self, VALUE operand);
+VALUE cmatrix_dense_neq(VALUE self, VALUE operand);
 VALUE cmatrix_dense_LU(VALUE self);
 VALUE cmatrix_dense_LDL(VALUE self);
 VALUE cmatrix_dense_LU_solve(VALUE self, VALUE b);

@@ -404,6 +404,35 @@ VALUE cmatrix_dense_mul(VALUE self, VALUE operand)
     return result;
 }
 
+VALUE cmatrix_dense_eq(VALUE self, VALUE operand)
+{
+    CDenseMatrix *this;
+    Data_Get_Struct(self, CDenseMatrix, this);
+    
+    CDenseMatrix *cresult;
+    VALUE result;
+
+    cresult = dense_matrix_new();
+    
+    char *s = rb_obj_classname(operand);
+    
+    if(strcmp(s, "SymEngine::DenseMatrix") == 0) {
+        CDenseMatrix *coperand;
+        Data_Get_Struct(operand, CDenseMatrix, coperand);
+        
+        result = dense_matrix_eq(this, coperand) == 1 ? Qtrue : Qfalse;
+    } else {
+        result = Qfalse;
+    }
+    return result;
+}
+
+VALUE cmatrix_dense_neq(VALUE self, VALUE operand)
+{
+    VALUE result = cmatrix_dense_eq(self, operand);
+    rb_p(result);
+    return  result == Qtrue ? Qfalse : Qtrue;
+}
 
 VALUE cmatrix_dense_LU(VALUE self)
 {
