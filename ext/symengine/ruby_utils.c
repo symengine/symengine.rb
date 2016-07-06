@@ -8,7 +8,7 @@ VALUE cutils_sympify(VALUE self, VALUE operand)
 
     if(strcmp(s, "Array") == 0) {
 
-        CDenseMatrix *mat_result = dense_matrix_new();
+        CDenseMatrix *mat_result;
         int counter = 0;
 
         int rows = RARRAY_LEN(operand);
@@ -40,7 +40,7 @@ VALUE cutils_sympify(VALUE self, VALUE operand)
             }
         }
 
-        dense_matrix_set_vec(mat_result, rows, cols, cargs);
+        mat_result = dense_matrix_new_vec(rows, cols, cargs);
 
         basic_free_stack(x);
         vecbasic_free(cargs);

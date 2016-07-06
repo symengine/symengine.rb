@@ -119,7 +119,7 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
                     counter++;
                 }
             }
-            dense_matrix_set_vec(this, rows, cols, cargs);
+            this = dense_matrix_new_vec(rows, cols, cargs);
             
             basic_free_stack(x);
             vecbasic_free(cargs);
@@ -544,7 +544,7 @@ VALUE cmatrix_dense_FFLDU(VALUE self)
     VALUE result_u;
     cresult_u = dense_matrix_new();
 
-    dense_matrix_LDL(cresult_l, cresult_d, this);
+    dense_matrix_FFLDU(cresult_l, cresult_d, cresult_u, this);
 
     result_l = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
                               cresult_l);
