@@ -352,7 +352,6 @@ VALUE cmatrix_dense_add(VALUE self, VALUE operand)
         result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
                               cresult);
                               
-        dense_matrix_free(coperand);
     } else {
     // Scalar Addition
         basic_struct *coperand = basic_new_heap();
@@ -388,8 +387,6 @@ VALUE cmatrix_dense_mul(VALUE self, VALUE operand)
         
         result = Data_Wrap_Struct(c_dense_matrix, NULL, dense_matrix_free,
                               cresult);
-                              
-        dense_matrix_free(coperand);
     } else {
     // Scalar Multiplication
         basic_struct *coperand = basic_new_heap();
