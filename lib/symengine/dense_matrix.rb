@@ -1,5 +1,5 @@
 module SymEngine
-  class MatrixBase
+  class DenseMatrix
     def inspect
       "#<#{self.class}(#{rows}x#{cols})>"
     end
