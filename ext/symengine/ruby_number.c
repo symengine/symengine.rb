@@ -2,18 +2,24 @@
 
 int cnumber_comp(VALUE self, VALUE operand2)
 {
-    basic_struct *this;
-
+    basic cbasic_operand1;
     basic cbasic_operand2;
+    basic_new_stack(cbasic_operand1);
     basic_new_stack(cbasic_operand2);
 
-    Data_Get_Struct(self, basic_struct, this);
+    basic cbasic_sub;
+    basic_new_stack(cbasic_sub);
+
+    sympify(self, cbasic_operand1);
     sympify(operand2, cbasic_operand2);
 
-    basic_sub(operand2, this, operand2);
+    basic_sub(cbasic_sub, cbasic_operand1, cbasic_operand2);
 
-    int sign = basic_number_sign(operand2);
+    int sign = basic_number_sign(cbasic_sub);
+
+    basic_free_stack(cbasic_operand1);
     basic_free_stack(cbasic_operand2);
+    basic_free_stack(cbasic_sub);
 
     return sign;
 }
@@ -23,17 +29,17 @@ VALUE cnumber_lt(VALUE self, VALUE operand2)
     return cnumber_comp(self, operand2) == -1 ? Qtrue : Qfalse;
 }
 
-VALUE cbasic_gt(VALUE self, VALUE operand2)
+VALUE cnumber_gt(VALUE self, VALUE operand2)
 {
     return cnumber_comp(self, operand2) == 1 ? Qtrue : Qfalse;
 }
 
-VALUE cbasic_lt_e(VALUE self, VALUE operand2)
+VALUE cnumber_lt_e(VALUE self, VALUE operand2)
 {
     return cnumber_comp(self, operand2) == 1 ? Qfalse : Qtrue;
 }
 
-VALUE cbasic_gt_e(VALUE self, VALUE operand2)
+VALUE cnumber_gt_e(VALUE self, VALUE operand2)
 {
     return cnumber_comp(self, operand2) == -1 ? Qfalse : Qtrue;
 }
