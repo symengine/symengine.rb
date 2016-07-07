@@ -2,6 +2,7 @@
 #include "ruby_basic.h"
 #include "ruby_symbol.h"
 #include "ruby_integer.h"
+#include "ruby_number.h"
 #include "ruby_real_double.h"
 #include "ruby_constant.h"
 #include "ruby_complex.h"
@@ -57,7 +58,7 @@ void Init_symengine()
     // Sympify as a Module Level Function
     rb_define_module_function(m_symengine, "convert", cutils_sympify, 1);
     rb_define_global_function("SymEngine", cutils_sympify, 1);
-    
+
     // evalf as a Module Level Function
     rb_define_module_function(m_symengine, "_evalf", cutils_evalf, 3);
 
@@ -66,30 +67,38 @@ void Init_symengine()
     rb_define_alloc_func(c_symbol, cbasic_alloc);
     rb_define_method(c_symbol, "initialize", csymbol_init, 1);
 
+    // Number class
+    c_number = rb_define_class_under(m_symengine, "Number", c_basic);
+    rb_define_alloc_func(c_number, cbasic_alloc);
+    rb_define_method(c_number, ">", cnumber_gt, 1);
+    rb_define_method(c_number, "<", cnumber_lt, 1);
+    rb_define_method(c_number, ">=", cnumber_gt_e, 1);
+    rb_define_method(c_number, "<=", cnumber_lt_e, 1);
+
     // Integer class
-    c_integer = rb_define_class_under(m_symengine, "Integer", c_basic);
+    c_integer = rb_define_class_under(m_symengine, "Integer", c_number);
     rb_define_alloc_func(c_integer, cbasic_alloc);
     rb_define_method(c_integer, "initialize", cinteger_init, 1);
     rb_define_method(c_integer, "%", cntheory_mod, 1);
 
     // RealDouble Class
-    c_real_double = rb_define_class_under(m_symengine, "RealDouble", c_basic);
+    c_real_double = rb_define_class_under(m_symengine, "RealDouble", c_number);
     rb_define_alloc_func(c_real_double, cbasic_alloc);
     rb_define_method(c_real_double, "to_f", crealdouble_to_float, 0);
 
     // Rational class
-    c_rational = rb_define_class_under(m_symengine, "Rational", c_basic);
+    c_rational = rb_define_class_under(m_symengine, "Rational", c_number);
     rb_define_alloc_func(c_rational, cbasic_alloc);
 
     // Complex class
-    c_complex = rb_define_class_under(m_symengine, "Complex", c_basic);
+    c_complex = rb_define_class_under(m_symengine, "Complex", c_number);
     rb_define_alloc_func(c_complex, cbasic_alloc);
     rb_define_method(c_complex, "real", ccomplex_real_part, 0);
     rb_define_method(c_complex, "imaginary", ccomplex_imaginary_part, 0);
 
     // ComplexDouble class
     c_complex_double
-        = rb_define_class_under(m_symengine, "ComplexDouble", c_basic);
+        = rb_define_class_under(m_symengine, "ComplexDouble", c_number);
     rb_define_alloc_func(c_complex_double, cbasic_alloc);
     rb_define_method(c_complex_double, "real", ccomplex_double_real_part, 0);
     rb_define_method(c_complex_double, "imaginary",
@@ -97,7 +106,7 @@ void Init_symengine()
 
 #ifdef HAVE_SYMENGINE_MPFR
     // RealMPFR class
-    c_real_mpfr = rb_define_class_under(m_symengine, "RealMPFR", c_basic);
+    c_real_mpfr = rb_define_class_under(m_symengine, "RealMPFR", c_number);
     rb_define_alloc_func(c_real_mpfr, cbasic_alloc);
     rb_define_method(c_real_mpfr, "initialize", crealmpfr_init, 2);
     rb_define_method(c_real_mpfr, "to_f", crealmpfr_to_float, 0);
@@ -105,7 +114,7 @@ void Init_symengine()
 
 #ifdef HAVE_SYMENGINE_MPC
     // ComplexMPC class
-    c_complex_mpc = rb_define_class_under(m_symengine, "ComplexMPC", c_basic);
+    c_complex_mpc = rb_define_class_under(m_symengine, "ComplexMPC", c_number);
     rb_define_alloc_func(c_complex_mpc, cbasic_alloc);
 #endif // HAVE_SYMENGINE_MPC
 

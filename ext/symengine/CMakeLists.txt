@@ -1,6 +1,7 @@
 set(RUBY_WRAPPER_SRC
     ruby_basic.c
     ruby_symbol.c
+    ruby_number.c
     ruby_integer.c
     ruby_real_double.c
     ruby_real_mpfr.c

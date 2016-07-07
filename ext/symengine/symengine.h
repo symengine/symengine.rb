@@ -10,6 +10,7 @@ VALUE m_symengine;
 // variable names for classes begin with c
 VALUE c_basic;
 VALUE c_symbol;
+VALUE c_number;
 VALUE c_integer;
 VALUE c_real_double;
 VALUE c_rational;
