@@ -2,7 +2,7 @@ describe 'SymEngine::evalf' do
     context 'RealDouble values' do
         subject { SymEngine::evalf(SymEngine::sin(SymEngine(2)), 53, true) }
         it { is_expected.to be_a SymEngine::RealDouble }
-        its(:to_s) { is_expected.to eq "0.909297426825682" }
+        it { is_expected.to be_within(0.000000000000001).of(0.909297426825682) }
     end
     if SymEngine::HAVE_MPFR
         context 'RealMPFR values' do
