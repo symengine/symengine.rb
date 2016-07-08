@@ -7,6 +7,7 @@ set(RUBY_WRAPPER_SRC
     ruby_real_mpfr.c
     ruby_complex.c
     ruby_complex_double.c
+    ruby_complex_mpc.c
     ruby_constant.c
     ruby_function.c
     ruby_ntheory.c

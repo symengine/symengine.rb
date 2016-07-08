@@ -13,6 +13,11 @@ int cnumber_comp(VALUE self, VALUE operand2)
     sympify(self, cbasic_operand1);
     sympify(operand2, cbasic_operand2);
 
+    if (is_a_Number(cbasic_operand2) == 0) {
+        rb_raise(rb_eTypeError, "Expected SymEngine::Number found %s ",
+                 rb_obj_classname(operand2));
+    }
+
     basic_sub(cbasic_sub, cbasic_operand1, cbasic_operand2);
 
     int sign = basic_number_sign(cbasic_sub);
