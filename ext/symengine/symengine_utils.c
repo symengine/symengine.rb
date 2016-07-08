@@ -83,7 +83,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2)
 {
     VALUE ret = check_sympify(operand2, cbasic_operand2);
     if (ret == Qfalse) {
-        rb_raise(rb_eTypeError, "%s can't be coerced into a SymEngine type.",
+        rb_raise(rb_eTypeError, "%s can't be coerced into SymEngine::Basic",
                  rb_obj_classname(operand2));
     }
 }
