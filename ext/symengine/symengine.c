@@ -225,14 +225,17 @@ void Init_symengine()
     rb_define_module_function(m_symengine, "fibonacci", cntheory_fibonacci, 1);
     rb_define_module_function(m_symengine, "lucas", cntheory_lucas, 1);
     rb_define_module_function(m_symengine, "binomial", cntheory_binomial, 2);
-    
+
     // MatrixBase Class
-    c_matrix_base = rb_define_class_under(m_symengine, "MatrixBase", rb_cObject);
-    
+    c_matrix_base
+        = rb_define_class_under(m_symengine, "MatrixBase", rb_cObject);
+
     // DenseMatrix and SparseMatrix Classes
-    c_dense_matrix = rb_define_class_under(m_symengine, "DenseMatrix", c_matrix_base);
-    c_sparse_matrix = rb_define_class_under(m_symengine, "SparseMatrix", c_matrix_base);
-    
+    c_dense_matrix
+        = rb_define_class_under(m_symengine, "DenseMatrix", c_matrix_base);
+    c_sparse_matrix
+        = rb_define_class_under(m_symengine, "SparseMatrix", c_matrix_base);
+
     // DenseMatrix Methods
     rb_define_alloc_func(c_dense_matrix, cmatrix_dense_alloc);
     rb_define_method(c_dense_matrix, "initialize", cmatrix_dense_init, -2);
@@ -255,21 +258,19 @@ void Init_symengine()
     rb_define_method(c_dense_matrix, "LU_solve", cmatrix_dense_LU_solve, 1);
     rb_define_method(c_dense_matrix, "FFLU", cmatrix_dense_FFLU, 0);
     rb_define_method(c_dense_matrix, "FFLDU", cmatrix_dense_FFLDU, 0);
-    
+
     // Numpy-like methods for DenseMatrix as module level methods
     rb_define_module_function(m_symengine, "ones", cmatrix_dense_ones, 2);
     rb_define_module_function(m_symengine, "zeros", cmatrix_dense_zeros, 2);
     rb_define_module_function(m_symengine, "diag", cmatrix_dense_diag, -2);
     rb_define_module_function(m_symengine, "eye", cmatrix_dense_eye, -2);
-    
-    
+
     // SparseMatrix Methods
     rb_define_alloc_func(c_sparse_matrix, cmatrix_sparse_alloc);
     rb_define_method(c_sparse_matrix, "initialize", cmatrix_sparse_init, -2);
     rb_define_method(c_sparse_matrix, "to_s", cmatrix_sparse_to_str, 0);
     rb_define_method(c_sparse_matrix, "get", cmatrix_sparse_get, 2);
     rb_define_method(c_sparse_matrix, "set", cmatrix_sparse_set, 3);
-    
 
     symengine_print_stack_on_segfault();
 }

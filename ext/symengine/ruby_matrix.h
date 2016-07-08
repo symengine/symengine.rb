@@ -17,7 +17,8 @@ VALUE cmatrix_dense_set(VALUE self, VALUE r, VALUE c, VALUE operand);
 VALUE cmatrix_dense_det(VALUE self);
 VALUE cmatrix_dense_inv(VALUE self);
 VALUE cmatrix_dense_transpose(VALUE self);
-VALUE cmatrix_dense_submatrix(VALUE self, VALUE r1, VALUE c1, VALUE r2, VALUE c2, VALUE r_, VALUE c_);
+VALUE cmatrix_dense_submatrix(VALUE self, VALUE r1, VALUE c1, VALUE r2,
+                              VALUE c2, VALUE r_, VALUE c_);
 VALUE cmatrix_dense_rows(VALUE self);
 VALUE cmatrix_dense_cols(VALUE self);
 VALUE cmatrix_dense_add(VALUE self, VALUE operand);

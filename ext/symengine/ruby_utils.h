@@ -1,7 +1,6 @@
 #ifndef RUBY_UTILS_H_
 #define RUBY_UTILS_H_
 
-
 #include "symengine.h"
 #include "symengine_utils.h"
 
