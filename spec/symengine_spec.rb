@@ -18,5 +18,12 @@ describe SymEngine do
     it { is_expected.to be_a SymEngine::Rational }
     its(:to_s) { is_expected.to eq '1/3' }
   end
+  
+  describe 'parse' do
+    subject { SymEngine::parse('123 + 321') }
+    
+    it { is_expected.to be_a SymEngine::Integer }
+    it { is_expected.to eq 444 }
+  end
 
 end
