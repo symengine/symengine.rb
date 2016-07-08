@@ -58,6 +58,9 @@ void Init_symengine()
     rb_define_module_function(m_symengine, "convert", cutils_sympify, 1);
     rb_define_global_function("SymEngine", cutils_sympify, 1);
 
+    // Parser as a Module Level Function
+    rb_define_module_function(m_symengine, "parse", cutils_parse, 1);
+
     // Symbol class
     c_symbol = rb_define_class_under(m_symengine, "Symbol", c_basic);
     rb_define_alloc_func(c_symbol, cbasic_alloc);
