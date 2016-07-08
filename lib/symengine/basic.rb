@@ -9,5 +9,10 @@ module SymEngine
     def free_symbols
       pr_free_symbols.to_set
     end
+    
+    def abs
+        return SymEngine::abs(self)
+    end
+    
   end
 end
