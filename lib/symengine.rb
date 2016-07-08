@@ -29,7 +29,10 @@ module SymEngine
     end    
     def Function(n)
       return SymEngine::UndefFunction.new(n)
-    end    
+    end
+    def evalf(operand, prec=53, real=false)
+        return _evalf(operand, prec, real)
+    end
   end
 end
 

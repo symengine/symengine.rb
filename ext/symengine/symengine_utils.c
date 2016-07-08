@@ -91,7 +91,7 @@ void sympify(VALUE operand2, basic_struct *cbasic_operand2)
 void get_symintfromval(VALUE operand2, basic_struct *cbasic_operand2)
 {
     if (TYPE(operand2) == T_FIXNUM) {
-        int i = NUM2INT(operand2);
+        long int i = NUM2LONG(operand2);
         integer_set_si(cbasic_operand2, i);
     } else if (TYPE(operand2) == T_BIGNUM) {
         VALUE Rb_Temp_String = rb_funcall(operand2, rb_intern("to_s"), 0, NULL);
