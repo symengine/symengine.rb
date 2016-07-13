@@ -60,12 +60,7 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
     CDenseMatrix *this;
     Data_Get_Struct(self, CDenseMatrix, this);
 
-    if (argc == 0) {
-
-        // SymEngine::DenseMatrix()
-        dense_matrix_init(this);
-
-    } else if (argc == 1) {
+    if (argc == 1) {
         // SymEngine::DenseMatrix(SymEngine::DenseMatrix) OR
         // SymEngine::DenseMatrix(NMatrix) OR
         // SymEngine::DenseMatrix(Array)
@@ -125,35 +120,15 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
             vecbasic_free(cargs);
 
         } else {
-            rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single "
-                                    "SymEngine::DenseMatrix, a single NMatrix, "
-                                    "a single Array or two Numerics expected.");
+            rb_raise(rb_eTypeError, "Invalid Arguments. A single argument"
+                                    "NMatrix, "
+                                    "or a single Array expected.");
         }
 
-    } else if (argc == 2) {
-
-        // SymEngine::DenseMatrix(no_rows, no_cols)
-        VALUE val1 = rb_ary_shift(args);
-        VALUE val2 = rb_ary_shift(args);
-
-        if ((TYPE(val1) == T_FIXNUM || TYPE(val1) == T_BIGNUM)
-            && (TYPE(val2) == T_FIXNUM || TYPE(val2) == T_BIGNUM)) {
-
-            unsigned long int rows = NUM2ULONG(val1);
-            unsigned long int cols = NUM2ULONG(val2);
-            dense_matrix_rows_cols(this, rows, cols);
-
-        } else {
-
-            rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single "
-                                    "SymEngine::DenseMatrix, a single NMatrix, "
-                                    "a single Array or two Numerics expected.");
-        }
     } else {
-
-        rb_raise(rb_eTypeError, "Invalid Arguments. No Arguments, a single "
-                                "SymEngine::DenseMatrix, a single NMatrix, a "
-                                "single Array or two Numerics expected.");
+        rb_raise(rb_eTypeError, "Invalid Arguments. A single argument"
+                                    "NMatrix, "
+                                    "or a single Array expected.");
     }
 
     return self;
