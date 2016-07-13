@@ -33,6 +33,19 @@ module SymEngine
     def evalf(operand, prec=53, real=false)
         return _evalf(operand, prec, real)
     end
+    def lambdify(exp)
+      sym_map = exp.free_symbols.map { |sym| sym.to_s}.join(",")
+      str = exp.to_s
+      str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
+      replacements = [ 
+                   ["asin", "Math.asin"], ["acos", "Math.acos"], ["atan","Math.atan"],
+                   ["sin", "Math.sin"], ["cos", "Math.cos"], ["tan","Math.tan"],
+                   ["asinh", "Math.asinh"], ["acosh", "Math.acosh"], ["atanh","Math.atanh"],
+                   ["sinh", "Math.sinh"], ["cosh", "Math.cosh"], ["tanh","Math.tanh"],
+                   ["pi", "Math::PI"], ["E", "Math::E"] ]
+      replacements.each {|replacement| str.gsub!(/(\b#{replacement[0]}\b)/, replacement[1])}
+      return eval("lambda { |"+ sym_map +"| "+ str +" }")
+    end
   end
 end
 
