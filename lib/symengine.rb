@@ -44,7 +44,7 @@ module SymEngine
                    ["sinh", "Math.sinh"], ["cosh", "Math.cosh"], ["tanh","Math.tanh"],
                    ["pi", "Math::PI"], ["E", "Math::E"] ]
       replacements.each {|replacement| str.gsub!(/(\b#{replacement[0]}\b)/, replacement[1])}
-      return eval("lambda { |"+ sym_map +"| "+ str +" }")
+      return eval("lambda { | #{sym_map} | #{str} }")
     end
   end
 end
