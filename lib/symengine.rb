@@ -33,18 +33,28 @@ module SymEngine
     def evalf(operand, prec=53, real=false)
         return _evalf(operand, prec, real)
     end
-    def lambdify(exp)
+    def evalf_dirichlet_eta(exp)
+        SymEngine::evalf(SymEngine::dirichlet_eta(exp))
+    end
+    def evalf_zera(exp)
+        SymEngine::evalf(SymEngine::zeta(exp))
+    end
+    def lambdify_code(exp)
       sym_map = exp.free_symbols.map { |sym| sym.to_s}.join(",")
       str = exp.to_s
       str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
-      replacements = [ 
-                   ["asin", "Math.asin"], ["acos", "Math.acos"], ["atan","Math.atan"],
-                   ["sin", "Math.sin"], ["cos", "Math.cos"], ["tan","Math.tan"],
-                   ["asinh", "Math.asinh"], ["acosh", "Math.acosh"], ["atanh","Math.atanh"],
-                   ["sinh", "Math.sinh"], ["cosh", "Math.cosh"], ["tanh","Math.tanh"],
-                   ["pi", "Math::PI"], ["E", "Math::E"] ]
-      replacements.each {|replacement| str.gsub!(/(\b#{replacement[0]}\b)/, replacement[1])}
-      return eval("lambda { | #{sym_map} | #{str} }")
+      replacements = { sin:"Math.sin", cos: "Math.cos", tan: "Math.tan",
+                       asin:"Math.asin", acos: "Math.acos", atan: "Math.atan",
+                       sinh:"Math.sinh", cosh: "Math.cosh", tanh: "Math.tanh",
+                       asinh:"Math.asinh", acosh: "Math.acosh", atanh: "Math.atanh", 
+                       pi: "Math::PI", E: "Math::E",
+                       dirichlet_eta: "SymEngine::evalf_dirichlet_eta",
+                       zeta: "SymEngine::evalf_zera", gamma: "Math.gamma" }
+      replacements.each {|key, value| str.gsub!(/(\b#{key}\b)/, value)}
+      "lambda { | #{sym_map} | #{str} }"
+    end
+    def lambdify(exp)
+      eval(lambdify_code(exp))
     end
   end
 end
