@@ -36,7 +36,7 @@ module SymEngine
     def evalf_dirichlet_eta(exp)
         SymEngine::evalf(SymEngine::dirichlet_eta(exp))
     end
-    def evalf_zera(exp)
+    def evalf_zeta(exp)
         SymEngine::evalf(SymEngine::zeta(exp))
     end
     def lambdify_code(exp)
@@ -49,7 +49,7 @@ module SymEngine
                        asinh:"Math.asinh", acosh: "Math.acosh", atanh: "Math.atanh", 
                        pi: "Math::PI", E: "Math::E",
                        dirichlet_eta: "SymEngine::evalf_dirichlet_eta",
-                       zeta: "SymEngine::evalf_zera", gamma: "Math.gamma" }
+                       zeta: "SymEngine::evalf_zeta", gamma: "Math.gamma" }
       replacements.each {|key, value| str.gsub!(/(\b#{key}\b)/, value)}
       "lambda { | #{sym_map} | #{str} }"
     end
