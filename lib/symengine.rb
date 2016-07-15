@@ -33,28 +33,32 @@ module SymEngine
     def evalf(operand, prec=53, real=false)
         return _evalf(operand, prec, real)
     end
-    def evalf_dirichlet_eta(exp)
-        SymEngine::evalf(SymEngine::dirichlet_eta(exp))
-    end
-    def evalf_zeta(exp)
-        SymEngine::evalf(SymEngine::zeta(exp))
-    end
-    def lambdify_code(exp)
-      sym_map = exp.free_symbols.map { |sym| sym.to_s}.sort.join(",")
-      str = exp.to_s
-      str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
-      replacements = { sin:"Math.sin", cos: "Math.cos", tan: "Math.tan",
-                       asin:"Math.asin", acos: "Math.acos", atan: "Math.atan",
-                       sinh:"Math.sinh", cosh: "Math.cosh", tanh: "Math.tanh",
-                       asinh:"Math.asinh", acosh: "Math.acosh", atanh: "Math.atanh", 
-                       pi: "Math::PI", E: "Math::E",
-                       dirichlet_eta: "SymEngine::evalf_dirichlet_eta",
-                       zeta: "SymEngine::evalf_zeta", gamma: "Math.gamma" }
-      replacements.each {|key, value| str.gsub!(/(\b#{key}\b)/, value)}
-      "lambda { | #{sym_map} | #{str} }"
-    end
     def lambdify(exp)
-      eval(lambdify_code(exp))
+      eval(SymEngine::Utils::lambdify_code(exp))
+    end
+  end
+  module Utils
+    class << self
+      def evalf_dirichlet_eta(exp)
+        SymEngine::evalf(SymEngine::dirichlet_eta(exp))
+      end
+      def evalf_zeta(exp)
+          SymEngine::evalf(SymEngine::zeta(exp))
+      end
+      def lambdify_code(exp)
+        sym_map = exp.free_symbols.map { |sym| sym.to_s}.sort.join(",")
+        str = exp.to_s
+        str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
+        replacements = { sin:"Math.sin", cos: "Math.cos", tan: "Math.tan",
+                         asin:"Math.asin", acos: "Math.acos", atan: "Math.atan",
+                         sinh:"Math.sinh", cosh: "Math.cosh", tanh: "Math.tanh",
+                         asinh:"Math.asinh", acosh: "Math.acosh", atanh: "Math.atanh", 
+                         pi: "Math::PI", E: "Math::E",
+                         dirichlet_eta: "SymEngine::Utils::evalf_dirichlet_eta",
+                         zeta: "SymEngine::Utils::evalf_zeta", gamma: "Math.gamma" }
+        replacements.each {|key, value| str.gsub!(/(\b#{key}\b)/, value)}
+        "lambda { | #{sym_map} | #{str} }"
+      end
     end
   end
 end
