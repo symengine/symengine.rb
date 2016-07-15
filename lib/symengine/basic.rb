@@ -11,8 +11,10 @@ module SymEngine
     end
     
     def abs
-        return SymEngine::abs(self)
+        SymEngine::abs(self)
     end
-    
+    def to_proc
+        SymEngine::lambdify(self)
+    end
   end
 end
