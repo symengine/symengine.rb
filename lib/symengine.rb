@@ -40,7 +40,7 @@ module SymEngine
         SymEngine::evalf(SymEngine::zeta(exp))
     end
     def lambdify_code(exp)
-      sym_map = exp.free_symbols.map { |sym| sym.to_s}.join(",")
+      sym_map = exp.free_symbols.map { |sym| sym.to_s}.sort.join(",")
       str = exp.to_s
       str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
       replacements = { sin:"Math.sin", cos: "Math.cos", tan: "Math.tan",

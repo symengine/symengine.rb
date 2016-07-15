@@ -5,7 +5,7 @@ describe 'SymEngine::lambdify_code' do
   let(:z) { SymEngine::Symbol.new('z') }
   
   it 'creates lambda codes' do
-    expect(SymEngine::lambdify_code( x + y + z )).to eq("lambda { | x,z,y | x + y + z }")
+    expect(SymEngine::lambdify_code( x + y + z )).to eq("lambda { | x,y,z | x + y + z }")
     expect(SymEngine::lambdify_code( x + 5 )).to eq("lambda { | x | Rational(5,1) + x }")
     expect(SymEngine::lambdify_code( SymEngine::sin(x) )).to eq("lambda { | x | Math.sin(x) }")
     expect(SymEngine::lambdify_code( SymEngine::cos(x) )).to eq("lambda { | x | Math.cos(x) }")
