@@ -11,10 +11,13 @@ module SymEngine
     end
     
     def abs
-        SymEngine::abs(self)
+      SymEngine::abs(self)
     end
-    def to_proc
-        SymEngine::lambdify(self)
+    def to_proc()
+      if self.free_symbols.count > 1
+        raise ArgumentError, "Too many free symbols! Only 1 allowed. Found #{self.free_symbols.count}."
+      end
+      SymEngine::lambdify(self, self.free_symbols.map {|s| s.to_s})
     end
   end
 end

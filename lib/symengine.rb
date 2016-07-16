@@ -33,7 +33,7 @@ module SymEngine
     def evalf(operand, prec=53, real=false)
         return _evalf(operand, prec, real)
     end
-    def lambdify(exp, syms=nil)
+    def lambdify(exp, syms)
       eval(SymEngine::Utils::lambdify_code(exp, syms))
     end
   end
@@ -45,13 +45,9 @@ module SymEngine
       def evalf_zeta(exp)
           SymEngine::evalf(SymEngine::zeta(exp))
       end
-      def lambdify_code(exp, syms=nil)
+      def lambdify_code(exp, syms)
         str = exp.to_s  
-        if syms == nil
-          sym_map = exp.free_symbols.map {|sym| sym.to_s}.map {|s| { index: str.index(s), sym: s} }.sort_by{ |item| item[:index] }.map {|item| item[:sym] }.join(',')
-        else
-          sym_map = syms.join(",")
-        end
+        sym_map = syms.join(",")
         str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
         replacements = { sin:"Math.sin", cos: "Math.cos", tan: "Math.tan",
                          asin:"Math.asin", acos: "Math.acos", atan: "Math.atan",

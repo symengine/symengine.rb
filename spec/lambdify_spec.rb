@@ -5,11 +5,11 @@ describe 'SymEngine::lambdify_code' do
   let(:z) { SymEngine::Symbol.new('z') }
   
   def l(code)
-    SymEngine::Utils::lambdify_code(code)
+    SymEngine::Utils::lambdify_code(code, [x])
   end
   
   it 'creates lambda codes' do
-    expect(l( x + y + z )).to eq("lambda { | x,y,z | x + y + z }")
+    expect(SymEngine::Utils::lambdify_code( x + y + z, [x, y, z])).to eq("lambda { | x,y,z | x + y + z }")
     expect(l( x + 5 )).to eq("lambda { | x | Rational(5,1) + x }")
     expect(l( SymEngine::sin(x) )).to eq("lambda { | x | Math.sin(x) }")
     expect(l( SymEngine::cos(x) )).to eq("lambda { | x | Math.cos(x) }")
@@ -41,7 +41,7 @@ describe 'SymEngine::lambdify' do
   
   describe 'lambda for Addition' do
     let(:func) { x + y + z }
-    let(:lamb) { SymEngine::lambdify(func) }
+    let(:lamb) { SymEngine::lambdify(func, [x, y, z]) }
     it 'performs addition with a lambda function' do
       expect(lamb.call(1, 1, 1)).to eq(3)
       expect(lamb.call(1, -1, 1)).to eq(1)
@@ -51,7 +51,7 @@ describe 'SymEngine::lambdify' do
   
   describe 'lambda for Addition with FixNums' do
     let(:func) { x + 5}
-    let(:lamb) { SymEngine::lambdify(func) }
+    let(:lamb) { SymEngine::lambdify(func, [x]) }
     it 'performs addition with a lambda function' do
       expect(lamb.call(1)).to eq(6)
       expect(lamb.call(0)).to eq(5)
@@ -62,12 +62,21 @@ describe 'SymEngine::lambdify' do
   
   describe 'lambda for sin' do
     let(:func) { SymEngine::sin(x) }
-    let(:lamb) { SymEngine::lambdify(func) }
+    let(:lamb) { SymEngine::lambdify(func, [x]) }
     it 'performs sin calculation with a lambda function' do
       expect(lamb.call(0)).to be_within(1e-15).of(0.0)
       expect(lamb.call(Math::PI)).to be_within(1e-15).of(0.0)
       expect(lamb.call(Math::PI/2)).to be_within(1e-15).of(1.0)
     end
+  end
+  
+  describe 'to_proc' do
+    let(:func) { x * 10 }
+    let(:func2) { x + y + 10}
+    it 'creates procs' do
+      expect([1, 2, 3, 4, 5].map(&func)).to eq([10, 20, 30, 40, 50])
+      expect { [[1, 2], [3, 4]].map(&func2) }.to raise_error(ArgumentError)
+   end
   end
   
 end
