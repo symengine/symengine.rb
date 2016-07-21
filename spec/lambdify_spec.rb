@@ -76,6 +76,7 @@ describe 'SymEngine::lambdify' do
     it 'creates procs' do
       expect([1, 2, 3, 4, 5].map(&func)).to eq([10, 20, 30, 40, 50])
       expect { [[1, 2], [3, 4]].map(&func2) }.to raise_error(ArgumentError)
+      expect([[1, 2], [3, 4]].map(&func2.to_proc(x, y))).to eq([13, 17])
    end
   end
   
