@@ -28,10 +28,10 @@ module SymEngine
       end
     end    
     def Function(n)
-      return SymEngine::UndefFunction.new(n)
+      SymEngine::UndefFunction.new(n)
     end
     def evalf(operand, prec=53, real=false)
-        return _evalf(operand, prec, real)
+      _evalf(operand, prec, real)
     end
     def lambdify(exp, *syms)
       eval(SymEngine::Utils::lambdify_code(exp, syms))
@@ -43,7 +43,7 @@ module SymEngine
                          asin: 'Math.asin', acos: 'Math.acos', atan: 'Math.atan',
                          sinh: 'Math.sinh', cosh: 'Math.cosh', tanh: 'Math.tanh',
                          asinh: 'Math.asinh', acosh: 'Math.acosh', atanh: 'Math.atanh', 
-                         pi: 'Math::PI', E: 'Math::E',
+                         pi: 'Math::PI', E: 'Math::E', I: '::Complex::I',
                          dirichlet_eta: 'SymEngine::Utils::evalf_dirichlet_eta',
                          zeta: 'SymEngine::Utils::evalf_zeta', gamma: 'Math.gamma' }.map { |from, to| [/(\b#{from}\b)/, to] }.to_h.freeze
       def evalf_dirichlet_eta(exp)
@@ -53,7 +53,7 @@ module SymEngine
           SymEngine::evalf(SymEngine::zeta(exp))
       end
       def lambdify_code(exp, syms)
-        str = exp.to_s  
+        str = exp.to_s
         sym_map = syms.join(",")
         str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
         str = REPLACEMENTS.inject(str) { |res, (from, to)| res.gsub(from, to)}

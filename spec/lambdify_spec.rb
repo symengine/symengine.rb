@@ -26,6 +26,7 @@ describe 'SymEngine::lambdify_code' do
     expect(l( SymEngine::gamma(x) )).to eq("lambda { | x | Math.gamma(x) }")
     expect(l( x + SymEngine::PI )).to eq("lambda { | x | x + Math::PI }")
     expect(l( x + SymEngine::E )).to eq("lambda { | x | x + Math::E }")
+    expect(l( x * SymEngine::I )).to eq("lambda { | x | ::Complex::I*x }")
     expect(l( SymEngine::dirichlet_eta(x) )).to eq("lambda { | x | SymEngine::Utils::evalf_dirichlet_eta(x) }")
     expect(l( SymEngine::zeta(x) )).to eq("lambda { | x | SymEngine::Utils::evalf_zeta(x, Rational(1,1)) }")
     
