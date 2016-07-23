@@ -1,3 +1,5 @@
+require 'backports'
+
 module SymEngine
   class << self
     # Defines a shortcut for SymEngine::Symbol.new() allowing multiple symbols

@@ -14,14 +14,14 @@ module SymEngine
       SymEngine::abs(self)
     end
     def to_proc(*args)
-      if(args.length == 0)
-        if self.free_symbols.count > 1
-          raise ArgumentError, "Too many free symbols! Only 1 allowed. Found #{self.free_symbols.count}."
+      if args.empty?
+        if free_symbols.count > 1
+          raise ArgumentError, "You should provide symbols order for #to_proc. Only formulae with 1 free symbol can deduce its name automatically (#{free_symbols.count} found in #{self})."
         end
-        SymEngine::lambdify(self, self.free_symbols.map {|s| s})
+        SymEngine::lambdify(self, free_symbols.map {|s| s})
       else
-        if self.free_symbols.count > args.length
-          raise ArgumentError, "#{self.free_symbols.count} Free Symbols. Only #{args.length} given."
+        if free_symbols.count > args.length
+          raise ArgumentError, "Formula contains #{free_symbols.count} free symbols. You should provide at least this number of arguments (only #{args.length} given)."
         end
         SymEngine::lambdify(self, args)
       end
