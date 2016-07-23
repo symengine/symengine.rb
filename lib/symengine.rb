@@ -57,7 +57,7 @@ module SymEngine
         sym_map = syms.join(",")
         str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
         str = REPLACEMENTS.inject(str) { |res, (from, to)| res.gsub(from, to)}
-        "lambda { | #{sym_map} | #{str} }"
+        "proc { | #{sym_map} | #{str} }"
       end
     end
   end
