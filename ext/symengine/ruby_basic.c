@@ -19,8 +19,8 @@ VALUE cbasic_alloc(VALUE klass)
 }
 
 VALUE cbasic_binary_op(VALUE self, VALUE operand2,
-                       void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
-                                          const basic_struct *))
+                       int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                         const basic_struct *))
 {
     basic_struct *this, *cresult;
     VALUE result;
@@ -32,16 +32,21 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, this, cbasic_operand2);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
-    basic_free_stack(cbasic_operand2);
 
-    return result;
+    int error_code = cwfunc_ptr(cresult, this, cbasic_operand2);
+    if (error_code == 0) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand2);
+        return result;
+    } else {
+        basic_free_stack(cbasic_operand2);
+        rb_raise(rb_eRuntimeError, "Runtime Error");
+    }
 }
 
 VALUE cbasic_unary_op(VALUE self,
-                      void (*cwfunc_ptr)(basic_struct *, const basic_struct *))
+                      int (*cwfunc_ptr)(basic_struct *, const basic_struct *))
 {
     basic_struct *this, *cresult;
     VALUE result;
@@ -49,11 +54,15 @@ VALUE cbasic_unary_op(VALUE self,
     Data_Get_Struct(self, basic_struct, this);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, this);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
 
-    return result;
+    int error_code = cwfunc_ptr(cresult, this);
+    if (error_code == 0) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        return result;
+    } else {
+        rb_raise(rb_eRuntimeError, "Runtime Error");
+    }
 }
 
 VALUE cbasic_add(VALUE self, VALUE operand2)

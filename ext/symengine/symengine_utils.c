@@ -199,7 +199,7 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr)
     }
 }
 
-VALUE function_onearg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *),
+VALUE function_onearg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *),
                       VALUE operand1)
 {
     basic_struct *cresult;
@@ -210,16 +210,21 @@ VALUE function_onearg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *),
     sympify(operand1, cbasic_operand1);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, cbasic_operand1);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
-    basic_free_stack(cbasic_operand1);
+    int error_code = cwfunc_ptr(cresult, cbasic_operand1);
+    if (error_code == 0) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand1);
 
-    return result;
+        return result;
+    } else {
+        basic_free_stack(cbasic_operand1);
+        rb_raise(rb_eRuntimeError, "Runtime Error");
+    }
 }
 
-VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
-                                         const basic_struct *),
+VALUE function_twoarg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                        const basic_struct *),
                       VALUE operand1, VALUE operand2)
 {
     basic_struct *cresult;
@@ -234,11 +239,17 @@ VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
-    basic_free_stack(cbasic_operand1);
-    basic_free_stack(cbasic_operand2);
+    int error_code = cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
 
-    return result;
+    if (error_code == 0) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand1);
+        basic_free_stack(cbasic_operand2);
+        return result;
+    } else {
+        basic_free_stack(cbasic_operand1);
+        basic_free_stack(cbasic_operand2);
+        rb_raise(rb_eRuntimeError, "Runtime Error");
+    }
 }

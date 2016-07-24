@@ -23,9 +23,14 @@ VALUE cutils_evalf(VALUE self, VALUE operand, VALUE prec, VALUE real)
     cresult = basic_new_heap();
 
     sympify(operand, cresult);
-    basic_evalf(cresult, cresult, NUM2INT(prec), (real == Qtrue ? 1 : 0));
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
+    int error_code
+        = basic_evalf(cresult, cresult, NUM2INT(prec), (real == Qtrue ? 1 : 0));
 
-    return result;
+    if (error_code == 0) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        return result;
+    } else {
+        rb_raise(rb_eRuntimeError, "Runtime Error");
+    }
 }
