@@ -91,6 +91,7 @@ VALUE cbasic_div(VALUE self, VALUE operand2)
         basic_free_stack(cbasic_operand2);
         return result;
     } else {
+        basic_free_stack(cbasic_operand2);
         rb_raise(rb_eRuntimeError, "Runtime Error");
     }
 }
