@@ -31,6 +31,6 @@ VALUE cutils_evalf(VALUE self, VALUE operand, VALUE prec, VALUE real)
                                   cbasic_free_heap, cresult);
         return result;
     } else {
-        rb_raise(rb_eRuntimeError, "Runtime Error");
+        raise_exception(error_code);
     }
 }

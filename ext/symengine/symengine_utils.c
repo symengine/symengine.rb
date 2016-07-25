@@ -253,3 +253,17 @@ VALUE function_twoarg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
         rb_raise(rb_eRuntimeError, "Runtime Error");
     }
 }
+
+void raise_exception(int error_code)
+{
+    char *str;
+    switch (error_code) {
+        case -1:
+            str = "Runtime Error";
+            break;
+        case 1:
+            str = "Division by Zero";
+            break;
+    }
+    rb_raise(rb_eRuntimeError, str);
+}

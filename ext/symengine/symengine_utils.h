@@ -24,5 +24,6 @@ VALUE function_onearg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *),
 VALUE function_twoarg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
                                         const basic_struct *),
                       VALUE operand1, VALUE operand2);
+void raise_exception(int error_code);
 
 #endif // SYMENGINE_UTILS_H_
