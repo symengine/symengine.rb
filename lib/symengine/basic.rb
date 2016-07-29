@@ -24,9 +24,9 @@ module SymEngine
         SymEngine::lambdify(self, free_symbols.map {|s| s})
       else
         if free_symbols.count > args.length
-          raise ArgumentError, "Formula contains #{free_symbols.count} free s"\
-                               "ymbols. You should provide at least this numb"\
-                               "er of arguments (only #{args.length} given)."
+          raise ArgumentError, "Formula contains #{free_symbols.count} free "\
+                               "symbols. You should provide at least this number "\
+                               "of arguments (only #{args.length} given)."
         end
         SymEngine::lambdify(self, args)
       end
