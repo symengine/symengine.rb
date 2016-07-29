@@ -1,3 +1,5 @@
+require 'backports'
+
 module SymEngine
   class << self
     # Defines a shortcut for SymEngine::Symbol.new() allowing multiple symbols
@@ -28,10 +30,42 @@ module SymEngine
       end
     end    
     def Function(n)
-      return SymEngine::UndefFunction.new(n)
+      SymEngine::UndefFunction.new(n)
     end
     def evalf(operand, prec=53, real=false)
-        return _evalf(operand, prec, real)
+      _evalf(operand, prec, real)
+    end
+    def lambdify(exp, *syms)
+      syms.flatten!
+      if exp.free_symbols.count > syms.length
+        raise ArgumentError, "Formula contains #{exp.free_symbols.count} free s"\
+                             "ymbols. You should provide at least this numb"\
+                             "er of arguments (only #{syms.length} given)."
+      end
+      eval(SymEngine::Utils::lambdify_code(exp, syms))
+    end
+  end
+  module Utils
+    class << self
+      REPLACEMENTS = { sin: 'Math.sin', cos: 'Math.cos', tan: 'Math.tan',
+                         asin: 'Math.asin', acos: 'Math.acos', atan: 'Math.atan',
+                         sinh: 'Math.sinh', cosh: 'Math.cosh', tanh: 'Math.tanh',
+                         asinh: 'Math.asinh', acosh: 'Math.acosh', atanh: 'Math.atanh', 
+                         pi: 'Math::PI', E: 'Math::E', I: '::Complex::I',
+                         dirichlet_eta: 'SymEngine::Utils::evalf_dirichlet_eta',
+                         zeta: 'SymEngine::Utils::evalf_zeta', gamma: 'Math.gamma' }.map { |from, to| [/(\b#{from}\b)/, to] }.to_h.freeze
+      def evalf_dirichlet_eta(exp)
+        SymEngine::evalf(SymEngine::dirichlet_eta(exp))
+      end
+      def evalf_zeta(exp)
+          SymEngine::evalf(SymEngine::zeta(exp))
+      end
+      def lambdify_code(exp, syms)
+        body = exp.to_s.gsub(/[\d\.]+/, 'Rational(\0,1)')
+        sym_map = syms.join(",")
+        rubified_body = REPLACEMENTS.inject(body) { |res, (from, to)| res.gsub(from, to)}
+        "proc { | #{sym_map} | #{rubified_body} }"
+      end
     end
   end
 end
