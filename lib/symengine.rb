@@ -36,6 +36,12 @@ module SymEngine
       _evalf(operand, prec, real)
     end
     def lambdify(exp, *syms)
+      syms.flatten!
+      if exp.free_symbols.count > syms.length
+        raise ArgumentError, "Formula contains #{exp.free_symbols.count} free s"\
+                             "ymbols. You should provide at least this numb"\
+                             "er of arguments (only #{syms.length} given)."
+      end
       eval(SymEngine::Utils::lambdify_code(exp, syms))
     end
   end
@@ -55,11 +61,10 @@ module SymEngine
           SymEngine::evalf(SymEngine::zeta(exp))
       end
       def lambdify_code(exp, syms)
-        str = exp.to_s
+        body = exp.to_s.gsub(/[\d\.]+/, 'Rational(\0,1)')
         sym_map = syms.join(",")
-        str.gsub!(/[\d\.]+/, 'Rational(\0,1)')
-        str = REPLACEMENTS.inject(str) { |res, (from, to)| res.gsub(from, to)}
-        "proc { | #{sym_map} | #{str} }"
+        rubified_body = REPLACEMENTS.inject(body) { |res, (from, to)| res.gsub(from, to)}
+        "proc { | #{sym_map} | #{rubified_body} }"
       end
     end
   end

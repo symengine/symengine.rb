@@ -42,7 +42,7 @@ describe 'SymEngine::lambdify' do
   
   describe 'lambda for Addition' do
     let(:func) { x + y + z }
-    let(:lamb) { SymEngine::lambdify(func, [x, y, z]) }
+    let(:lamb) { SymEngine::lambdify(func, x, y, z) }
     it 'performs addition with a lambda function' do
       expect(lamb.call(1, 1, 1)).to eq(3)
       expect(lamb.call(1, -1, 1)).to eq(1)
