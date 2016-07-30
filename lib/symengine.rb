@@ -38,9 +38,9 @@ module SymEngine
     def lambdify(exp, *syms)
       syms.flatten!
       if exp.free_symbols.count > syms.length
-        raise ArgumentError, "Formula contains #{exp.free_symbols.count} free s"\
-                             "ymbols. You should provide at least this numb"\
-                             "er of arguments (only #{syms.length} given)."
+        raise ArgumentError, "Formula contains #{exp.free_symbols.count} free "\
+                             "symbols. You should provide at least this number "\
+                             "of arguments (only #{syms.length} given)."
       end
       eval(SymEngine::Utils::lambdify_code(exp, syms))
     end
