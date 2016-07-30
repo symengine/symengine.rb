@@ -127,8 +127,8 @@ VALUE cmatrix_dense_init(VALUE self, VALUE args)
 
     } else {
         rb_raise(rb_eTypeError, "Invalid Arguments. A single argument"
-                                    "NMatrix, "
-                                    "or a single Array expected.");
+                                "NMatrix, "
+                                "or a single Array expected.");
     }
 
     return self;
