@@ -17,7 +17,7 @@ VALUE cutils_sympify(VALUE self, VALUE operand)
 
 VALUE cutils_evalf(VALUE self, VALUE operand, VALUE prec, VALUE real)
 {
-    VALUE result;
+    VALUE result = Qnil;
 
     basic_struct *cresult;
     cresult = basic_new_heap();
@@ -29,8 +29,8 @@ VALUE cutils_evalf(VALUE self, VALUE operand, VALUE prec, VALUE real)
     if (error_code == 0) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
-        return result;
     } else {
         raise_exception(error_code);
     }
+    return result;
 }

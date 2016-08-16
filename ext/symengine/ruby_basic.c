@@ -23,7 +23,7 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
                                          const basic_struct *))
 {
     basic_struct *this, *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     basic cbasic_operand2;
     basic_new_stack(cbasic_operand2);
@@ -38,18 +38,18 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
         basic_free_stack(cbasic_operand2);
-        return result;
     } else {
         basic_free_stack(cbasic_operand2);
         raise_exception(error_code);
     }
+    return result;
 }
 
 VALUE cbasic_unary_op(VALUE self,
                       int (*cwfunc_ptr)(basic_struct *, const basic_struct *))
 {
     basic_struct *this, *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     Data_Get_Struct(self, basic_struct, this);
 
@@ -59,10 +59,10 @@ VALUE cbasic_unary_op(VALUE self,
     if (error_code == 0) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
-        return result;
     } else {
         raise_exception(error_code);
     }
+    return result;
 }
 
 VALUE cbasic_add(VALUE self, VALUE operand2)
