@@ -86,7 +86,7 @@ describe SymEngine, 'functions' do
     expect(SymEngine::asinh(0)).to eq(0)
     expect(SymEngine::acosh(1)).to eq(0)
     expect(SymEngine::atanh(0)).to eq(0)
-    expect(SymEngine::acsch(1).to_s).to eq('log(1 + 2**(1/2))')
+    expect(SymEngine::acsch(1).to_s).to eq('log(1 + sqrt(2))')
     expect(SymEngine::asech(1)).to eq(0)
     expect(SymEngine::acoth(1).to_s).to eq('acoth(1)')
 
