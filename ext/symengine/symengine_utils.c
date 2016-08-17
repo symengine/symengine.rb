@@ -199,11 +199,12 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr)
     }
 }
 
-VALUE function_onearg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *),
+VALUE function_onearg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
+                                                         const basic_struct *),
                       VALUE operand1)
 {
     basic_struct *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     basic cbasic_operand1;
     basic_new_stack(cbasic_operand1);
@@ -215,20 +216,20 @@ VALUE function_onearg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *),
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
         basic_free_stack(cbasic_operand1);
-
-        return result;
     } else {
         basic_free_stack(cbasic_operand1);
-        rb_raise(rb_eRuntimeError, "Runtime Error");
+        raise_exception(error_code);
     }
+    return result;
 }
 
-VALUE function_twoarg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
-                                        const basic_struct *),
+VALUE function_twoarg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
+                                                         const basic_struct *,
+                                                         const basic_struct *),
                       VALUE operand1, VALUE operand2)
 {
     basic_struct *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     basic cbasic_operand1;
     basic_new_stack(cbasic_operand1);
@@ -246,23 +247,34 @@ VALUE function_twoarg(int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
                                   cbasic_free_heap, cresult);
         basic_free_stack(cbasic_operand1);
         basic_free_stack(cbasic_operand2);
-        return result;
     } else {
         basic_free_stack(cbasic_operand1);
         basic_free_stack(cbasic_operand2);
-        rb_raise(rb_eRuntimeError, "Runtime Error");
+        raise_exception(error_code);
     }
+    return result;
 }
 
-void raise_exception(int error_code)
+void raise_exception(symengine_exceptions_t error_code)
 {
     char *str = "";
     switch (error_code) {
-        case -1:
+        case SYMENGINE_NO_EXCEPTION:
+            return;
+        case SYMENGINE_RUNTIME_ERROR:
             str = "Runtime Error";
             break;
-        case 1:
+        case SYMENGINE_DIV_BY_ZERO:
             str = "Division by Zero";
+            break;
+        case SYMENGINE_NOT_IMPLEMENTED:
+            str = "Not Implemented";
+            break;
+        case SYMENGINE_UNDEFINED:
+            str = "Undefined";
+            break;
+        case SYMENGINE_PARSE_ERROR:
+            str = "Parse Error";
             break;
     }
     rb_raise(rb_eRuntimeError, "%s", str);
