@@ -211,7 +211,7 @@ VALUE function_onearg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
     sympify(operand1, cbasic_operand1);
 
     cresult = basic_new_heap();
-    int error_code = cwfunc_ptr(cresult, cbasic_operand1);
+    symengine_exceptions_t error_code = cwfunc_ptr(cresult, cbasic_operand1);
     if (error_code == 0) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
@@ -240,7 +240,8 @@ VALUE function_twoarg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    int error_code = cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
+    symengine_exceptions_t error_code
+        = cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
 
     if (error_code == 0) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,

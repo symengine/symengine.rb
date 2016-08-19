@@ -33,7 +33,8 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
 
     cresult = basic_new_heap();
 
-    int error_code = cwfunc_ptr(cresult, this, cbasic_operand2);
+    symengine_exceptions_t error_code
+        = cwfunc_ptr(cresult, this, cbasic_operand2);
     if (error_code == 0) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
@@ -55,7 +56,7 @@ VALUE cbasic_unary_op(VALUE self,
 
     cresult = basic_new_heap();
 
-    int error_code = cwfunc_ptr(cresult, this);
+    symengine_exceptions_t error_code = cwfunc_ptr(cresult, this);
     if (error_code == 0) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
