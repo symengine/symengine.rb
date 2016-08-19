@@ -18,8 +18,9 @@ VALUE cbasic_alloc(VALUE klass)
     return Data_Wrap_Struct(klass, NULL, cbasic_free_heap, struct_ptr);
 }
 
-VALUE cbasic_binary_op(VALUE self, VALUE operand2,
-                       int (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+VALUE cbasic_binary_op(
+    VALUE self, VALUE operand2,
+    symengine_exceptions_t (*cwfunc_ptr)(basic_struct *, const basic_struct *,
                                          const basic_struct *))
 {
     basic_struct *this, *cresult;
@@ -35,7 +36,7 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
 
     symengine_exceptions_t error_code
         = cwfunc_ptr(cresult, this, cbasic_operand2);
-    if (error_code == 0) {
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
         basic_free_stack(cbasic_operand2);
@@ -46,8 +47,8 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
     return result;
 }
 
-VALUE cbasic_unary_op(VALUE self,
-                      int (*cwfunc_ptr)(basic_struct *, const basic_struct *))
+VALUE cbasic_unary_op(VALUE self, symengine_exceptions_t (*cwfunc_ptr)(
+                                      basic_struct *, const basic_struct *))
 {
     basic_struct *this, *cresult;
     VALUE result = Qnil;
@@ -57,7 +58,7 @@ VALUE cbasic_unary_op(VALUE self,
     cresult = basic_new_heap();
 
     symengine_exceptions_t error_code = cwfunc_ptr(cresult, this);
-    if (error_code == 0) {
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
     } else {

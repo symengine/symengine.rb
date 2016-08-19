@@ -199,9 +199,9 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr)
     }
 }
 
-VALUE function_onearg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
-                                                         const basic_struct *),
-                      VALUE operand1)
+VALUE function_onearg(
+    symengine_exceptions_t (*cwfunc_ptr)(basic_struct *, const basic_struct *),
+    VALUE operand1)
 {
     basic_struct *cresult;
     VALUE result = Qnil;
@@ -212,7 +212,7 @@ VALUE function_onearg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
 
     cresult = basic_new_heap();
     symengine_exceptions_t error_code = cwfunc_ptr(cresult, cbasic_operand1);
-    if (error_code == 0) {
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
         basic_free_stack(cbasic_operand1);
@@ -223,10 +223,10 @@ VALUE function_onearg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
     return result;
 }
 
-VALUE function_twoarg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
-                                                         const basic_struct *,
-                                                         const basic_struct *),
-                      VALUE operand1, VALUE operand2)
+VALUE function_twoarg(
+    symengine_exceptions_t (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                         const basic_struct *),
+    VALUE operand1, VALUE operand2)
 {
     basic_struct *cresult;
     VALUE result = Qnil;
@@ -243,7 +243,7 @@ VALUE function_twoarg(CWRAPPER_OUTPUT_TYPE (*cwfunc_ptr)(basic_struct *,
     symengine_exceptions_t error_code
         = cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
 
-    if (error_code == 0) {
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
         result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
                                   cbasic_free_heap, cresult);
         basic_free_stack(cbasic_operand1);
