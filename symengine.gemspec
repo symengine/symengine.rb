@@ -16,5 +16,6 @@ Gem::Specification.new do |gem|
     gem.add_development_dependency 'rspec', '~> 3.0'
     gem.add_development_dependency 'rspec-its'
     gem.add_development_dependency 'rdoc', '~> 4.0'
+    gem.add_development_dependency 'rubocop', '~> 0.42.0'
     gem.add_runtime_dependency 'backports'
 end
