@@ -104,8 +104,8 @@ VALUE cbasic_diff(VALUE self, VALUE operand2)
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    int status = basic_diff(cresult, this, cbasic_operand2);
-    if (status == 0) {
+    symengine_exceptions_t status = basic_diff(cresult, this, cbasic_operand2);
+    if (status == SYMENGINE_RUNTIME_ERROR) {
         basic_free_stack(cbasic_operand2);
         basic_free_heap(cresult);
         return Qnil;
