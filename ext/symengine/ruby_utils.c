@@ -16,14 +16,19 @@ VALUE cutils_sympify(VALUE self, VALUE operand)
 
 VALUE cutils_parse(VALUE self, VALUE str)
 {
-    VALUE result;
+    VALUE result = Qnil;
     basic_struct *cbasic_result = basic_new_heap();
 
     char *cstr = RSTRING_PTR(str);
-    basic_parse(cbasic_result, cstr);
 
-    result = Data_Wrap_Struct(Klass_of_Basic(cbasic_result), NULL,
-                              cbasic_free_heap, cbasic_result);
+    symengine_exceptions_t error_code = basic_parse(cbasic_result, cstr);
+
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cbasic_result), NULL,
+                                  cbasic_free_heap, cbasic_result);
+    } else {
+        raise_exception(error_code);
+    }
     return result;
 }
 

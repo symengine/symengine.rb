@@ -26,4 +26,8 @@ describe SymEngine do
     it { is_expected.to eq 444 }
   end
 
+  it 'gives parse errors' do
+    expect { SymEngine::parse('12a + n34a9') }.to raise_error(RuntimeError)
+  end
+
 end
