@@ -17,15 +17,20 @@ VALUE cutils_sympify(VALUE self, VALUE operand)
 
 VALUE cutils_evalf(VALUE self, VALUE operand, VALUE prec, VALUE real)
 {
-    VALUE result;
+    VALUE result = Qnil;
 
     basic_struct *cresult;
     cresult = basic_new_heap();
 
     sympify(operand, cresult);
-    basic_evalf(cresult, cresult, NUM2INT(prec), (real == Qtrue ? 1 : 0));
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
+    symengine_exceptions_t error_code
+        = basic_evalf(cresult, cresult, NUM2INT(prec), (real == Qtrue ? 1 : 0));
 
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+    } else {
+        raise_exception(error_code);
+    }
     return result;
 }

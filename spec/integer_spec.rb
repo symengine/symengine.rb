@@ -67,4 +67,10 @@ describe SymEngine::Integer do
       end
     end
   end
+  
+  describe 'errors' do
+    it 'raises an exception on division by zero' do
+        expect { SymEngine(1)/SymEngine(0) }.to raise_error(RuntimeError)
+    end
+  end
 end

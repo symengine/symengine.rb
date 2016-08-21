@@ -199,31 +199,37 @@ VALUE Klass_of_Basic(const basic_struct *basic_ptr)
     }
 }
 
-VALUE function_onearg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *),
-                      VALUE operand1)
+VALUE function_onearg(
+    symengine_exceptions_t (*cwfunc_ptr)(basic_struct *, const basic_struct *),
+    VALUE operand1)
 {
     basic_struct *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     basic cbasic_operand1;
     basic_new_stack(cbasic_operand1);
     sympify(operand1, cbasic_operand1);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, cbasic_operand1);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
-    basic_free_stack(cbasic_operand1);
-
+    symengine_exceptions_t error_code = cwfunc_ptr(cresult, cbasic_operand1);
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand1);
+    } else {
+        basic_free_stack(cbasic_operand1);
+        raise_exception(error_code);
+    }
     return result;
 }
 
-VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+VALUE function_twoarg(
+    symengine_exceptions_t (*cwfunc_ptr)(basic_struct *, const basic_struct *,
                                          const basic_struct *),
-                      VALUE operand1, VALUE operand2)
+    VALUE operand1, VALUE operand2)
 {
     basic_struct *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     basic cbasic_operand1;
     basic_new_stack(cbasic_operand1);
@@ -234,11 +240,43 @@ VALUE function_twoarg(void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
-    basic_free_stack(cbasic_operand1);
-    basic_free_stack(cbasic_operand2);
+    symengine_exceptions_t error_code
+        = cwfunc_ptr(cresult, cbasic_operand1, cbasic_operand2);
 
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand1);
+        basic_free_stack(cbasic_operand2);
+    } else {
+        basic_free_stack(cbasic_operand1);
+        basic_free_stack(cbasic_operand2);
+        raise_exception(error_code);
+    }
     return result;
+}
+
+void raise_exception(symengine_exceptions_t error_code)
+{
+    char *str = "";
+    switch (error_code) {
+        case SYMENGINE_NO_EXCEPTION:
+            return;
+        case SYMENGINE_RUNTIME_ERROR:
+            str = "Runtime Error";
+            break;
+        case SYMENGINE_DIV_BY_ZERO:
+            str = "Division by Zero";
+            break;
+        case SYMENGINE_NOT_IMPLEMENTED:
+            str = "Not Implemented";
+            break;
+        case SYMENGINE_UNDEFINED:
+            str = "Undefined";
+            break;
+        case SYMENGINE_PARSE_ERROR:
+            str = "Parse Error";
+            break;
+    }
+    rb_raise(rb_eRuntimeError, "%s", str);
 }
