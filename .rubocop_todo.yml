@@ -17,11 +17,6 @@ Lint/Eval:
 Metrics/LineLength:
   Max: 178
 
-# Offense count: 1
-# Configuration parameters: CountComments.
-Metrics/MethodLength:
-  Max: 16
-
 # Offense count: 8
 Style/Documentation:
   Exclude:
