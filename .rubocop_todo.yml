@@ -11,10 +11,6 @@ Lint/Eval:
   Exclude:
     - 'lib/symengine.rb'
 
-# Offense count: 1
-Metrics/AbcSize:
-  Max: 20
-
 # Offense count: 28
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes.
 # URISchemes: http, https
