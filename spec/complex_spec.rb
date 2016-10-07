@@ -45,7 +45,6 @@ describe SymEngine::Complex do
         it { is_expected.to be_a SymEngine::Integer }
         its(:to_s) { is_expected.to eq '3' }
       end
-    end 
+    end
   end
 end
-

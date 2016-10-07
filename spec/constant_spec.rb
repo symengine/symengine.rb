@@ -14,7 +14,7 @@ describe SymEngine, 'constants' do
     context 'with plus one and minus one' do
       subject { 1 + pi - 1 }
 
-    it { is_expected.to be_a SymEngine::Constant }
+      it { is_expected.to be_a SymEngine::Constant }
     end
   end
 
@@ -24,7 +24,7 @@ describe SymEngine, 'constants' do
     it { is_expected.to be_a SymEngine::Constant }
 
     context 'with powered to zero' do
-      subject { euler_gamma ** int(0) }
+      subject { euler_gamma**int(0) }
 
       it { is_expected.to be_a SymEngine::Integer }
       its(:to_s) { is_expected.to eq('1') }
@@ -49,10 +49,9 @@ describe SymEngine, 'constants' do
     it { is_expected.to be_a SymEngine::Complex }
 
     context 'when squared' do
-      subject { i * i}
+      subject { i * i }
       it { is_expected.to be_a SymEngine::Basic }
-      its(:to_s) { is_expected.to eq '-1' }  
+      its(:to_s) { is_expected.to eq '-1' }
     end
   end
-
 end

@@ -1,13 +1,11 @@
 module SymEngine
   class UndefFunction
-    
     def initialize(n)
-        @name = n
+      @name = n
     end
-    
+
     def call(*args)
-        SymEngine::FunctionSymbol.new(@name, *args)
+      SymEngine::FunctionSymbol.new(@name, *args)
     end
-    
   end
 end

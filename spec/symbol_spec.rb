@@ -19,7 +19,7 @@ describe SymEngine, '.symbols' do
     it { is_expected.to all be_a SymEngine::Symbol }
     its(:count) { is_expected.to eq 2 }
     it 'should have right names' do
-      expect(symbols.map(&:to_s)).to eq %w[x y]
+      expect(symbols.map(&:to_s)).to eq %w(x y)
     end
   end
 
@@ -36,13 +36,13 @@ describe SymEngine, '.symbols' do
   end
 
   context 'with an array of Ruby Strings as an argument' do
-    let(:args) { [%w[x y]] } # it would be one Array argument on *args
+    let(:args) { [%w(x y)] } # it would be one Array argument on *args
 
     it_behaves_like 'two symbols'
   end
 
   context 'with a splatted argument' do
-    let(:args) { %w[x y] } # it would be several separate strings on *args
+    let(:args) { %w(x y) } # it would be several separate strings on *args
 
     it_behaves_like 'two symbols'
   end

@@ -6,15 +6,15 @@ describe SymEngine, 'NTheory' do
   let(:im5) { int(-5) }
 
   it 'calculates #gcd' do
-    expect(SymEngine::gcd(2, 4)).to eq 2
+    expect(SymEngine.gcd(2, 4)).to eq 2
   end
 
   it 'caluclates #lcm' do
-    expect(SymEngine::lcm(2, 4)).to eq(4)
+    expect(SymEngine.lcm(2, 4)).to eq(4)
   end
 
   it 'calculates #nextprime' do
-    expect(SymEngine::nextprime(4)).to eq(5)
+    expect(SymEngine.nextprime(4)).to eq(5)
   end
 
   it 'calculates #%' do
@@ -25,21 +25,21 @@ describe SymEngine, 'NTheory' do
   end
 
   it 'calculates #quotient' do
-    expect(SymEngine::quotient(5, 2)).to eq(2)
+    expect(SymEngine.quotient(5, 2)).to eq(2)
   end
 
   it 'calculates #fibonacci' do
-    expect(SymEngine::fibonacci(5)).to eq(5)
-    expect(SymEngine::fibonacci(i5)).to eq(5)
+    expect(SymEngine.fibonacci(5)).to eq(5)
+    expect(SymEngine.fibonacci(i5)).to eq(5)
   end
 
   it 'calculates #lucas' do
-    expect(SymEngine::lucas(1)).to eq(1)
-    expect(SymEngine::lucas(i1)).to eq(1)
+    expect(SymEngine.lucas(1)).to eq(1)
+    expect(SymEngine.lucas(i1)).to eq(1)
   end
 
   it 'calculates #binomial' do
-    expect(SymEngine::binomial(5, 1)).to eq(5)
-    expect(SymEngine::binomial(i5, i1)).to eq(5)
+    expect(SymEngine.binomial(5, 1)).to eq(5)
+    expect(SymEngine.binomial(i5, i1)).to eq(5)
   end
 end

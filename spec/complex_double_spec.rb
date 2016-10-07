@@ -32,7 +32,6 @@ describe SymEngine::ComplexDouble do
         it { is_expected.to be_a SymEngine::RealDouble }
         its(:to_s) { is_expected.to eq '3.2' }
       end
-    end 
+    end
   end
 end
-

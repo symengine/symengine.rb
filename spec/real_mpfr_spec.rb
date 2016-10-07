@@ -12,13 +12,13 @@ if SymEngine::HAVE_MPFR
       end
 
       context 'positive BigDecimal' do
-        let(:value) { BigDecimal("12.3") }
+        let(:value) { BigDecimal('12.3') }
 
         it_behaves_like 'simple real check'
       end
 
       context 'negative BigDecimal' do
-        let(:value) { BigDecimal("-12.3") }
+        let(:value) { BigDecimal('-12.3') }
 
         it_behaves_like 'simple real check'
       end
@@ -33,13 +33,13 @@ if SymEngine::HAVE_MPFR
       end
 
       context 'positive BigDecimal' do
-        let(:value) { BigDecimal("12.3") }
+        let(:value) { BigDecimal('12.3') }
 
         it_behaves_like 'simple real check'
       end
 
       context 'negative BigDecimal' do
-        let(:value) { BigDecimal("-12.3") }
+        let(:value) { BigDecimal('-12.3') }
 
         it_behaves_like 'simple real check'
       end
@@ -57,28 +57,27 @@ if SymEngine::HAVE_MPFR
       end
 
       context 'String representation of positive value' do
-        let(:value) { "12.3" }
+        let(:value) { '12.3' }
 
         it_behaves_like 'simple real check'
       end
 
       context 'String representation of negative value' do
-        let(:value) { "-12.3" }
+        let(:value) { '-12.3' }
 
         it_behaves_like 'simple real check'
       end
     end
-    
+
     if SymEngine::HAVE_MPC
       describe SymEngine::ComplexMPC do
         let(:i) { SymEngine::I }
-        let(:real) { SymEngine(BigDecimal("34.5")) }
-        let(:imag) { SymEngine(BigDecimal("65.8")) }
-        
+        let(:real) { SymEngine(BigDecimal('34.5')) }
+        let(:imag) { SymEngine(BigDecimal('65.8')) }
+
         subject { real + i * imag }
-        it { is_expected.to be_a SymEngine::ComplexMPC } 
+        it { is_expected.to be_a SymEngine::ComplexMPC }
       end
     end
-
   end
 end
