@@ -45,6 +45,9 @@ module SymEngine
                              'symbols. You should provide at least this number '\
                              'of arguments (only #{syms.length} given).'
       end
+      # TODO: Implement one of the two options below.
+      # 1. check that all the symbol names and function names are valid.
+      # 2. wrap symengine's LambdaRealDouble into C and then to ruby
       eval(SymEngine::Utils.lambdify_code(exp, syms))
     end
   end
