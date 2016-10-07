@@ -37,13 +37,6 @@ Style/Documentation:
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: format, sprintf, percent
-Style/FormatString:
-  Exclude:
-    - 'ext/symengine/extconf.rb'
-
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: snake_case, camelCase
 Style/MethodName:
   Exclude:
