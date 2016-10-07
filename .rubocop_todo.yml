@@ -30,10 +30,3 @@ Style/Documentation:
     - 'lib/symengine/iruby.rb'
     - 'lib/symengine/undef_function.rb'
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: snake_case, camelCase
-Style/MethodName:
-  Exclude:
-    - 'lib/symengine.rb'
-

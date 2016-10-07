@@ -30,7 +30,7 @@ module SymEngine
       end
     end
 
-    def Function(n)
+    def Function(n) # rubocop:disable Style/MethodName
       SymEngine::UndefFunction.new(n)
     end
 
