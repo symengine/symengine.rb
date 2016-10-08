@@ -18,12 +18,13 @@ VALUE cbasic_alloc(VALUE klass)
     return Data_Wrap_Struct(klass, NULL, cbasic_free_heap, struct_ptr);
 }
 
-VALUE cbasic_binary_op(VALUE self, VALUE operand2,
-                       void (*cwfunc_ptr)(basic_struct *, const basic_struct *,
-                                          const basic_struct *))
+VALUE cbasic_binary_op(
+    VALUE self, VALUE operand2,
+    symengine_exceptions_t (*cwfunc_ptr)(basic_struct *, const basic_struct *,
+                                         const basic_struct *))
 {
     basic_struct *this, *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     basic cbasic_operand2;
     basic_new_stack(cbasic_operand2);
@@ -32,27 +33,37 @@ VALUE cbasic_binary_op(VALUE self, VALUE operand2,
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, this, cbasic_operand2);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
-    basic_free_stack(cbasic_operand2);
 
+    symengine_exceptions_t error_code
+        = cwfunc_ptr(cresult, this, cbasic_operand2);
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand2);
+    } else {
+        basic_free_stack(cbasic_operand2);
+        raise_exception(error_code);
+    }
     return result;
 }
 
-VALUE cbasic_unary_op(VALUE self,
-                      void (*cwfunc_ptr)(basic_struct *, const basic_struct *))
+VALUE cbasic_unary_op(VALUE self, symengine_exceptions_t (*cwfunc_ptr)(
+                                      basic_struct *, const basic_struct *))
 {
     basic_struct *this, *cresult;
-    VALUE result;
+    VALUE result = Qnil;
 
     Data_Get_Struct(self, basic_struct, this);
 
     cresult = basic_new_heap();
-    cwfunc_ptr(cresult, this);
-    result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL, cbasic_free_heap,
-                              cresult);
 
+    symengine_exceptions_t error_code = cwfunc_ptr(cresult, this);
+    if (error_code == SYMENGINE_NO_EXCEPTION) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+    } else {
+        raise_exception(error_code);
+    }
     return result;
 }
 
@@ -93,8 +104,8 @@ VALUE cbasic_diff(VALUE self, VALUE operand2)
     sympify(operand2, cbasic_operand2);
 
     cresult = basic_new_heap();
-    int status = basic_diff(cresult, this, cbasic_operand2);
-    if (status == 0) {
+    symengine_exceptions_t status = basic_diff(cresult, this, cbasic_operand2);
+    if (status == SYMENGINE_RUNTIME_ERROR) {
         basic_free_stack(cbasic_operand2);
         basic_free_heap(cresult);
         return Qnil;

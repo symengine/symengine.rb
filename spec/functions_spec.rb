@@ -67,8 +67,11 @@ describe SymEngine, 'functions' do
     expect(SymEngine.cos(pi)).to eq(-1)
     expect(SymEngine.tan(pi)).to eq(0)
     expect(SymEngine.csc(pi / 2)).to eq(1)
+    expect { SymEngine.csc(pi) }.to raise_error(RuntimeError)
     expect(SymEngine.sec(pi)).to eq(-1)
+    expect { SymEngine.sec(pi / 2) }.to raise_error(RuntimeError)
     expect(SymEngine.cot(pi / 4)).to eq(1)
+    expect { SymEngine.cot(pi) }.to raise_error(RuntimeError)
 
     expect(SymEngine.asin(1)).to eq(pi / 2)
     expect(SymEngine.acos(1)).to eq(0)
