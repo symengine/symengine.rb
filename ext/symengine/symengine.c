@@ -60,6 +60,9 @@ void Init_symengine()
     rb_define_module_function(m_symengine, "convert", cutils_sympify, 1);
     rb_define_global_function("SymEngine", cutils_sympify, 1);
 
+    // Parser as a Module Level Function
+    rb_define_module_function(m_symengine, "parse", cutils_parse, 1);
+
     // evalf as a Module Level Function
     rb_define_module_function(m_symengine, "_evalf", cutils_evalf, 3);
 
