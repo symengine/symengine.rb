@@ -6,6 +6,11 @@ Style/PercentLiteralDelimiters:
     '%W': '[]'
 
 Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+    # The `braces_for_chaining` style enforces braces around single line blocks
+    # and do..end around multi-line blocks, except for multi-line blocks whose
+    # return value is being chained with another method (in which case braces
+    # are enforced).
   Exclude:
     - 'spec/**/*'
 
