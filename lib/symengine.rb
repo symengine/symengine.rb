@@ -25,9 +25,7 @@ module SymEngine
 
       # Make an Array of SymEngine::Symbols from the parameters we received,
       # now that they're normalized.
-      ary_or_string.map do |symbol_or_string|
-        SymEngine::Symbol.new(symbol_or_string)
-      end
+      ary_or_string.map(&SymEngine::Symbol.method(:new))
     end
 
     def Function(n) # rubocop:disable Style/MethodName
@@ -53,13 +51,18 @@ module SymEngine
   end
   module Utils
     class << self
-      REPLACEMENTS = { sin: 'Math.sin', cos: 'Math.cos', tan: 'Math.tan',
-                       asin: 'Math.asin', acos: 'Math.acos', atan: 'Math.atan',
-                       sinh: 'Math.sinh', cosh: 'Math.cosh', tanh: 'Math.tanh',
-                       asinh: 'Math.asinh', acosh: 'Math.acosh', atanh: 'Math.atanh',
-                       pi: 'Math::PI', E: 'Math::E', I: '::Complex::I',
-                       dirichlet_eta: 'SymEngine::Utils::evalf_dirichlet_eta',
-                       zeta: 'SymEngine::Utils::evalf_zeta', gamma: 'Math.gamma' }.map { |from, to| [/(\b#{from}\b)/, to] }.to_h.freeze
+      REPLACEMENTS = {
+        sin: 'Math.sin', cos: 'Math.cos', tan: 'Math.tan',
+        asin: 'Math.asin', acos: 'Math.acos', atan: 'Math.atan',
+        sinh: 'Math.sinh', cosh: 'Math.cosh', tanh: 'Math.tanh',
+        asinh: 'Math.asinh', acosh: 'Math.acosh', atanh: 'Math.atanh',
+        pi: 'Math::PI', E: 'Math::E', I: '::Complex::I',
+        dirichlet_eta: 'SymEngine::Utils::evalf_dirichlet_eta',
+        zeta: 'SymEngine::Utils::evalf_zeta', gamma: 'Math.gamma'
+      }.map { |from, to|
+        [/(\b#{from}\b)/, to]
+      }.to_h.freeze
+
       def evalf_dirichlet_eta(exp)
         SymEngine.evalf(SymEngine.dirichlet_eta(exp))
       end
