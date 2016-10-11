@@ -1,4 +1,10 @@
 inherit_from: .rubocop_todo.yml
 
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '[]'
+    '%W': '[]'
+
 Metrics/MethodLength:
   Max: 16
+
