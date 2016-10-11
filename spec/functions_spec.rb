@@ -33,14 +33,14 @@ describe SymEngine, 'functions' do
     ].each do |fun|
 
       context "##{fun}" do
-        let(:class_name) do
+        let(:class_name) {
           f = fun.to_s
           if f.start_with?('a')
             f.sub(/^../, &:upcase)
           else
             f.capitalize
           end
-        end
+        }
         let(:cls) { SymEngine.const_get(class_name) }
         subject { SymEngine.send(fun, 2 * x) }
 
