@@ -5,6 +5,10 @@ Style/PercentLiteralDelimiters:
     '%w': '[]'
     '%W': '[]'
 
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
+
 Metrics/MethodLength:
   Max: 16
 
