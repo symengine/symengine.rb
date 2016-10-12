@@ -58,9 +58,9 @@ describe SymEngine::Basic do
 
     context 'equality and inequality' do
       subject { x * y }
-      it { is_expected.to eq sym('x')*sym('y') }
-      it { is_expected.not_to eq sym('x')*sym('z') }
-      it { is_expected.not_to eq "asd" }
+      it { is_expected.to eq sym('x') * sym('y') }
+      it { is_expected.not_to eq sym('x') * sym('z') }
+      it { is_expected.not_to eq 'asd' }
     end
 
     it 'simplifies' do
@@ -164,7 +164,7 @@ describe SymEngine::Basic do
     context 'with two basic objects as argument' do
       subject { formula.subs(x, y) }
 
-      it {is_expected.to eq(2 * y + z) }
+      it { is_expected.to eq(2 * y + z) }
     end
 
     context 'with a Hash as argument' do
