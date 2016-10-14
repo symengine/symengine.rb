@@ -12,6 +12,7 @@ set(RUBY_WRAPPER_SRC
     ruby_function.c
     ruby_ntheory.c
     ruby_utils.c
+    ruby_matrix.c
     symengine_utils.c
     symengine.c
     )
