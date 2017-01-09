@@ -84,7 +84,26 @@ VALUE cbasic_mul(VALUE self, VALUE operand2)
 
 VALUE cbasic_div(VALUE self, VALUE operand2)
 {
-    return cbasic_binary_op(self, operand2, basic_div);
+    basic_struct *this, *cresult;
+    VALUE result;
+
+    basic cbasic_operand2;
+    basic_new_stack(cbasic_operand2);
+
+    Data_Get_Struct(self, basic_struct, this);
+    sympify(operand2, cbasic_operand2);
+
+    cresult = basic_new_heap();
+    int error_code = basic_div(cresult, this, cbasic_operand2);
+
+    if (error_code == 0) {
+        result = Data_Wrap_Struct(Klass_of_Basic(cresult), NULL,
+                                  cbasic_free_heap, cresult);
+        basic_free_stack(cbasic_operand2);
+        return result;
+    } else {
+        rb_raise(rb_eRuntimeError, "Runtime Error");
+    }
 }
 
 VALUE cbasic_pow(VALUE self, VALUE operand2)
