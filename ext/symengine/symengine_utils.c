@@ -271,8 +271,8 @@ void raise_exception(symengine_exceptions_t error_code)
         case SYMENGINE_NOT_IMPLEMENTED:
             str = "Not Implemented";
             break;
-        case SYMENGINE_UNDEFINED:
-            str = "Undefined";
+        case SYMENGINE_DOMAIN_ERROR:
+            str = "Domain Error";
             break;
         case SYMENGINE_PARSE_ERROR:
             str = "Parse Error";
