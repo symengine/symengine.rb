@@ -70,7 +70,7 @@ script:
   - if [[ "${RUBOCOP}" == "yes" ]]; then rubocop; fi
 
   # Test ruby gem
-  - gem install gem-path --no-ri --no-rdoc
+  - gem install gem-path --no-document 
   - cd $HOME/gems/symengine-0.1.0/
   - bundle exec rspec
 
