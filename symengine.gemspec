@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.extensions = ['ext/symengine/extconf.rb']
   gem.license = 'MIT'
 
-  gem.add_development_dependency 'bundler', '~> 1.7'
+  gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rspec', '~> 3.0'
   gem.add_development_dependency 'rspec-its'
   gem.add_development_dependency 'rdoc', '~> 4.0'
