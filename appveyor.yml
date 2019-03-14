@@ -5,16 +5,22 @@ environment:
   matrix:
     - RUBY_VERSION: "21-x64"
       PLATFORM: "x64"
+      USE_BUNDLER_2XX: "no"
     - RUBY_VERSION: "21"
       PLATFORM: "Win32"
+      USE_BUNDLER_2XX: "no"
     - RUBY_VERSION: "22-x64"
       PLATFORM: "x64"
+      USE_BUNDLER_2XX: "no"
     - RUBY_VERSION: "22"
       PLATFORM: "Win32"
+      USE_BUNDLER_2XX: "no"
     - RUBY_VERSION: "200-x64"
       PLATFORM: "x64"
+      USE_BUNDLER_2XX: "no"
     - RUBY_VERSION: "200"
       PLATFORM: "Win32"
+      USE_BUNDLER_2XX: "no"
 
 install:
 
@@ -22,7 +28,10 @@ install:
   - if [%PLATFORM%] == [x64] set DEVKIT=C:\Ruby23-x64\DevKit
   - if [%PLATFORM%] == [Win32] set DEVKIT=C:\Ruby23\DevKit
   - "%DEVKIT%\\devkitvars.bat"
-  - gem install bundler --no-rdoc --no-ri
+  - if [[ "${USE_BUNDLER_2XX}" == "yes" ]];
+      then gem install bundler --no-document;
+      else gem install bundler --no-document -v '~> 1.6';
+      fi
   - bundler env
   - bundle install
 
@@ -49,7 +58,7 @@ build_script:
   - gem install symengine-0.1.0.gem --verbose
   
 test_script:
-  - gem install gem-path --no-ri --no-rdoc
+  - gem install gem-path --no-document
   - gem path symengine > temp.txt
   - set /p RUBY_GEM_DIR=<temp.txt
   # Test ruby gem
